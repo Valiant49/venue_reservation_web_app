@@ -9,7 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 class Facility extends Model
 {
     protected $table = 'facility';
-    protected $fillable = ['facility_code', 'facility_name', 'facility_type', 'base_fee', 'capacity', 'description'];
+    protected $fillable = [
+        'facility_code',
+        'facility_name',
+        'facility_type',
+        'base_fee',
+        'capacity',
+        'description'
+    ];
 
 
 

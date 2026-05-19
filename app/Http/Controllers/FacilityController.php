@@ -85,6 +85,6 @@ class FacilityController extends Controller
     public function destroy(Facility $facility)
     {
         $facility->delete();
-        return redirect('/facility')->with('success', 'Facility deleted!');
+        return redirect('/facility')->with('success', 'Facility removed.');
     }
 }

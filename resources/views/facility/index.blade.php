@@ -11,6 +11,14 @@
 <body>
     <h1>Facilities</h1>
 
+    <p>Navigation</p>
+    <ul>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/client">Clients</a></li>
+        <li><a href="/facility">Facilities</a></li>
+        <li><a href=""></a></li>
+    </ul>
+
     @if (session('success'))
         <p>{{ session('success') }}</p>
     @endif
@@ -26,7 +34,7 @@
     <h2>Facilities Available</h2>
     <table>
         <tr>
-            <th style="border: black solid 2px">Facility ID</th>
+            {{-- <th style="border: black solid 2px">Facility ID</th> --}}
             <th style="border: black solid 2px">Facility Code</th>
             <th style="border: black solid 2px">Name</th>
             <th style="border: black solid 2px">Type</th>
@@ -37,7 +45,7 @@
         </tr>
         @foreach ($facilities as $facility)
             <tr>
-                <td>{{ $facility->id }}</td>
+                {{-- <td>{{ $facility->id }}</td> --}}
                 <td>{{ $facility->facility_code }}</td>
                 <td>{{ $facility->facility_name }}</td>
                 <td>{{ $facility->facility_type }}</td>
@@ -60,14 +68,10 @@
         <form action="/facility" method="POST">
             @csrf
             <label for="fac-code">Facility code:</label>
-            <input type="text" id="fac-code" name="facility_code">
-
-            <br>
+            <input type="text" id="fac-code" name="facility_code"> <br>
 
             <label for="fac-name">Facility name:</label>
-            <input type="text" id="fac-name" name="facility_name">
-
-            <br>
+            <input type="text" id="fac-name" name="facility_name"> <br>
 
             <label for="fac-type">Facility type:</label>
             <select name="facility_type" id="fac-type">
@@ -82,20 +86,13 @@
             <br>
 
             <label for="base-fee">Base fee:</label>
-            <input type="number" id="base-fee" name="base_fee">
-
-            <br>
+            <input type="number" id="base-fee" name="base_fee"> <br>
 
             <label for="capacity">Capacity:</label>
-            <input type="text" id="capacity" name="capacity">
-
-            <br>
+            <input type="text" id="capacity" name="capacity"> <br>
 
             <label for="description">Description:</label>
-            <input type="text" id="description" name="description">
-
-            <br>
-            <br>
+            <input type="text" id="description" name="description"> <br> <br>
 
             <button type="submit">Submit</button>
         </form>
