@@ -16,7 +16,7 @@
         <li><a href="/dashboard">Dashboard</a></li>
         <li><a href="/client">Clients</a></li>
         <li><a href="/facility">Facilities</a></li>
-        <li><a href=""></a></li>
+        <li><a href="/reservation">Reservations</a></li>
     </ul>
 
     @if (session('success'))
