@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Override;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Reservation extends Model
 {
+    use HasFactory;
 
     protected $table = "reservations";
     protected $fillable = [
@@ -17,7 +19,7 @@ class Reservation extends Model
         'end_time',
         'total_fee',
         'created_at',
-        'last_updated',
+        'updated_at',
         'guest_count',
         'status',
         'event_type',

@@ -1,0 +1,45 @@
+Xdebug: [Step Debug] Could not connect to debugging client. Tried: localhost:9003 (through xdebug.client_host/xdebug.client_port).
+
+  [39;41;1m FAIL [39;49;22m[39m Tests\Feature\ReservationControllerTest[39m
+  [32;1m✓[39;22m[90m [39m[90munauthenticated user cannot access reservations[39m[90m                     [39m [90m0.11s[39m  
+  [32;1m✓[39;22m[90m [39m[90mindex loads successfully[39m[90m                                            [39m [90m0.05s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstore creates reservation with valid data[39m[90m                           [39m [90m0.04s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstore allows reservation with null notes[39m[90m                            [39m [90m0.03s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstore allows reservation with notes[39m[90m                                 [39m [90m0.03s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstore rejects past reservation date[39m[90m                                 [39m [90m0.03s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstore accepts todays date[39m[90m                                           [39m [90m0.03s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstore rejects end time before start time[39m[90m                            [39m [90m0.03s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstore rejects end time equal to start time[39m[90m                          [39m [90m0.03s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstore rejects reservation when start time overlaps existing[39m[90m         [39m [90m0.03s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstore rejects reservation when end time overlaps existing[39m[90m           [39m [90m0.03s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstore rejects reservation that wraps existing block[39m[90m                 [39m [90m0.03s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstore allows back to back reservations[39m[90m                              [39m [90m0.03s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstore allows same time block on different facility[39m[90m                  [39m [90m0.03s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstore rejects guest count exceeding capacity[39m[90m                        [39m [90m0.03s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstore accepts guest count equal to capacity[39m[90m                         [39m [90m0.03s[39m  
+  [32;1m✓[39;22m[90m [39m[90mstore rejects invalid status[39m[90m                                        [39m [90m0.03s[39m  
+  [31;1m⨯[39;22m[90m [39m[90mupdate only notes does not trigger conflict error[39m[90m                   [39m [90m0.04s[39m  
+  [32;1m✓[39;22m[90m [39m[90mupdate does not conflict with itself[39m[90m                                [39m [90m0.03s[39m  
+  [32;1m✓[39;22m[90m [39m[90mupdate rejects time change that conflicts with another reservation[39m[90m  [39m [90m0.04s[39m  
+  [32;1m✓[39;22m[90m [39m[90mupdate allows editing reservation without changing its date[39m[90m         [39m [90m0.03s[39m  
+  [32;1m✓[39;22m[90m [39m[90mupdate rejects changing date to the past[39m[90m                            [39m [90m0.03s[39m  
+  [32;1m✓[39;22m[90m [39m[90medit view loads for valid reservation[39m[90m                               [39m [90m0.03s[39m  
+  [31m────────────────────────────────────────────────────────────────────────────[39m  
+  [41;1m FAILED [49;22m [1mTests\Feature\ReservationControllerTest[22m [90m>[39m update only note… [41;1m Error [49;22m  
+[39;1m  Call to a member function all() on array[39;22m
+
+  at [32mtests/Feature/ReservationControllerTest.php[39m:[32m315[39m
+    311▕ 
+    312▕         $this->put("/reservation/{$reservation->id}", array_merge($reservation->toArray(), [
+    313▕             'notes' => 'Added a note now',
+    314▕         ]))
+  ➜ 315▕              ->assertRedirect('/reservation')
+    316▕              ->assertSessionHas('success');
+    317▕     }
+    318▕ 
+    319▕     public function test_update_does_not_conflict_with_itself(): void
+
+
+  [90mTests:[39m    [31;1m1 failed[39;22m[90m,[39m[39m [39m[32;1m22 passed[39;22m[90m (45 assertions)[39m
+  [90mDuration:[39m [39m0.93s[39m
+
