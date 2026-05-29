@@ -1,97 +1,196 @@
-<!DOCTYPE html>
-<html lang="en">
+<x-app-layout>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sunshine City | Clients</title>
-</head>
+    <x-slot name="header">
+        Clients
+    </x-slot>
 
-<body>
-    <h1>Clients</h1>
+    <div class="px-4 py-6">
 
-    <p>Navigation</p>
-    <ul>
-        <li><a href="/dashboard">Dashboard</a></li>
-        <li><a href="/client">Clients</a></li>
-        <li><a href="/facility">Facilities</a></li>
-        <li><a href="/reservation">Reservations</a></li>
-    </ul>
+        @if (session('success'))
+            <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-md border border-green-200">
+                {{ session('success') }}
+            </div>
+        @endif
 
-    @if (session('success'))
-        <p>{{ session('success') }}</p>
-    @endif
+        @if ($errors->any())
+            <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-md border border-red-200">
+                <ul class="list-disc pl-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-    @if ($errors->any())
-        <ul style="color: red">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+        <div class="flex justify-between items-center mb-4">
+            <x-text-input type="text" id="table-search" class="bg-surface px-4 py-2 rounded-md" placeholder="Search name..." />
 
-    <h2>Clients</h2>
+            <button onclick="document.getElementById('add-modal').showModal()"
+                class="shadow-xs bg-secondary text-md text-text hover:bg-secondary-hover focus-visible:outline-secondary-subtle cursor-pointer rounded-md px-4 py-2 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2">
+                Add New Client
+            </button>
+        </div>
 
-    <table>
-        <tr>
-            <th style="border: black solid 2px">Block No.</th>
-            <th style="border: black solid 2px">Lot No.</th>
-            <th style="border: black solid 2px">Street No.</th>
-            <th style="border: black solid 2px">Name</th>
-            <th style="border: black solid 2px">Contact No.</th>
-            <th style="border: black solid 2px">Email</th>
-            <th style="border: black solid 2px">Actions</th>
-        </tr>
-        @foreach ($clients as $client)
-            <tr>
-                <td>{{ $client->block_num }}</td>
-                <td>{{ $client->lot_num }}</td>
-                <td>{{ $client->street_num }}</td>
-                <td>{{ $client->first_name }} {{ Str::limit($client->middle_name, 1, '.') }} {{ $client->last_name }}</td>
-                <td>{{ $client->contact_num }}</td>
-                <td>{{ $client->email }}</td>
-                <td>
-                    <a href="/client/{{ $client->id }}/edit">Edit</a>
-                    <a href="/client/{{ $client->id }}">Remove</a>
+        <div class="bg-surface-alt shadow-xs border-border-strong relative overflow-x-auto rounded-md border max-h-80 overflow-y-auto">
+            <table class="text-body w-full text-left text-sm">
+                <thead class="text-body bg-primary border-default-medium text-text-inverse border-b text-sm sticky top-0 z-10">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 font-medium">Block No.</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Lot No.</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Street No.</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Name</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Contact No.</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Email</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Actions</th>
+                        <th scope="col" class="px-6 py-3 font-medium">
+                            <span class="sr-only">Edit</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="client-table-body">
+                    @foreach ($clients as $client)
+                        <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+                            <th scope="row" class="text-heading whitespace-nowrap px-6 py-4 font-medium">
+                                {{ $client->block_num }}
+                            </th>
+                            <td class="px-6 py-4">
+                                {{ $client->lot_num }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $client->street_num }}
+                            </td>
+                            <td class="px-6 py-4 data-name">
+                                {{ $client->first_name }} {{ Str::limit($client->middle_name, 1, '.') }}
+                                {{ $client->last_name }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $client->contact_num }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $client->email }}
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <a href="/client/{{ $client->id }}/edit"
+                                    class="text-info font-medium hover:underline">Edit</a>
+                                <a href="/client/{{ $client->id }}"
+                                    class="text-error font-medium hover:underline">Remove</a>
+                            </td>
 
-                </td>
-            </tr>
-        @endforeach
-    </table>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-    <br>
 
-    <h2>CRUD Operations</h2>
-    <h3>Add Client</h3>
-    <div id="add-modal">
-        <form action="/client" method="POST">
-            @csrf
-            <label for="block-no">Block No.:</label>
-            <input type="number" name="block_num" id="block-no" min="1" max="39" required></input> <br>
+        <br>
 
-            <label for="lot-no">Lot No.: </label>
-            <input type="number" name="lot_num" id="lot-no" min="1" max="300" required> <br>
+        <dialog id="add-modal"
+            class="m-auto inset-0 backdrop:backdrop-blur-xs open:animate-fade-in w-full max-w-lg rounded-xl bg-white p-6 shadow-2xl backdrop:bg-gray-900/50">
 
-            <label for="street-no">Street No.: </label>
-            <input type="number" name="street_num" id="street-no" min="1" max="100" required> <br>
+            <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+                <h3 class="text-lg font-semibold text-gray-900">Add Client</h3>
+                <button type="button" onclick="document.getElementById('add-modal').close()"
+                    class="cursor-pointer rounded-md p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
+                    <span class="sr-only">Close</span>
+                    <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
 
-            <label for="first-name">First Name: </label>
-            <input type="text" name="first_name" id="first-name" required> <br>
-            <label for="middle-name">Middle Name: </label>
-            <input type="text" name="middle_name" id="middle-name"> <br>
-            <label for="last-name">Last Name: </label>
-            <input type="text" name="last_name" id="last-name" required> <br>
+            <form action="/client" method="POST" class="mt-4 space-y-4">
+                @csrf
 
-            <label for="contact-no">Contact No.: </label>
-            <input type="tel" name="contact_num" id="contact-no" required> <br>
-            <label for="email">Email: </label>
-            <input type="email" name="email" id="email"> <br> <br>
+                <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <x-input-label for="block-no">Block No.: </x-input-label>
+                        <x-text-input type="number" name="block_num" id="block-no" min="1" max="39"
+                            value="{{ old('block_num') }}" required class="mt-1 w-full" />
+                    </div>
+                    <div>
+                        <x-input-label for="lot-no">Lot No.: </x-input-label>
+                        <x-text-input type="number" name="lot_num" id="lot-no" min="1" max="300"
+                            value="{{ old('lot_num') }}" required class="mt-1 w-full" />
+                    </div>
+                    <div>
+                        <x-input-label for="street-no">Street No.: </x-input-label>
+                        <x-text-input type="number" name="street_num" id="street-no" min="1" max="100"
+                            value="{{ old('street_num') }}" required class="mt-1 w-full" />
+                    </div>
+                </div>
 
-            <button type="submit">Submit</button>
+                <div>
+                    <x-input-label for="first-name">First Name: </x-input-label>
+                    <x-text-input type="text" name="first_name" id="first-name" value="{{ old('first_name') }}"
+                        required class="mt-1 w-full" />
+                </div>
 
-        </form>
+                <div>
+                    <x-input-label for="middle-name">Middle Name: </x-input-label>
+                    <x-text-input type="text" name="middle_name" id="middle-name" value="{{ old('middle_name') }}"
+                        class="mt-1 w-full" />
+                </div>
+
+                <div>
+                    <x-input-label for="last-name">Last Name: </x-input-label>
+                    <x-text-input type="text" name="last_name" id="last-name" value="{{ old('last_name') }}"
+                        required class="mt-1 w-full" />
+                </div>
+
+                {{-- Contact Information --}}
+                <div>
+                    <x-input-label for="contact-no">Contact No.: </x-input-label>
+                    <x-text-input type="tel" name="contact_num" id="contact-no"
+                        value="{{ old('contact_num') }}" required class="mt-1 w-full" />
+                </div>
+
+                <div>
+                    <x-input-label for="email">Email: </x-input-label>
+                    <x-text-input type="email" name="email" id="email" value="{{ old('email') }}"
+                        class="mt-1 w-full" />
+                </div>
+
+                <div class="mt-6 flex justify-end gap-3 border-t border-gray-100 pt-4">
+                    <x-secondary-button type="button" onclick="document.getElementById('add-modal').close()"
+                        class="shadow-xs cursor-pointer rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                        Cancel
+                    </x-secondary-button>
+                    <x-primary-button type="submit">
+                        Submit
+                    </x-primary-button>
+                </div>
+
+            </form>
+        </dialog>
     </div>
-</body>
 
-</html>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('table-search');
+            const tableBody = document.getElementById('client-table-body');
+            const rows = tableBody.getElementsByTagName('tr');
+
+            searchInput.addEventListener('input', function() {
+                const filterValue = searchInput.value.toLowerCase().trim();
+
+                // Loop through all table rows
+                for (let i = 0; i < rows.length; i++) {
+                    // Find the specific column containing the name
+                    const nameColumn = rows[i].querySelector('.data-name');
+
+                    if (nameColumn) {
+                        const nameText = nameColumn.textContent || nameColumn.innerText;
+
+                        // If the typed text matches part of the name, show row; otherwise hide it
+                        if (nameText.toLowerCase().includes(filterValue)) {
+                            rows[i].style.display = "";
+                        } else {
+                            rows[i].style.display = "none";
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</x-app-layout>
