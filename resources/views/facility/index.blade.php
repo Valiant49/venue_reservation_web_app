@@ -25,7 +25,7 @@
 
         <div
             class="bg-surface-alt shadow-xs border-border-strong relative max-h-80 overflow-x-auto overflow-y-auto rounded-md border">
-            <table clas="text-body w-full text-left text-sm">
+            <table class="text-body w-full text-left text-sm">
                 <thead
                     class="text-body bg-primary border-default-medium text-text-inverse sticky top-0 z-10 border-b text-sm">
                     <tr>
@@ -103,20 +103,6 @@
 
                     <div>
                         <x-input-label for="fac-type">Facility type:</x-input-label>
-                        {{-- <select name="facility_type" id="fac-type">
-                            <option value="" disabled {{ old('facility_type') ? '' : 'selected' }}>Please select...
-                            </option>
-                            <option value="clubhouse" {{ old('facility_type') == 'clubhouse' ? 'selected' : '' }}>Clubhouse
-                            </option>
-                            <option value="pool" {{ old('facility_type') == 'pool' ? 'selected' : '' }}>Pool</option>
-                            <option value="basketball" {{ old('facility_type') == 'basketball' ? 'selected' : '' }}>
-                                Basketball</option>
-                            <option value="volleyball" {{ old('facility_type') == 'volleyball' ? 'selected' : '' }}>
-                                Volleyball</option>
-                            <option value="badminton" {{ old('facility_type') == 'badminton' ? 'selected' : '' }}>Badminton
-                            </option>
-                        </select> --}}
-
                         <x-select-input
                             name="facility_type"
                             id="fac-type"
