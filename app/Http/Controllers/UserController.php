@@ -76,8 +76,9 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(User $staff)
     {
-        //
+        $staff->delete();
+        return redirect('/staff')->with('success', 'Staff record removed.');
     }
 }
