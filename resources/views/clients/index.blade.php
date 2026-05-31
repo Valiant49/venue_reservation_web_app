@@ -69,11 +69,13 @@
                             <td class="px-6 py-4">
                                 {{ $client->email }}
                             </td>
-                            <td class="px-6 py-4 text-right">
+                            <td class="px-6 py-4">
                                 <a href="/client/{{ $client->id }}/edit"
                                     class="text-info font-medium hover:underline">Edit</a>
+                                @can('admin-access')
                                 <a href="/client/{{ $client->id }}"
                                     class="text-error font-medium hover:underline">Remove</a>
+                                @endcan
                             </td>
 
                         </tr>

@@ -4,6 +4,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\XmlController;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('facility', FacilityController::class);
     Route::resource('client', ClientController::class);
     Route::resource('reservation', ReservationController::class);
+
+    Route::resource('/staff', UserController::class);
 
     Route::prefix('xml')->name('xml.')->group(function() {
         Route::get('/',        [XmlController::class, 'index'])->name('index');
