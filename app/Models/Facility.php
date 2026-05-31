@@ -20,7 +20,4 @@ class Facility extends Model
         'capacity',
         'description'
     ];
-
-
-
 }
