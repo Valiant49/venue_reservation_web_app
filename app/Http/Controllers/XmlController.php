@@ -84,7 +84,7 @@ class XmlController extends Controller
             $node = $dom->createElement($config['singular']);
 
             foreach ($config['fields'] as $field) {
-                $value = htmlspecialchars((string)($record->$field ?? ''), ENT_XML1, 'UTF-8');
+                $value = htmlspecialchars((string) ($record->$field ?? ''), ENT_XML1, 'UTF-8');
                 $node->appendChild($dom->createElement($field, $value));
             }
 
@@ -92,8 +92,8 @@ class XmlController extends Controller
         }
 
         return response($dom->saveXML(), 200, [
-            'Content-Type'          => 'application/xml',
-            'Content-Disposition'   => "attachment; filename={$entity}_export.xml",
+            'Content-Type' => 'application/xml',
+            'Content-Disposition' => "attachment; filename={$entity}_export.xml",
         ]);
     }
 
@@ -105,8 +105,11 @@ class XmlController extends Controller
 
         $config = $this->entityMap[$entity];
 
-        $dom = new DOMDocument("1.0", "UTF-8");
+        $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->loadXML(file_get_contents($request->file('xml_file')->getRealPath()));
+
+        // dd($dom);
+        // dump($dom->getElementsByTagName($config['singular']));
 
         $count = 0;
         foreach ($dom->getElementsByTagName($config['singular']) as $node) {
@@ -116,10 +119,16 @@ class XmlController extends Controller
                 $data[$field] = trim($node->getElementsByTagName($field)->item(0)?->textContent ?? '');
             }
 
-            $config['model']::updateOrCreate(['id' => $data['id']], $data);
-            $count++;
-        }
+            try {
+                unset($data['id']);
+                $config['model']::create($data);
+                $count++;
+            } catch (\Throwable $e) {
+                dump($e->getMessage());
+            }
+            // dump($data);
 
+        }
         return back()->with('success', "Imported {$count} {$entity} successfully.");
     }
 }
