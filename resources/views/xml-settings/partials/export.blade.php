@@ -8,7 +8,7 @@
 </header>
 
 <div class="py-12">
-    <div class="flex items-center justify-center gap-2">
+    <div class="flex items-center justify-start gap-2">
         <div>
             <form action="{{ route('xml.export', 'clients') }}" method="POST">
                 @csrf <x-option-button> ⬇ Download Clients Records </x-option-button>
@@ -22,6 +22,11 @@
         <div>
             <form action="{{ route('xml.export', 'reservations') }}" method="POST">
                 @csrf <x-option-button> ⬇ Download Reservation Records</x-option-button>
+            </form>
+        </div>
+        <div>
+            <form action="{{ route('xml.export', 'staffs') }}" method="POST">
+                @csrf <x-option-button> ⬇ Download Staff Records</x-option-button>
             </form>
         </div>
     </div>
