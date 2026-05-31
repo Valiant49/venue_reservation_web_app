@@ -10,7 +10,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', [ReservationController::class, 'dashboardData'])
@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/',        [XmlController::class, 'index'])->name('index');
         Route::post('/export/{entity}',        [XmlController::class, 'export'])->name('export');
         Route::post('/import/{entity}',        [XmlController::class, 'import'])->name('import');
+        Route::delete('/reset',                [XmlController::class, 'reset'])->name('reset');
     });
 });
 

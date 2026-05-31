@@ -62,8 +62,10 @@
                             <td class="px-6 py-4">
                                 <a href="/facility/{{ $facility->id }}/edit"
                                     class="text-info font-medium hover:underline">Edit</a>
+                                @can('admin-access')
                                 <a href="/facility/{{ $facility->id }}"
                                     class="text-error font-medium hover:underline">Remove</a>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

@@ -2,7 +2,7 @@
     <h2 class="text-lg font-medium text-gray-900">
         {{ __('Export Records to XML') }}
     </h2>
-    <p class="">
+    <p class="mt-1 text-sm text-gray-600">
         {{ __('Export all database records of a specific entity.') }}
     </p>
 </header>

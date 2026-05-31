@@ -17,12 +17,12 @@
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-primary">
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-surface  shadow-md overflow-hidden sm:rounded-lg">
-                <div class="flex flex-col justify-center align-center p-20 pb-0 m-auto">
+            <div class="w-full sm:max-w-md mt- px-6 py-4 bg-surface  shadow-md overflow-hidden sm:rounded-lg">
+                <div class="flex flex-col justify-center align-center p-10 pb-0 m-auto">
                     <a href="/" class="mx-auto">
                         <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
                     </a>
-                    <h1 class="font-bold text-2xl text-center text-text mb-10">Sunshine City Community Center</h1>
+                    <h1 class="font-bold text-2xl text-center text-text mb-5">Sunshine City Community Center</h1>
                     <h2 class="font-bold text-2xl text-center text-text-secondary ">Staff Login</h2>
                 </div>
 

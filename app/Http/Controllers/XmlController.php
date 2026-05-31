@@ -8,6 +8,7 @@ use App\Models\Reservation;
 use App\Models\User;
 use DOMDocument;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class XmlController extends Controller
 {
@@ -59,13 +60,17 @@ class XmlController extends Controller
                 'facilitated_by',
             ],
         ],
-        'staffs' => User::class,
-        'singular' => 'staff',
-        'fields' => [
-            'id',
-            'email',
-            'role',
-            'created_at'
+        'staffs' => [
+
+            'model' => User::class,
+            'singular' => 'staff',
+            'fields' => [
+                'id',
+                'name',
+                'email',
+                'role',
+                'created_at'
+            ]
         ]
     ];
 
@@ -117,9 +122,6 @@ class XmlController extends Controller
         $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->loadXML(file_get_contents($request->file('xml_file')->getRealPath()));
 
-        // dd($dom);
-        // dump($dom->getElementsByTagName($config['singular']));
-
         $count = 0;
         foreach ($dom->getElementsByTagName($config['singular']) as $node) {
             $data = [];
@@ -139,5 +141,29 @@ class XmlController extends Controller
 
         }
         return back()->with('success', "Imported {$count} {$entity} successfully.");
+    }
+
+    public function reset(Request $request)
+    {
+        $request->validate(
+            ['verification-code' => 'required',]
+        );
+
+        $secretCode = 80102;
+
+        if ((int) $request->input('verification-code') !== $secretCode) {
+            return back()->withErrors([
+                'verification-code' => 'Incorrect code.'
+            ]);
+        }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Reservation::truncate();
+        Client::truncate();
+        Facility::truncate();
+        User::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+
+        return redirect()->route('xml.index')->with('success', 'System data has been wiped.');
     }
 }

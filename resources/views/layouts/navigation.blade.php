@@ -52,7 +52,7 @@
 
                         @can('admin-access')
                         <x-dropdown-link :href="route('xml.index')">
-                            {{ __('XML Import/Export') }}
+                            {{ __('Import/Export Data') }}
                         </x-dropdown-link>
                         @endcan
 

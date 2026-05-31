@@ -29,7 +29,7 @@
         </div>
 
         <div
-            class="bg-surface-alt shadow-xs border-border-strong relative max-h-200 overflow-x-auto overflow-y-auto rounded-md border">
+            class="bg-surface-alt shadow-xs border-border-strong max-h-200 relative overflow-x-auto overflow-y-auto rounded-md border">
             <table class="text-body w-full text-left text-sm">
                 <thead
                     class="text-body bg-primary border-default-medium text-text-inverse sticky top-0 z-10 border-b text-sm">
@@ -39,10 +39,9 @@
                         <th scope="col" class="px-6 py-3 font-medium">Role</th>
                         <th scope="col" class="px-6 py-3 font-medium">Created At</th>
                         <th scope="col" class="px-6 py-3 font-medium">Updated At</th>
+                        @can('admin-access')
                         <th scope="col" class="px-6 py-3 font-medium">Actions</th>
-                        <th scope="col" class="px-6 py-3 font-medium">
-                            <span class="sr-only">Edit</span>
-                        </th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="staff-table-body">
@@ -63,15 +62,14 @@
                             <td class="px-6 py-4">
                                 {{ $staff->updated_at }}
                             </td>
-                            <td class="px-6 py-4">
-                                <a href="/staff/{{ $staff->id }}/edit"
-                                    class="text-info font-medium hover:underline">Edit</a>
-                                @can('admin-access')
+                            @can('admin-access')
+                                <td class="px-6 py-4">
+                                    <a href="/staff/{{ $staff->id }}/edit"
+                                        class="text-info font-medium hover:underline">Edit</a>
                                     <a href="/staff/{{ $staff->id }}"
                                         class="text-error font-medium hover:underline">Remove</a>
-                                @endcan
-                            </td>
-
+                                </td>
+                            @endcan
                         </tr>
                     @endforeach
                 </tbody>

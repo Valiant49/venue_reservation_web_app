@@ -60,8 +60,10 @@
                         <td class="px-6 py-4">
                             <a href="/reservation/{{ $reservation->id }}/edit"
                                 class="text-info font-medium hover:underline">Edit</a>
-                            <a href="/reservation/{{ $reservation->id }}"
-                                class="text-error font-medium hover:underline">Remove</a>
+                                @can('admin-access')
+                                <a href="/reservation/{{ $reservation->id }}"
+                                    class="text-error font-medium hover:underline">Remove</a>
+                                @endcan
                         </td>
                     </tr>
                 @endforeach
