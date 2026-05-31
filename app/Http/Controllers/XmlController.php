@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Facility;
 use App\Models\Reservation;
+use App\Models\User;
 use DOMDocument;
 use Illuminate\Http\Request;
 
@@ -58,6 +59,14 @@ class XmlController extends Controller
                 'facilitated_by',
             ],
         ],
+        'staffs' => User::class,
+        'singular' => 'staff',
+        'fields' => [
+            'id',
+            'email',
+            'role',
+            'created_at'
+        ]
     ];
 
     public function index()
