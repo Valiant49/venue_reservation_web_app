@@ -61,14 +61,14 @@ A web-based venue reservation system for **Sunshine City**, a community recreati
 
 5. **Configure your `.env` file**
    ```env
-   DB_DATABASE=sunshine_city
+   DB_DATABASE=SunshineCity
    DB_USERNAME=your_db_user
    DB_PASSWORD=your_db_password
    ```
 
-6. **Run migrations and seed the database**
+6. **Run migrations for the database**
    ```bash
-   php artisan migrate --seed
+   php artisan migrate
    ```
 
 7. **Start the development server**
