@@ -8,9 +8,42 @@ use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
+    public function dashboardData()
+    {
+        $startOfWeek = Carbon::now()->startOfWeek(Carbon::SUNDAY)->format('Y-m-d');
+        $endOfWeek = Carbon::now()->endOfWeek(Carbon::SATURDAY)->format('Y-m-d');
+
+        $reservations = Reservation::with(['facility', 'client'])
+            ->whereBetween('reservation_date', [$startOfWeek, $endOfWeek])
+            ->orderBy('reservation_date', 'asc')
+            ->orderBy('start_time', 'asc')
+            ->get();
+        $facilities = Facility::all();
+
+        $reservationsToday = Reservation::whereDate('reservation_date', Carbon::today())->get();
+
+        $totalReservationsThisWeek = $reservations->count();
+        $activeFacilitiesCount = Facility::count();
+        $activeResidentsCount = Client::count();
+        $pendingReservations = Reservation::where('status', 'Pending')->count();
+
+        // dump($reservations);
+        return view('dashboard', compact(
+            'reservations',
+            'totalReservationsThisWeek',
+            'activeFacilitiesCount',
+            'activeResidentsCount',
+            'pendingReservations',
+            'facilities',
+            'reservationsToday'
+        ));
+    }
+
+
     /**
      * Display a listing of the resource.
      */
@@ -228,6 +261,7 @@ class ReservationController extends Controller
      */
     public function destroy(Reservation $reservation)
     {
-        //
+        $reservation->delete();
+        return redirect('/reservation')->with('success', 'Reservation removed.');
     }
 }

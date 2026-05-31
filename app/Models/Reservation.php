@@ -33,7 +33,9 @@ class Reservation extends Model
     protected static function booted()
     {
         static::creating(function($reservation){
-            $reservation->reservation_code = "RES-" . strtoupper(Str::random(5));
+            if(empty($reservation->reservation_code)){
+                $reservation->reservation_code = "RES-" . strtoupper(Str::random(5));
+            }
         });
     }
 

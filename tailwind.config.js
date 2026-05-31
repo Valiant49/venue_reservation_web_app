@@ -6,7 +6,12 @@ export default {
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
+        // './resources/views/**/*.blade.php',
+        './node_modules/flowbite/**/*.js',
+        "./index.html",
+        "./src/**/*.{js,ts,jsx,tsx}",
+        "./resources/**/*.blade.php",
+        "./resources/**/*.js",
     ],
 
     theme: {
@@ -14,8 +19,14 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+             colors: {
+
+             }
         },
     },
 
-    plugins: [forms],
+    plugins: [
+        forms,
+        require("flowbite/plugin")
+    ],
 };
