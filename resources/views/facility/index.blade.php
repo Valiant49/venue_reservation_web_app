@@ -24,7 +24,7 @@
         </div>
 
         <div
-            class="bg-surface-alt shadow-xs border-border-strong relative max-h-80 overflow-x-auto overflow-y-auto rounded-md border">
+            class="bg-surface-alt shadow-xs border-border-strong relative max-h-200 overflow-x-auto overflow-y-auto rounded-md border">
             <table class="text-body w-full text-left text-sm">
                 <thead
                     class="text-body bg-primary border-default-medium text-text-inverse sticky top-0 z-10 border-b text-sm">

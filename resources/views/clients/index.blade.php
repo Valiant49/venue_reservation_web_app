@@ -31,7 +31,7 @@
             </button>
         </div>
 
-        <div class="bg-surface-alt shadow-xs border-border-strong relative overflow-x-auto rounded-md border max-h-80 overflow-y-auto">
+        <div class="bg-surface-alt shadow-xs border-border-strong relative overflow-x-auto rounded-md border max-h-200 overflow-y-auto">
             <table class="text-body w-full text-left text-sm">
                 <thead class="text-body bg-primary border-default-medium text-text-inverse border-b text-sm sticky top-0 z-10">
                     <tr>
