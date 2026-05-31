@@ -24,6 +24,9 @@
                     <x-nav-link :href="route('reservation.index')" :active="request()->routeIs('reservation.index')">
                         {{ __('Reservations') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('staff.index')" :active="request()->routeIs('staff.index')">
+                        {{ __('Staff') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -47,9 +50,11 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
+                        @can('admin-access')
                         <x-dropdown-link :href="route('xml.index')">
                             {{ __('XML Import/Export') }}
                         </x-dropdown-link>
+                        @endcan
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
