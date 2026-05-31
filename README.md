@@ -97,7 +97,7 @@ A web-based venue reservation system for **Sunshine City**, a community recreati
 └── public/                  # Publicly accessible assets
 ```
 
----
+<!-- ---
 
 ## 👤 Default Accounts (Seeded)
 
@@ -108,7 +108,7 @@ A web-based venue reservation system for **Sunshine City**, a community recreati
 
 > ⚠️ Change these credentials before deploying to production.
 
-<!-- ---
+---
 
 ## 👥 Team
 
