@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\FacilityController;
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
@@ -25,10 +26,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/log', [LogController::class, 'index'])->name('log.index');
+
     Route::resource('facility', FacilityController::class);
     Route::resource('client', ClientController::class);
     Route::resource('reservation', ReservationController::class);
-
     Route::resource('/staff', UserController::class);
 
     Route::prefix('xml')->name('xml.')->group(function() {

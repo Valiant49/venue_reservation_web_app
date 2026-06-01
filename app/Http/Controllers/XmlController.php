@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Facility;
 use App\Models\Reservation;
 use App\Models\User;
+use App\Models\Log;
 use DOMDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -162,6 +163,7 @@ class XmlController extends Controller
         Client::truncate();
         Facility::truncate();
         User::truncate();
+        Log::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
         return redirect()->route('xml.index')->with('success', 'System data has been wiped.');
