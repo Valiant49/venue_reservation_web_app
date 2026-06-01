@@ -22,9 +22,6 @@ class BaseAuditObserver
             $original[$key] = $model->getOriginal($key);
         }
 
-        // dump($dirty);
-        // dump($original);
-
         $this->record($model, 'updated', $original, $dirty);
     }
 
@@ -33,7 +30,7 @@ class BaseAuditObserver
         $this->record($model, 'deleted', $model->getOriginal(), []);
     }
 
-    private function record($model, String $action, array $old, array $new): void
+    private function record(Model $model, String $action, array $old, array $new): void
     {
         Log::create([
             'entity_type'   => get_class($model),

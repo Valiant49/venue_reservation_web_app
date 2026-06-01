@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Facility;
+use App\Models\Log;
 use App\Models\Reservation;
 use App\Models\User;
-use App\Models\Log;
 use DOMDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -70,9 +70,9 @@ class XmlController extends Controller
                 'name',
                 'email',
                 'role',
-                'created_at'
-            ]
-        ]
+                'created_at',
+            ],
+        ],
     ];
 
     public function index()
@@ -86,30 +86,38 @@ class XmlController extends Controller
     {
         abort_unless(array_key_exists($entity, $this->entityMap), 404);
 
-        $config = $this->entityMap[$entity];
-        $records = $config['model']::all();
+        try {
+            $config = $this->entityMap[$entity];
+            $records = $config['model']::all();
 
-        $dom = new DOMDocument('1.0', 'UTF-8');
-        $dom->formatOutput = 'true';
-
-        $root = $dom->createElement('records');
-        $dom->appendChild($root);
-
-        foreach ($records as $record) {
-            $node = $dom->createElement($config['singular']);
-
-            foreach ($config['fields'] as $field) {
-                $value = htmlspecialchars((string) ($record->$field ?? ''), ENT_XML1, 'UTF-8');
-                $node->appendChild($dom->createElement($field, $value));
+            if ($records->isEmpty()) {
+                return redirect()->route('xml.index')->with('error', "No {$entity} records found to export.");
             }
 
-            $root->appendChild($node);
-        }
+            $dom = new DOMDocument('1.0', 'UTF-8');
+            $dom->formatOutput = true;
 
-        return response($dom->saveXML(), 200, [
-            'Content-Type' => 'application/xml',
-            'Content-Disposition' => "attachment; filename={$entity}_export.xml",
-        ]);
+            $root = $dom->createElement('records');
+            $dom->appendChild($root);
+
+            foreach ($records as $record) {
+                $node = $dom->createElement($config['singular']);
+
+                foreach ($config['fields'] as $field) {
+                    $value = htmlspecialchars((string) ($record->$field ?? ''), ENT_XML1, 'UTF-8');
+                    $node->appendChild($dom->createElement($field, $value));
+                }
+
+                $root->appendChild($node);
+            }
+
+            return response($dom->saveXML(), 200, [
+                'Content-Type' => 'application/xml',
+                'Content-Disposition' => "attachment; filename={$entity}_export.xml",
+            ]);
+        } catch (\Throwable $e) {
+            return redirect()->route('xml.index')->with('error', "Export failed: {$e->getMessage()}");
+        }
     }
 
     public function import(Request $request, string $entity)
@@ -121,10 +129,37 @@ class XmlController extends Controller
         $config = $this->entityMap[$entity];
 
         $dom = new DOMDocument('1.0', 'UTF-8');
+        libxml_use_internal_errors(true);
         $dom->loadXML(file_get_contents($request->file('xml_file')->getRealPath()));
 
+        $loaded = $dom->loadXML(
+            file_get_contents($request->file('xml_file')->getRealPath())
+        );
+
+        if (! $loaded) {
+            $xmlErrors = collect(libxml_get_errors())
+                ->map(fn ($e) => "Line {$e->line}: ".trim($e->message))
+                ->implode(', ');
+            libxml_clear_errors();
+
+            return back()->with('error', "Invalid XML file: {$xmlErrors}");
+        }
+
+        libxml_use_internal_errors();
+
+        $nodes = $dom->getElementsByTagName($config['singular']);
+
+        if ($nodes->length === 0) {
+            return back()->with('error', "No <{$config['singular']}> records found in the file. Check your XML structure.");
+        }
+
         $count = 0;
-        foreach ($dom->getElementsByTagName($config['singular']) as $node) {
+        $inserted = 0;
+        $skipped = 0;
+        $rowErrors = [];
+
+        foreach ($nodes as $index => $node) {
+            $row = $index + 1;
             $data = [];
 
             foreach ($config['fields'] as $field) {
@@ -132,29 +167,31 @@ class XmlController extends Controller
             }
 
             try {
-                unset($data['id']);
+                unset($data['id'], $data['created_at'], $data['updated_at']);
                 $config['model']::create($data);
-                $count++;
+                $inserted++;
             } catch (\Throwable $e) {
-                dump($e->getMessage());
+                $rowErrors[] = "Row {$row}: {$e->getMessage()}";
+                $skipped++;
             }
-            // dump($data);
-
         }
-        return back()->with('success', "Imported {$count} {$entity} successfully.");
+
+        return back()->with([
+            'success' => "Imported {$count} {$entity} successfully, {$skipped} skipped.",
+            'row-error' => $rowErrors, ]);
     }
 
     public function reset(Request $request)
     {
         $request->validate(
-            ['verification-code' => 'required',]
+            ['verification-code' => 'required']
         );
 
         $secretCode = 80102;
 
         if ((int) $request->input('verification-code') !== $secretCode) {
             return back()->withErrors([
-                'verification-code' => 'Incorrect code.'
+                'verification-code' => 'Incorrect code.',
             ]);
         }
 

@@ -15,10 +15,16 @@
         </div>
     @endif
 
-    @if ($errors->any())
+    @if (session('error'))
         <div class="mb-4 rounded-md border border-red-200 bg-red-100 p-4 text-sm text-red-700">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    @if (session('row-errors'))
+        <div class="mb-4 rounded-md border border-orange-200 bg-orange-100 p-4 text-sm text-orange-700">
             <ul class="list-disc pl-5">
-                @foreach ($errors->all() as $error)
+                @foreach (session('row-errors') as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
