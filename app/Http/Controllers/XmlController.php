@@ -155,7 +155,6 @@ class XmlController extends Controller
             return back()->with('error', "No <{$config['singular']}> records found in the file. Check your XML structure.");
         }
 
-        $count = 0;
         $inserted = 0;
         $skipped = 0;
         $rowErrors = [];
@@ -179,7 +178,7 @@ class XmlController extends Controller
         }
 
         return back()->with([
-            'success' => "Imported {$count} {$entity} successfully, {$skipped} skipped.",
+            'success' => "Imported {$inserted} {$entity} successfully, {$skipped} skipped.",
             'row-error' => $rowErrors, ]);
     }
 
