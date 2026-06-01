@@ -7,13 +7,13 @@
     <div class="px-4 py-6">
 
         @if (session('success'))
-            <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-md border border-green-200">
+            <div class="mb-4 rounded-md border border-green-200 bg-green-100 p-4 text-sm text-green-700">
                 {{ session('success') }}
             </div>
         @endif
 
         @if ($errors->any())
-            <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-md border border-red-200">
+            <div class="mb-4 rounded-md border border-red-200 bg-red-100 p-4 text-sm text-red-700">
                 <ul class="list-disc pl-5">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -22,8 +22,9 @@
             </div>
         @endif
 
-        <div class="flex justify-between items-center mb-4">
-            <x-text-input type="text" id="table-search" class="bg-surface px-4 py-2 rounded-md" placeholder="Search name..." />
+        <div class="mb-4 flex items-center justify-between">
+            <x-text-input type="text" id="table-search" class="bg-surface rounded-md px-4 py-2"
+                placeholder="Search name..." />
 
             <button onclick="document.getElementById('add-modal').showModal()"
                 class="shadow-xs bg-secondary text-md text-text hover:bg-secondary-hover focus-visible:outline-secondary-subtle cursor-pointer rounded-md px-4 py-2 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2">
@@ -31,9 +32,11 @@
             </button>
         </div>
 
-        <div class="bg-surface-alt shadow-xs border-border-strong relative overflow-x-auto rounded-md border max-h-200 overflow-y-auto">
+        <div
+            class="bg-surface-alt shadow-xs border-border-strong max-h-200 relative overflow-x-auto overflow-y-auto rounded-md border">
             <table class="text-body w-full text-left text-sm">
-                <thead class="text-body bg-primary border-default-medium text-text-inverse border-b text-sm sticky top-0 z-10">
+                <thead
+                    class="text-body bg-primary border-default-medium text-text-inverse sticky top-0 z-10 border-b text-sm">
                     <tr>
                         <th scope="col" class="px-6 py-3 font-medium">Block No.</th>
                         <th scope="col" class="px-6 py-3 font-medium">Lot No.</th>
@@ -41,10 +44,9 @@
                         <th scope="col" class="px-6 py-3 font-medium">Name</th>
                         <th scope="col" class="px-6 py-3 font-medium">Contact No.</th>
                         <th scope="col" class="px-6 py-3 font-medium">Email</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Actions</th>
-                        <th scope="col" class="px-6 py-3 font-medium">
-                            <span class="sr-only">Edit</span>
-                        </th>
+                        @can('admin-access')
+                            <th scope="col" class="px-6 py-3 font-medium">Actions</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody id="client-table-body">
@@ -59,7 +61,7 @@
                             <td class="px-6 py-4">
                                 {{ $client->street_num }}
                             </td>
-                            <td class="px-6 py-4 data-name">
+                            <td class="data-name px-6 py-4">
                                 {{ $client->first_name }} {{ Str::limit($client->middle_name, 1, '.') }}
                                 {{ $client->last_name }}
                             </td>
@@ -69,14 +71,14 @@
                             <td class="px-6 py-4">
                                 {{ $client->email }}
                             </td>
-                            <td class="px-6 py-4">
-                                <a href="/client/{{ $client->id }}/edit"
-                                    class="text-info font-medium hover:underline">Edit</a>
-                                @can('admin-access')
-                                <a href="/client/{{ $client->id }}"
-                                    class="text-error font-medium hover:underline">Remove</a>
-                                @endcan
-                            </td>
+                            @can('admin-access')
+                                <td class="px-6 py-4">
+                                    <a href="/client/{{ $client->id }}/edit"
+                                        class="text-info font-medium hover:underline">Edit</a>
+                                    <a href="/client/{{ $client->id }}"
+                                        class="text-error font-medium hover:underline">Remove</a>
+                                </td>
+                            @endcan
 
                         </tr>
                     @endforeach
@@ -88,7 +90,7 @@
         <br>
 
         <dialog id="add-modal"
-            class="m-auto inset-0 backdrop:backdrop-blur-xs open:animate-fade-in w-full max-w-lg rounded-xl bg-white p-6 shadow-2xl backdrop:bg-gray-900/50">
+            class="backdrop:backdrop-blur-xs open:animate-fade-in inset-0 m-auto w-full max-w-lg rounded-xl bg-white p-6 shadow-2xl backdrop:bg-gray-900/50">
 
             <div class="flex items-center justify-between border-b border-gray-100 pb-3">
                 <h3 class="text-lg font-semibold text-gray-900">Add Client</h3>

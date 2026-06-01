@@ -24,7 +24,7 @@
         </div>
 
         <div
-            class="bg-surface-alt shadow-xs border-border-strong relative max-h-200 overflow-x-auto overflow-y-auto rounded-md border">
+            class="bg-surface-alt shadow-xs border-border-strong max-h-200 relative overflow-x-auto overflow-y-auto rounded-md border">
             <table class="text-body w-full text-left text-sm">
                 <thead
                     class="text-body bg-primary border-default-medium text-text-inverse sticky top-0 z-10 border-b text-sm">
@@ -35,7 +35,9 @@
                         <th scope="col" class="px-6 py-3 font-medium">Base fee</th>
                         <th scope="col" class="px-6 py-3 font-medium">Capacity</th>
                         <th scope="col" class="px-6 py-3 font-medium">Description</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Actions</th>
+                        @can('admin-access')
+                            <th scope="col" class="px-6 py-3 font-medium">Actions</th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody>
@@ -59,14 +61,14 @@
                             <td class="px-6 py-4">
                                 {{ $facility->description }}
                             </td>
-                            <td class="px-6 py-4">
-                                <a href="/facility/{{ $facility->id }}/edit"
-                                    class="text-info font-medium hover:underline">Edit</a>
-                                @can('admin-access')
-                                <a href="/facility/{{ $facility->id }}"
-                                    class="text-error font-medium hover:underline">Remove</a>
-                                @endcan
-                            </td>
+                            @can('admin-access')
+                                <td class="px-6 py-4">
+                                    <a href="/facility/{{ $facility->id }}/edit"
+                                        class="text-info font-medium hover:underline">Edit</a>
+                                    <a href="/facility/{{ $facility->id }}"
+                                        class="text-error font-medium hover:underline">Remove</a>
+                                </td>
+                            @endcan
                         </tr>
                     @endforeach
                 </tbody>
@@ -105,10 +107,7 @@
 
                     <div>
                         <x-input-label for="fac-type">Facility type:</x-input-label>
-                        <x-select-input
-                            name="facility_type"
-                            id="fac-type"
-                            placeholder="Select a facility..."
+                        <x-select-input name="facility_type" id="fac-type" placeholder="Select a facility..."
                             :options="[
                                 'clubhouse' => 'Clubhouse',
                                 'pool' => 'Pool',
