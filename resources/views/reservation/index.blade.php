@@ -38,9 +38,7 @@
                         <th scope="col" class="px-6 py-3 font-medium">Status</th>
                         <th scope="col" class="px-6 py-3 font-medium">Event Type</th>
                         <th scope="col" class="px-6 py-3 font-medium">Notes</th>
-                        @can('admin-access')
-                            <th scope="col" class="px-6 py-3 font-medium">Actions</th>
-                        @endcan
+                        <th scope="col" class="px-6 py-3 font-medium">Actions</th>
                     </tr>
                 </thead>
                 @foreach ($reservations as $reservation)
@@ -59,14 +57,14 @@
                         <td class="px-6 py-4"> {{ $reservation->status }} </td>
                         <td class="px-6 py-4"> {{ $reservation->event_type }} </td>
                         <td class="px-6 py-4"> {{ $reservation->notes }} </td>
-                        @can('admin-access')
-                            <td class="px-6 py-4">
-                                <a href="/reservation/{{ $reservation->id }}/edit"
-                                    class="text-info font-medium hover:underline">Edit</a>
+                        <td class="px-6 py-4">
+                            <a href="/reservation/{{ $reservation->id }}/edit"
+                                class="text-info font-medium hover:underline">Edit</a>
+                            @can('admin-access')
                                 <a href="/reservation/{{ $reservation->id }}"
                                     class="text-error font-medium hover:underline">Remove</a>
-                            </td>
-                        @endcan
+                            @endcan
+                        </td>
                     </tr>
                 @endforeach
             </table>
