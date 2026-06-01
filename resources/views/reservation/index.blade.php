@@ -194,22 +194,6 @@
                         <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
                     @enderror
                 </div>
-
-                <!-- Facilitated By Field -->
-                <div>
-                    <label for="facilitated-by" class="block text-sm font-medium text-gray-700 mb-1">Facilitated By</label>
-                    <select name="facilitated_by" id="facilitated-by" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white">
-                        @foreach ($staffs as $staff)
-                            <option value="{{ $staff->id }}" {{ old('staff_id') == $staff->id ? 'selected' : '' }}>
-                                {{ $staff->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('facilitated_by')
-                        <p class="mt-1 text-xs text-red-600 font-medium">{{ $message }}</p>
-                    @enderror
-                </div>
-
             </div>
 
             <!-- Notes Field (Spans full width) -->

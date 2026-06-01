@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Override;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -35,6 +36,10 @@ class Reservation extends Model
         static::creating(function($reservation){
             if(empty($reservation->reservation_code)){
                 $reservation->reservation_code = "RES-" . strtoupper(Str::random(5));
+            }
+
+            if (empty($reservation->facilitated_by)){
+                $reservation->facilitated_by = Auth::id();
             }
         });
     }

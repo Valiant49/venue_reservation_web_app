@@ -72,7 +72,6 @@ class ReservationController extends Controller
         $validated = $request->validate([
             'facility_id'   => 'required|exists:facility,id',
             'reserved_by'   => 'required|exists:clients,id',
-            'facilitated_by'=> 'required|exists:users,id',
 
             'reservation_date' => 'required|date_format:Y-m-d|after_or_equal:today',
             'start_time'       => 'required|date_format:H:i',
@@ -131,7 +130,6 @@ class ReservationController extends Controller
 
         Reservation::create($validated);
 
-        // return redirect()->back()->with('success', 'Reservation created successfully!');
         return redirect('/reservation')->with('success', 'Reservation created successfully!');
     }
 
