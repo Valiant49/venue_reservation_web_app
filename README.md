@@ -97,18 +97,17 @@ A web-based venue reservation system for **Sunshine City**, a community recreati
 └── public/                  # Publicly accessible assets
 ```
 
-<!-- ---
+---
 
 ## 👤 Default Accounts (Seeded)
 
 | Role  | Email                  | Password  |
 |-------|------------------------|-----------|
-| Admin | admin@sunshinecity.com | password  |
-| User  | user@sunshinecity.com  | password  |
+| admin | admin@email.com        | 12345678  |
 
 > ⚠️ Change these credentials before deploying to production.
 
----
+<!-- ---
 
 ## 👥 Team
 
