@@ -66,7 +66,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'name'          => 'required|string',
             'email'         => 'required|email',
-            'role'          => 'required|in:admin,staff'
+            'role'          => 'required'
         ]);
 
         $staff->update($validated);

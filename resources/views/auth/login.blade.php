@@ -32,14 +32,8 @@
             </label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('register'))
-                <x-secondary-button onclick="location.href='{{ route('register') }}'" class="">
-                    Register
-                </x-secondary-button>
-            @endif
-
-            <x-primary-button class="ms-3">
+        <div class="flex items-center justify-center mt-4">
+            <x-primary-button class="ms-3 mb-3">
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
