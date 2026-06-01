@@ -7,8 +7,10 @@ use App\Models\Facility;
 use App\Models\Log;
 use App\Models\Reservation;
 use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
 use DOMDocument;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 class XmlController extends Controller
@@ -202,6 +204,8 @@ class XmlController extends Controller
         User::truncate();
         Log::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+
+        Artisan::call('db:seed', ['--class' => 'DatabaseSeeder']);
 
         return redirect()->route('xml.index')->with('success', 'System data has been wiped.');
     }
