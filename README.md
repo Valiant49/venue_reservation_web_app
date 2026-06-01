@@ -106,14 +106,3 @@ A web-based venue reservation system for **Sunshine City**, a community recreati
 | admin | admin@email.com        | 12345678  |
 
 > ⚠️ Change these credentials before deploying to production.
-
-<!-- ---
-
-## 👥 Team
-
-| Name | Role |
-|------|------|
-|      | Backend Developer |
-|      | Frontend Developer |
-|      | UI/UX Designer |
-|      | Database / QA | -->
