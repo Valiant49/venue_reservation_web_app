@@ -28,9 +28,7 @@
                 <thead
                     class="text-body bg-primary border-default-medium text-text-inverse sticky top-0 z-10 border-b text-sm">
                     <tr>
-                        {{-- <th scope="col" class="px-4 py-3 font-medium">ID</th> --}}
-                        <th scope="col" class="px-4 py-3 font-medium">Created at</th>
-                        <th scope="col" class="px-4 py-3 font-medium">Updated at</th>
+                        <th scope="col" class="px-4 py-3 font-medium">Timestamp</th>
                         <th scope="col" class="px-4 py-3 font-medium">Entity ID</th>
                         <th scope="col" class="px-4 py-3 font-medium">Entity Type</th>
                         <th scope="col" class="px-4 py-3 font-medium">Action</th>
@@ -47,9 +45,6 @@
                                 {{ $log->created_at }}
                             </td>
                             <td class="px-4 py-4">
-                                {{ $log->updated_at }}
-                            </td>
-                            <td class="px-4 py-4">
                                 {{ $log->entity_id }}
                             </td>
                             <td class="data-name px-4 py-4">
@@ -61,7 +56,7 @@
                             <td class="px-4 py-4">
                                 @if ($log->old_values)
                                     @foreach ($log->old_values as $key => $value)
-                                        @continue($key === 'password')
+                                        @continue($key === 'password' || $key === 'updated_at')
                                         <div><strong>{{ $key }}:</strong> {{ $value }}</div>
                                     @endforeach
                                 @else
@@ -71,7 +66,7 @@
                             <td class="px-4 py-4">
                                 @if ($log->new_values)
                                     @foreach ($log->new_values as $key => $value)
-                                        @continue($key === 'password')
+                                        @continue($key === 'password' || $key === 'updated_at')
                                         <div><strong>{{ $key }}:</strong> {{ $value }}</div>
                                     @endforeach
                                 @else
