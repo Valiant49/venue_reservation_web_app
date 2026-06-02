@@ -169,8 +169,23 @@ class XmlController extends Controller
 
             try {
                 unset($data['id'], $data['created_at'], $data['updated_at']);
-                $config['model']::create($data);
-                $inserted++;
+
+                $uniqueKey = $this->getUniqueKey($entity, $data);
+
+                if ($uniqueKey) {
+                    [$unique, $rest] = $uniqueKey;
+                    $record = $config['model']::firstOrCreate($unique, $rest);
+
+                    
+                    if ($record->wasRecentlyCreated) {
+                        $inserted++;
+                    } else {
+                        $skipped++;
+                    }
+                } else {
+                    $config['model']::create($data);
+                    $inserted++;
+                }
             } catch (\Throwable $e) {
                 $rowErrors[] = "Row {$row}: {$e->getMessage()}";
                 $skipped++;
@@ -207,5 +222,24 @@ class XmlController extends Controller
         Artisan::call('db:seed', ['--class' => 'DatabaseSeeder']);
 
         return redirect()->route('xml.index')->with('success', 'System data has been wiped.');
+    }
+
+    private function getUniqueKey(string $entity, array $data): ?array
+    {
+        $uniqueFields = [
+            'clients'      => 'email',
+            'facilities'   => 'facility_code',
+            'reservations' => 'reservation_code',
+            'staffs'       => 'email',
+        ];
+
+        $field = $uniqueFields[$entity] ?? null;
+
+        if (!$field || empty($data[$field])) return null;
+
+        $unique = [$field => $data[$field]];
+        $rest   = array_diff_key($data, $unique);
+
+        return [$unique, $rest];
     }
 }
