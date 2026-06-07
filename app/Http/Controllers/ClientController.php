@@ -37,7 +37,7 @@ class ClientController extends Controller
             'middle_name' => 'nullable|string',
             'last_name' => 'required|string',
             'contact_num' => 'required|string',
-            'email' => 'nullable|email'
+            'email' => 'nullable|email:filter'
         ]);
 
         Client::create($validated);
