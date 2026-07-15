@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap');
 @import "tailwindcss";
 /* @tailwind base;
 @tailwind components;
@@ -6,32 +6,31 @@
 
 @theme {
   /* ─── Brand Colors ─────────────────────────────── */
-  --color-primary:           #576238;
-  --color-primary-hover:     #3b4b21;
-  --color-primary-light:     #7a8c4a;
-  --color-primary-subtle:    #edf0e6;
+  --color-primary:           #284b63;
+  --color-primary-hover:     #12364d;
+  --color-primary-light:     #;
+  --color-primary-subtle:    #;
 
-  --color-secondary:         #ffd95d;
-  --color-secondary-hover:   #ffbb48;
-  --color-secondary-subtle:  #fff8e1;
+  --color-secondary:         #;
+  --color-secondary-hover:   #;
+  --color-secondary-subtle:  #;
 
   /* ─── Surface & Background ─────────────────────── */
-  --color-surface:           #f0eadc;
-  --color-surface-alt:       #faf7f1;
+  --color-surface:           #fafafa;
+  --color-surface-alt:       #;
   --color-surface-raised:    #ffffff;
-  --color-surface-overlay:   #ffd95d1a;   /* was ffd95d54 — softer */
 
   /* ─── Text ──────────────────────────────────────── */
-  --color-text:              #2e3a18;     /* slightly deeper than primary */
-  --color-text-secondary:    #576238;     /* matches primary */
+  --color-text:              #1a1a1a;
+  --color-text-secondary:    #12364d;
   --color-text-muted:        #737373;
   --color-text-disabled:     #a3a3a3;
   --color-text-inverse:      #faf7f1;
 
   /* ─── Border ────────────────────────────────────── */
-  --color-border:            #c8d0b0;     /* lightened — #3b4b21 is very heavy for borders */
-  --color-border-strong:     #3b4b21;
-  --color-border-focus:      #576238;
+  --color-border:            #;
+  --color-border-strong:     #;
+  --color-border-focus:      #;
 
   /* ─── Semantic States ───────────────────────────── */
   --color-success:           #4a7c59;     /* distinct green, not same as text */
@@ -52,9 +51,8 @@
   --color-grey-5:            #f4f6f4;
 
   /* ─── Typography ────────────────────────────────── */
-  --font-sans:               'Lato', sans-serif;
+  --font-serif:               'Cormomant Garamond', sans-serif;
   --font-display:            'Playfair Display', Georgia, serif;
-  --font-mono:               'JetBrains Mono', ui-monospace, monospace;
 
   --font-weight-normal:      400;
   --font-weight-medium:      500;

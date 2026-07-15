@@ -53,7 +53,7 @@ class ReservationController extends Controller
         $clients = Client::all();
         $reservations = Reservation::with('facility', 'client')->latest()->get();
         $facilities = Facility::all();
-        return view('reservation.index', compact('reservations', 'facilities', 'clients', 'staffs'));
+        return view('employee-facing.reservation.index', compact('reservations', 'facilities', 'clients', 'staffs'));
     }
 
     /**

@@ -10,6 +10,6 @@ class LogController extends Controller
     public function index()
     {
         $logs = Log::latest()->get();
-        return view('logs.index', compact('logs'));
+        return view('employee-facing.logs.index', compact('logs'));
     }
 }

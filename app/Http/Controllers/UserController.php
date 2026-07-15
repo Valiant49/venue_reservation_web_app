@@ -13,7 +13,7 @@ class UserController extends Controller
     public function index()
     {
         $staffs = User::all();
-        return view('staff.index', compact('staffs'));
+        return view('employee-facing.staff.index', compact('staffs'));
     }
 
     /**

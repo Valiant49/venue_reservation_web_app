@@ -81,7 +81,7 @@ class XmlController extends Controller
     {
         $clients = Client::get();
 
-        return view('xml-settings.index', compact('clients'));
+        return view('employee-facing.xml-settings.index', compact('clients'));
     }
 
     public function export(string $entity)
@@ -176,7 +176,7 @@ class XmlController extends Controller
                     [$unique, $rest] = $uniqueKey;
                     $record = $config['model']::firstOrCreate($unique, $rest);
 
-                    
+
                     if ($record->wasRecentlyCreated) {
                         $inserted++;
                     } else {
