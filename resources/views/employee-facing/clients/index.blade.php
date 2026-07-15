@@ -1,9 +1,10 @@
 <x-app-layout>
 
     <x-slot name="header">
-        Residents
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            {{ __('Residents') }}
+        </h2>
     </x-slot>
-
     <div class="px-4 py-6">
 
         @if (session('success'))
@@ -27,8 +28,8 @@
                 placeholder="Search name..." />
 
             <button onclick="document.getElementById('add-modal').showModal()"
-                class="shadow-xs bg-secondary text-md text-text hover:bg-secondary-hover focus-visible:outline-secondary-subtle cursor-pointer rounded-md px-4 py-2 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2">
-                Add New Client
+                class="shadow-xs bg-surface text-md text-text hover:bg-secondary-hover hover:text-white focus-visible:outline-secondary-subtle cursor-pointer rounded-md px-4 py-2 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2">
+                Add New Resident
             </button>
         </div>
 
@@ -36,11 +37,9 @@
             class="bg-surface-alt shadow-xs border-border-strong max-h-180 relative overflow-x-auto overflow-y-auto rounded-md border">
             <table class="text-body w-full text-left text-sm">
                 <thead
-                    class="text-body bg-primary border-default-medium text-text-inverse sticky top-0 z-10 border-b text-sm">
+                    class="text-body bg-surface border-default-medium text-text sticky top-0 z-10 border-b text-sm">
                     <tr>
-                        <th scope="col" class="px-6 py-3 font-medium">Block No.</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Lot No.</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Street No.</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Address</th>
                         <th scope="col" class="px-6 py-3 font-medium">Name</th>
                         <th scope="col" class="px-6 py-3 font-medium">Contact No.</th>
                         <th scope="col" class="px-6 py-3 font-medium">Email</th>
@@ -49,16 +48,11 @@
                 </thead>
                 <tbody id="client-table-body">
                     @foreach ($clients as $client)
-                        <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+                        <tr class="bg-background border-default hover:bg-gray-300 border-b">
                             <th scope="row" class="text-heading whitespace-nowrap px-6 py-4 font-medium">
-                                {{ $client->block_num }}
+                                B{{ $client->block_num }}, L{{ $client->lot_num }}, Street {{ $client->street_num }}
                             </th>
-                            <td class="px-6 py-4">
-                                {{ $client->lot_num }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ $client->street_num }}
-                            </td>
+
                             <td class="data-name px-6 py-4">
                                 {{ $client->first_name }} {{ Str::limit($client->middle_name, 1, '.') }}
                                 {{ $client->last_name }}

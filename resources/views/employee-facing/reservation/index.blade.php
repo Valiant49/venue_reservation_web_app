@@ -1,4 +1,11 @@
 <x-app-layout>
+
+    <x-slot name="header">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            {{ __('Reservations') }}
+        </h2>
+    </x-slot>
+
     <div class="px-4 py-6">
         @if (session('success'))
             <div class="mb-4 rounded-md border border-green-200 bg-green-100 p-4 text-sm text-green-700">
@@ -18,7 +25,7 @@
 
         <div class="mb-4 flex items-center justify-end">
             <button onclick="document.getElementById('add-modal').showModal()"
-                class="shadow-xs bg-secondary text-md text-text hover:bg-secondary-hover focus-visible:outline-secondary-subtle cursor-pointer rounded-md px-4 py-2 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2">
+                class="shadow-xs bg-surface text-md text-text hover:bg-secondary-hover hover:text-white focus-visible:outline-secondary-subtle cursor-pointer rounded-md px-4 py-2 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2">
                 Add Reservation
             </button>
         </div>
@@ -27,7 +34,7 @@
             class="bg-surface-alt shadow-xs border-border-strong max-h-180 relative overflow-x-auto overflow-y-auto rounded-md border">
             <table class="text-body w-full text-left text-sm">
                 <thead
-                    class="text-body bg-primary border-default-medium text-text-inverse sticky top-0 z-10 border-b text-sm">
+                    class="text-body bg-surface border-default-medium text-text sticky top-0 z-10 border-b text-sm">
                     <tr>
                         <th scope="col" class="px-6 py-3 font-medium">Reservation Code</th>
                         <th scope="col" class="px-6 py-3 font-medium">Facility</th>
@@ -42,7 +49,7 @@
                     </tr>
                 </thead>
                 @foreach ($reservations as $reservation)
-                    <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+                    <tr class="bg-background border-default hover:bg-gray-300 border-b">
                         <td scope="row" class="text-heading whitespace-nowrap px-6 py-4 font-medium">
                             {{ $reservation->reservation_code }} </td>
                         <td class="px-6 py-4"> {{ $reservation->facility->facility_name ?? 'N/A' }} </td>

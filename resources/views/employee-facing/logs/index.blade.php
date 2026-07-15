@@ -1,7 +1,9 @@
 <x-app-layout>
 
     <x-slot name="header">
-        Logs
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            {{ __('Logs') }}
+        </h2>
     </x-slot>
 
     <div class="px-4 py-6">
@@ -26,7 +28,7 @@
             class="bg-surface-alt shadow-xs border-border-strong max-h-180 relative overflow-x-auto overflow-y-auto rounded-md border">
             <table class="text-body w-full text-left text-sm">
                 <thead
-                    class="text-body bg-primary border-default-medium text-text-inverse sticky top-0 z-10 border-b text-sm">
+                    class="text-body bg-surface border-default-medium text-text sticky top-0 z-10 border-b text-sm">
                     <tr>
                         <th scope="col" class="px-4 py-3 font-medium">Timestamp</th>
                         <th scope="col" class="px-4 py-3 font-medium">Entity ID</th>
@@ -40,7 +42,7 @@
                 </thead>
                 <tbody id="log-table-body">
                     @foreach ($logs as $log)
-                        <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+                        <tr class="bg-background border-default hover:bg-gray-300 border-b">
                             <td class="px-4 py-4">
                                 {{ $log->created_at }}
                             </td>

@@ -1,6 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
-        Staff
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            {{ __('Staff') }}
+        </h2>
     </x-slot>
 
     <div class="px-4 py-6">
@@ -23,7 +25,7 @@
 
         <div class="mb-4 flex items-center justify-end">
             <button onclick="document.getElementById('add-modal').showModal()"
-                class="shadow-xs bg-secondary text-md text-text hover:bg-secondary-hover focus-visible:outline-secondary-subtle cursor-pointer rounded-md px-4 py-2 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2">
+                class="shadow-xs bg-surface text-md text-text hover:bg-secondary-hover hover:text-white focus-visible:outline-secondary-subtle cursor-pointer rounded-md px-4 py-2 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2">
                 Add New Staff
             </button>
         </div>
@@ -32,7 +34,7 @@
             class="bg-surface-alt shadow-xs border-border-strong max-h-180 relative overflow-x-auto overflow-y-auto rounded-md border">
             <table class="text-body w-full text-left text-sm">
                 <thead
-                    class="text-body bg-primary border-default-medium text-text-inverse sticky top-0 z-10 border-b text-sm">
+                     class="text-body bg-surface border-default-medium text-text sticky top-0 z-10 border-b text-sm">
                     <tr>
                         <th scope="col" class="px-6 py-3 font-medium">Name</th>
                         <th scope="col" class="px-6 py-3 font-medium">Email</th>
@@ -46,7 +48,7 @@
                 </thead>
                 <tbody id="staff-table-body">
                     @foreach ($staffs as $staff)
-                        <tr class="bg-neutral-primary-soft border-default hover:bg-neutral-secondary-medium border-b">
+                        <tr class="bg-background border-default hover:bg-gray-300 border-b">
                             <th scope="row" class="text-heading whitespace-nowrap px-6 py-4 font-medium">
                                 {{ $staff->name }}
                             </th>
