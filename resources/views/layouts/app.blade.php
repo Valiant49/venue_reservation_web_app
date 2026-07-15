@@ -21,14 +21,14 @@
 
             <div class="flex-1 flex flex-col">
                 @isset($header)
-                    <header class="border-b-2 border-gray-800 shadow">
+                    <header class="border-b-2 border-gray-800 shadow rounded-lg">
                         <div class="flex-1 p-5 sm:px-6 lg:px-8">
                             {{ $header }}
                         </div>
                     </header>
                 @endisset
                 <!-- Page Content -->
-                <main class="max-w-8xl bg-primary px-4">
+                <main class="bg-primary max-w-8xl h-full px-4 mt-1 rounded-lg">
                     {{ $slot }}
                 </main>
             </div>
