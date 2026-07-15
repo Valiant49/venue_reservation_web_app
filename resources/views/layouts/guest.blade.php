@@ -20,10 +20,10 @@
             <div class="w-full sm:max-w-md mt- px-6 py-4 bg-surface  shadow-md overflow-hidden sm:rounded-lg">
                 <div class="flex flex-col justify-center align-center p-10 pb-0 m-auto">
                     <a href="/" class="mx-auto">
-                        <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                        <x-application-logo class="w-20 h-20 fill-current text-primary" />
                     </a>
-                    <h1 class="font-bold text-2xl text-center text-text mb-5">Sunshine City Community Center</h1>
-                    <h2 class="font-bold text-2xl text-center text-text-secondary ">Staff Login</h2>
+                    <h1 class="font-bold text-2xl text-center text-text">Soladia Residences</h1>
+                    <h2 class="font-bold text-2xl text-center text-text-secondary">HOA Staff Portal</h2>
                 </div>
 
                 {{ $slot }}
