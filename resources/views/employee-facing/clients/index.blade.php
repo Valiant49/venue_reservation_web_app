@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <x-slot name="header">
-        Clients
+        Residents
     </x-slot>
 
     <div class="px-4 py-6">

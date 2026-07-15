@@ -40,12 +40,12 @@
   --color-info-subtle:       #e8f4fd;
 
   /* ─── Greyscale ─────────────────────────────────── */
-  --color-grey-0:            #7a8478;
-  --color-grey-1:            #859289;
-  --color-grey-2:            #9da9a0;
+  --color-grey-0:            #4e5561;
+  --color-grey-1:            #878f9b;
+  --color-grey-2:            #9fa6b1;
   --color-grey-3:            #bcc5be;
-  --color-grey-4:            #dde3df;
-  --color-grey-5:            #f4f6f4;
+  --color-grey-4:            #bdc3cb;
+  --color-grey-5:            #f4f5f8;
 
   /* ─── Typography ────────────────────────────────── */
   --font-serif:               'Cormomant Garamond', sans-serif;
