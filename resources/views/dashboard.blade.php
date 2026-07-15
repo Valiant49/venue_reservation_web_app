@@ -7,23 +7,23 @@
 
     <div class=py-4 px-4">
         <div class="grid grid-cols-5 place-items-stretch gap-4 mb-3">
-            <div class="bg-background p-2 rounded-md h-[100px]">
+            <div class="bg-background p-2 rounded-md h-25">
                 <h2 class="text-xl mb-4">No. of Today's Reservations</h2>
                 <p class="text-md">XXX</p>
             </div>
-            <div class="bg-background p-2 rounded-md h-[100px]">
+            <div class="bg-background p-2 rounded-md h-25">
                 <h2 class="text-xl mb-4">No. of Pending Approvals</h2>
                 <p class="text-md">XXX</p>
             </div>
-            <div class="bg-background p-2 rounded-md h-[100px]">
+            <div class="bg-background p-2 rounded-md h-25">
                 <h2 class="text-xl mb-4">Reservations w/o Payment</h2>
                 <p class="text-md">XXX</p>
             </div>
-            <div class="bg-background p-2 rounded-md h-[100px]">
+            <div class="bg-background p-2 rounded-md h-25">
                 <h2 class="text-xl mb-4">Active Residents</h2>
                 <p class="text-md">XXX</p>
             </div>
-            <div class="bg-background p-2 rounded-md h-[100px]">
+            <div class="bg-background p-2 rounded-md h-25">
                 <h2 class="text-xl mb-4">Reservations this Month</h2>
                 <p class="text-md">XXX</p>
             </div>
