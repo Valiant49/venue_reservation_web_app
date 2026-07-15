@@ -1,4 +1,10 @@
 <x-app-layout>
+    <x-slot name="header">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            {{ __('Facilities') }}
+        </h2>
+    </x-slot>
+
     <div class="px-4 py-6">
         @if (session('success'))
             <div class="mb-4 rounded-md border border-green-200 bg-green-100 p-4 text-sm text-green-700">

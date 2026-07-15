@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class=py-4 px-4">
         <div class="grid grid-cols-5 place-items-stretch gap-4">
 
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">

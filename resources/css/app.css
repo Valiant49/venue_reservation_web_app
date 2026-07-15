@@ -8,17 +8,14 @@
   /* ─── Brand Colors ─────────────────────────────── */
   --color-primary:           #284b63;
   --color-primary-hover:     #12364d;
-  --color-primary-light:     #;
-  --color-primary-subtle:    #;
 
-  --color-secondary:         #;
-  --color-secondary-hover:   #;
-  --color-secondary-subtle:  #;
+  --color-secondary:         #00649a;
+  --color-secondary-hover:   #00568b;
+  --color-secondary-subtle:  #83a9c5;
 
   /* ─── Surface & Background ─────────────────────── */
-  --color-surface:           #fafafa;
-  --color-surface-alt:       #;
-  --color-surface-raised:    #ffffff;
+  --color-background:        #fafafa;
+  --color-surface:           #ffffff;
 
   /* ─── Text ──────────────────────────────────────── */
   --color-text:              #1a1a1a;
@@ -28,9 +25,9 @@
   --color-text-inverse:      #faf7f1;
 
   /* ─── Border ────────────────────────────────────── */
-  --color-border:            #;
-  --color-border-strong:     #;
-  --color-border-focus:      #;
+  --color-border:            #284b63;
+  --color-border-strong:     #12364d;
+  --color-border-focus:      #83a9c5;
 
   /* ─── Semantic States ───────────────────────────── */
   --color-success:           #4a7c59;     /* distinct green, not same as text */
