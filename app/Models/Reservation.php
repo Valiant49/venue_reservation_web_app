@@ -48,7 +48,7 @@ class Reservation extends Model
         return $this->belongsTo(Facility::class, 'facility_id');
     }
 
-    public function client() {
-        return $this->belongsTo(Client::class, 'reserved_by');
+    public function resident() {
+        return $this->belongsTo(Resident::class, 'reserved_by');
     }
 }

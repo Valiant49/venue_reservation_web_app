@@ -12,8 +12,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $staffs = User::all();
-        return view('employee-facing.staff.index', compact('staffs'));
+       //
     }
 
     /**
@@ -29,15 +28,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name'          => 'required|string',
-            'password'      => 'required|string|min:8',
-            'email'         => 'required|email:filter',
-            'role'          => 'required|in:admin,staff'
-        ]);
-
-        user::create($validated);
-        return redirect('/staff')->with('success', 'Staff added successfuly.');
+        //
     }
 
     /**
@@ -45,8 +36,7 @@ class UserController extends Controller
      */
     public function show(User $staff)
     {
-        $staffs = User::all();
-        return view('staff.delete', compact('staff'));
+        //
     }
 
     /**
@@ -54,8 +44,7 @@ class UserController extends Controller
      */
     public function edit(User $staff)
     {
-        $staffs = User::all();
-        return view('staff.edit', compact('staff'));
+        //
     }
 
     /**
@@ -63,14 +52,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $staff)
     {
-        $validated = $request->validate([
-            'name'          => 'required|string',
-            'email'         => 'required|email',
-            'role'          => 'required'
-        ]);
-
-        $staff->update($validated);
-        return redirect('/staff')->with('success', 'Staff record updated.');
+        //
     }
 
     /**
@@ -78,7 +60,6 @@ class UserController extends Controller
      */
     public function destroy(User $staff)
     {
-        $staff->delete();
-        return redirect('/staff')->with('success', 'Staff record removed.');
+        //
     }
 }

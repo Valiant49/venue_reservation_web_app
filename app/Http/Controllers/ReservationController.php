@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
+use App\Models\Resident;
 use App\Models\Facility;
 use App\Models\Reservation;
 use App\Models\User;
@@ -17,18 +17,18 @@ class ReservationController extends Controller
         $startOfWeek = Carbon::now()->startOfWeek(Carbon::SUNDAY)->format('Y-m-d');
         $endOfWeek = Carbon::now()->endOfWeek(Carbon::SATURDAY)->format('Y-m-d');
 
-        $reservations = Reservation::with(['facility', 'client'])
-            ->whereBetween('reservation_date', [$startOfWeek, $endOfWeek])
-            ->orderBy('reservation_date', 'asc')
+        $reservations = Reservation::with(['facility', 'resident'])
+            ->whereBetween('date', [$startOfWeek, $endOfWeek])
+            ->orderBy('date', 'asc')
             ->orderBy('start_time', 'asc')
             ->get();
         $facilities = Facility::all();
 
-        $reservationsToday = Reservation::whereDate('reservation_date', Carbon::today())->get();
+        $reservationsToday = Reservation::whereDate('date', Carbon::today())->get();
 
         $totalReservationsThisWeek = $reservations->count();
         $activeFacilitiesCount = Facility::count();
-        $activeResidentsCount = Client::count();
+        $activeResidentsCount = Resident::count();
         $pendingReservations = Reservation::where('status', 'Pending')->count();
 
         // dump($reservations);
@@ -50,10 +50,10 @@ class ReservationController extends Controller
     public function index()
     {
         $staffs = User::all();
-        $clients = Client::all();
-        $reservations = Reservation::with('facility', 'client')->latest()->get();
+        $residents = Resident::all();
+        $reservations = Reservation::with('facility', 'resident')->latest()->get();
         $facilities = Facility::all();
-        return view('employee-facing.reservation.index', compact('reservations', 'facilities', 'clients', 'staffs'));
+        return view('employee-facing.reservation.index', compact('reservations', 'facilities', 'residents', 'staffs'));
     }
 
     /**
@@ -71,9 +71,9 @@ class ReservationController extends Controller
     {
         $validated = $request->validate([
             'facility_id'   => 'required|exists:facility,id',
-            'reserved_by'   => 'required|exists:clients,id',
+            'reserved_by'   => 'required|exists:users,id',
 
-            'reservation_date' => 'required|date_format:Y-m-d|after_or_equal:today',
+            'date' => 'required|date_format:Y-m-d|after_or_equal:today',
             'start_time'       => 'required|date_format:H:i',
             'end_time'         => [
                 'required',
@@ -85,7 +85,7 @@ class ReservationController extends Controller
                     $requestedEnd = $value;
 
                     $conflictExists = Reservation::where('facility_id', $request->facility_id)
-                        ->where('reservation_date', $request->reservation_date)
+                        ->where('date', $request->date)
                         ->where(function($query) use ($requestedStart, $requestedEnd){
                             $query->where(function($q) use ($requestedStart, $requestedEnd){
                                 //case 1
@@ -148,9 +148,9 @@ class ReservationController extends Controller
     public function edit(Reservation $reservation)
     {
         $staffs = User::all();
-        $clients = Client::all();
+        $residents = Resident::all();
         $facilities = Facility::all();
-        return view('reservation.edit', compact('reservation', 'facilities', 'staffs', 'clients'));
+        return view('reservation.edit', compact('reservation', 'facilities', 'staffs', 'residents'));
     }
 
     /**
@@ -179,14 +179,14 @@ class ReservationController extends Controller
 
         $validated = $request->validate([
             'facility_id'   => 'required|exists:facility,id',
-            'reserved_by'   => 'required|exists:clients,id',
+            'reserved_by'   => 'required|exists:users,id',
             'facilitated_by'=> 'required|exists:users,id',
 
-            'reservation_date' => [
+            'date' => [
                 'required',
                 'date_format:Y-m-d',
                 function ($attribute, $value, $fail) use ($reservation) {
-                    if ($value !== $reservation->reservation_date) {
+                    if ($value !== $reservation->date) {
                         if ($value < now()->format('Y-m-d')) {
                             $fail('The reservation date cannot be set to a past date.');
                         }
@@ -204,7 +204,7 @@ class ReservationController extends Controller
                     $requestedEnd = $value;
 
                     $conflictExists = Reservation::where('facility_id', $request->facility_id)
-                        ->where('reservation_date', $request->reservation_date)
+                        ->where('date', $request->date)
                         ->where('id', '!=', $reservation->id)
                         ->where(function($query) use ($requestedStart, $requestedEnd){
                             $query->where(function($q) use ($requestedStart, $requestedEnd){

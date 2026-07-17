@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Client;
+use App\Models\Resident;
 use App\Models\Facility;
 use App\Models\Reservation;
 use App\Models\User;
@@ -31,12 +31,12 @@ class ReservationControllerTest extends TestCase
     private function validPayload(array $overrides = []): array
     {
         $facility = Facility::factory()->create(['capacity' => 50]);
-        $client   = Client::factory()->create();
+        $resident   = Resident::factory()->create();
         $staff    = User::factory()->create();
 
         return array_merge([
             'facility_id'      => $facility->id,
-            'reserved_by'      => $client->id,
+            'reserved_by'      => $resident->id,
             'facilitated_by'   => $staff->id,
             'reservation_date' => now()->addDays(3)->format('Y-m-d'),
             'start_time'       => '09:00',

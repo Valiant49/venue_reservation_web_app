@@ -11,13 +11,12 @@ class Facility extends Model
 {
     use HasFactory;
 
-    protected $table = 'facility';
     protected $fillable = [
-        'facility_code',
-        'facility_name',
-        'facility_type',
+        'code',
+        'name',
+        'category',
         'base_fee',
-        'capacity',
+        'max_capacity',
         'description'
     ];
 }

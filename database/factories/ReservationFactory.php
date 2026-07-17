@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Reservation;
-use App\Models\Client;
+use App\Models\Resident;
 use App\Models\Facility;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -34,7 +34,7 @@ class ReservationFactory extends Factory
             'event_type'       => $this->faker->randomElement(['Party', 'Meeting', 'Debut', 'Wedding', 'Seminar']),
             'notes'            => $this->faker->optional()->sentence(),
             'facility_id'      => Facility::factory(),
-            'reserved_by'      => Client::factory(),
+            'reserved_by'      => Resident::factory(),
             'facilitated_by'   => User::factory(),
         ];
     }

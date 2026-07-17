@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
+use App\Models\Resident;
 use App\Models\Facility;
 use App\Models\Log;
 use App\Models\Reservation;
@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\DB;
 class XmlController extends Controller
 {
     private array $entityMap = [
-        'clients' => [
-            'model' => Client::class,
-            'singular' => 'client',
+        'residents' => [
+            'model' => Resident::class,
+            'singular' => 'resident',
             'fields' => [
                 'id',
                 'block_num',
@@ -79,9 +79,9 @@ class XmlController extends Controller
 
     public function index()
     {
-        $clients = Client::get();
+        $residents = Resident::get();
 
-        return view('employee-facing.xml-settings.index', compact('clients'));
+        return view('employee-facing.xml-settings.index', compact('residents'));
     }
 
     public function export(string $entity)
@@ -213,7 +213,7 @@ class XmlController extends Controller
 
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Reservation::truncate();
-        Client::truncate();
+        Resident::truncate();
         Facility::truncate();
         User::truncate();
         Log::truncate();
@@ -227,7 +227,7 @@ class XmlController extends Controller
     private function getUniqueKey(string $entity, array $data): ?array
     {
         $uniqueFields = [
-            'clients'      => 'email',
+            'residents'      => 'email',
             'facilities'   => 'facility_code',
             'reservations' => 'reservation_code',
             'staffs'       => 'email',
