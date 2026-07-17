@@ -14,8 +14,13 @@ class Facility extends Model
     protected $fillable = [
         'name',
         'category',
+        'description',
+        'reservation_type',
+        'facility_status',
         'base_fee',
+        'starting_hours',
+        'closing_hours',
         'max_capacity',
-        'description'
+        'max_reservation_duration',
     ];
 }
