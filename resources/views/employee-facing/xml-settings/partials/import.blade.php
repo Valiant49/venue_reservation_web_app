@@ -34,9 +34,9 @@
         <div class="sm:mb-4">
             <form action="{{ route('xml.import', 'clients') }}" method="post" enctype="multipart/form-data">
                 @csrf
-                <x-input-label>Clients</x-input-label>
+                <x-input-label>Residents</x-input-label>
                 <x-file-input name="xml_file" id="" />
-                <x-primary-button>Import Clients</x-primary-button>
+                <x-primary-button>Import Residents</x-primary-button>
             </form>
         </div>
         <div class="sm:mb-4">

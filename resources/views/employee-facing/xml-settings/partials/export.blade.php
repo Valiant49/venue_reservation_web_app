@@ -32,12 +32,12 @@
     <div class="flex flex-wrap items-center justify-start gap-2 overflow-x-auto">
         <div>
             <form action="{{ route('xml.export', 'clients') }}" method="POST">
-                @csrf <x-option-button> Download Clients Records </x-option-button>
+                @csrf <x-option-button> Download Resident Records </x-option-button>
             </form>
         </div>
         <div>
             <form action="{{ route('xml.export', 'facilities') }}" method="POST">
-                @csrf <x-option-button> Download Facilities Records </x-option-button>
+                @csrf <x-option-button> Download Facility Records </x-option-button>
             </form>
         </div>
         <div>

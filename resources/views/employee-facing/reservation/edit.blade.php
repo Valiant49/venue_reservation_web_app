@@ -41,7 +41,7 @@
             @csrf
             @method('PUT')
 
-            {{-- Row 1: Facility + Client --}}
+            {{-- Row 1: Facility + Resident --}}
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label for="facility" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Facility</label>
@@ -56,7 +56,7 @@
                     </select>
                 </div>
                 <div>
-                    <label for="client" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Client Name</label>
+                    <label for="client" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Resident Name</label>
                     <select name="reserved_by" id="client"
                         class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white">
                         <option value="" disabled>Select a client...</option>

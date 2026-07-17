@@ -46,28 +46,28 @@
                         <th scope="col" class="px-6 py-3 font-medium">Actions</th>
                     </tr>
                 </thead>
-                <tbody id="client-table-body">
-                    @foreach ($clients as $client)
+                <tbody id="resident-table-body">
+                    @foreach ($residents as $resident)
                         <tr class="bg-background border-default hover:bg-gray-300 border-b">
                             <th scope="row" class="text-heading whitespace-nowrap px-6 py-4 font-medium">
-                                B{{ $client->block_num }}, L{{ $client->lot_num }}, Street {{ $client->street_num }}
+                                Blk {{ $resident->block_num }}, Lot {{ $resident->lot_num }}, Street No. {{ $resident->street_num }}
                             </th>
 
                             <td class="data-name px-6 py-4">
-                                {{ $client->first_name }} {{ Str::limit($client->middle_name, 1, '.') }}
-                                {{ $client->last_name }}
+                                {{ $resident->first_name }} {{ Str::limit($resident->middle_name, 1, '.') }}
+                                {{ $resident->last_name }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $client->contact_num }}
+                                {{ $resident->contact_num }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $client->email }}
+                                {{ $resident->email }}
                             </td>
                             <td class="px-6 py-4">
-                                <a href="/client/{{ $client->id }}/edit"
+                                <a href="/residents/{{ $resident->id }}/edit"
                                     class="text-info font-medium hover:underline">Edit</a>
                                 @can('admin-access')
-                                    <a href="/client/{{ $client->id }}"
+                                    <a href="/residents/{{ $resident->id }}"
                                         class="text-error font-medium hover:underline">Remove</a>
                                 @endcan
                             </td>
@@ -85,7 +85,7 @@
             class="backdrop:backdrop-blur-xs open:animate-fade-in inset-0 m-auto w-full max-w-lg rounded-xl bg-white p-6 shadow-2xl backdrop:bg-gray-900/50">
 
             <div class="flex items-center justify-between border-b border-gray-100 pb-3">
-                <h3 class="text-lg font-semibold text-gray-900">Add Client</h3>
+                <h3 class="text-lg font-semibold text-gray-900">Add Resident</h3>
                 <button type="button" onclick="document.getElementById('add-modal').close()"
                     class="cursor-pointer rounded-md p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
                     <span class="sr-only">Close</span>
@@ -95,7 +95,7 @@
                 </button>
             </div>
 
-            <form action="/client" method="POST" class="mt-4 space-y-4">
+            <form action="/residents" method="POST" class="mt-4 space-y-4">
                 @csrf
 
                 <div class="grid grid-cols-3 gap-4">
@@ -134,6 +134,12 @@
                         required class="mt-1 w-full" />
                 </div>
 
+                <div>
+                    <x-input-label for="password">Password: </x-input-label>
+                    <x-text-input type="tel" name="password" id="password"
+                    value="{{ old('password') }}" required class="mt-1 w-full" />
+                </div>
+
                 {{-- Contact Information --}}
                 <div>
                     <x-input-label for="contact-no">Contact No.: </x-input-label>
@@ -164,7 +170,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('table-search');
-            const tableBody = document.getElementById('client-table-body');
+            const tableBody = document.getElementById('resident-table-body');
             const rows = tableBody.getElementsByTagName('tr');
 
             searchInput.addEventListener('input', function() {

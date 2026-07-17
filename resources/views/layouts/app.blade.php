@@ -19,7 +19,7 @@
 
             @include('layouts.sidebar')
 
-            <div class="flex-1 flex flex-col">
+            <div class="flex-1 flex flex-col bg-background">
                 @isset($header)
                     <header class="border-b-2 border-gray-800 shadow rounded-lg">
                         <div class="flex-1 p-5 sm:px-6 lg:px-8">

@@ -49,9 +49,9 @@
                 <tbody id="staff-table-body">
                     @foreach ($staffs as $staff)
                         <tr class="bg-background border-default hover:bg-gray-300 border-b">
-                            <th scope="row" class="text-heading whitespace-nowrap px-6 py-4 font-medium">
-                                {{ $staff->name }}
-                            </th>
+                            <td scope="row" class="whitespace-nowrap px-6 py-4">
+                                {{ $staff->first_name }} {{ Str::limit($staff->middle_name, 1, '.')}} {{ $staff->last_name }}
+                            </td>
                             <td class="px-6 py-4">
                                 {{ $staff->email }}
                             </td>
@@ -97,23 +97,39 @@
 
             <form action="/staff" method="POST" class="mt-4 space-y-4">
                 @csrf
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-3 gap-4">
                     <div>
-                        <x-input-label for="name">Name</x-input-label>
-                        <x-text-input type="text" name="name" id="name" value="{{ old('name') }}" required
+                        <x-input-label for="first-name">First Name</x-input-label>
+                        <x-text-input type="text" name="first_name" id="first-name" value="{{ old('first_name') }}" required
                             class="mt-1 w-full" />
                         @error('name')
                             <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
                     <div>
-                        <x-input-label for="email">Email Address</x-input-label>
-                        <x-text-input type="email" name="email" id="email" value="{{ old('email') }}" required
+                        <x-input-label for="middle-name">Middle Name</x-input-label>
+                        <x-text-input type="text" name="middle_name" id="middle-name" value="{{ old('middle_name') }}"
                             class="mt-1 w-full" />
-                        @error('email')
+                        @error('name')
                             <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
+                    <div>
+                        <x-input-label for="last-name">Last Name</x-input-label>
+                        <x-text-input type="text" name="last_name" id="last-name" value="{{ old('last_name') }}" required
+                            class="mt-1 w-full" />
+                        @error('name')
+                            <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+                <div>
+                    <x-input-label for="email">Email Address</x-input-label>
+                    <x-text-input type="email" name="email" id="email" value="{{ old('email') }}" required
+                        class="mt-1 w-full" />
+                    @error('email')
+                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>

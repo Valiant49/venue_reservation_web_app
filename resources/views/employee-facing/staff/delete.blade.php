@@ -15,15 +15,15 @@
                 <table class="w-full text-left text-sm">
                     <tbody>
                         <tr>
-                            <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Name</th>
-                            <td class="text-body px-4 py-3">{{ $staff->name }}</td>
+                            <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Name</th>
+                            <td class="text-body px-4 py-3">{{ $staff->first_name }} {{ $staff->middle_name }} {{ $staff->last_name }} </td>
                         </tr>
                         <tr>
-                            <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Email</th>
+                            <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Email</th>
                             <td class="text-body px-4 py-3">{{ $staff->email }}</td>
                         </tr>
                         <tr>
-                            <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Role</th>
+                            <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Role</th>
                             <td class="text-body px-4 py-3 capitalize">{{ $staff->role }}</td>
                         </tr>
                     </tbody>

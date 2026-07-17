@@ -23,7 +23,7 @@
                             <td class="text-body px-4 py-3">{{ $reservation->facility->facility_name }}</td>
                         </tr>
                         <tr>
-                            <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Client Name</th>
+                            <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Resident Name</th>
                             <td class="text-body px-4 py-3">
                                 {{ $reservation->client->last_name }},
                                 {{ $reservation->client->first_name }}

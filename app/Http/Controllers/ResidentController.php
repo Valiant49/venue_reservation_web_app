@@ -73,16 +73,18 @@ class ResidentController extends Controller
     public function update(Request $request, Resident $resident)
     {
         $validated = $request->validate([
-            'block_num' => 'required|integer|max:39',
-            'lot_num'   => 'required|integer|max:300',
-            'street_num' => 'required|integer|max:100',
-            'first_name' => 'required|string',
-            'middle_name' => 'nullable|string',
-            'last_name' => 'required|string',
-            'contact_num' => 'required|string',
-            'email' => 'nullable|email',
-            'password' => 'nullable|string|min:8',
+            'block_num'     => 'required|integer|max:39',
+            'lot_num'       => 'required|integer|max:300',
+            'street_num'    => 'required|integer|max:100',
+            'first_name'    => 'required|string',
+            'middle_name'   => 'nullable|string',
+            'last_name'     => 'required|string',
+            'contact_num'   => 'required|string',
+            'email'         => 'nullable|email',
+            'password'      => 'nullable|string|min:8',
         ]);
+
+        // dd($validated);
 
         if (empty($validated['password'])) {
             unset($validated['password']);
@@ -90,7 +92,7 @@ class ResidentController extends Controller
 
         $resident->update($validated);
 
-        return redirect('/resident')->with('success', 'Resident record updated!');
+        return redirect('/residents')->with('success', 'Resident record updated!');
 
     }
 
@@ -100,6 +102,6 @@ class ResidentController extends Controller
     public function destroy(Resident $resident)
     {
         $resident->delete();
-        return redirect('/resident')->with('success', 'Resident record removed.');
+        return redirect('/residents')->with('success', 'Resident record removed.');
     }
 }

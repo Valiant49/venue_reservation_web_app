@@ -12,23 +12,22 @@ class Resident extends User
     use HasFactory;
 
     protected $table = 'users';
-    protected $fillable = [
-        'block_num',
-        'lot_num',
-        'street_num',
-        'contact_num',
-        'account_status'
-    ];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->fillable = array_merge($this->fillable, [
+            'block_num',
+            'lot_num',
+            'street_num',
+            'contact_num',
+            'account_status'
+            ]);
+    }
 
     protected static function booted()
     {
-        static::addGlobalScope('role', function (Builder $builder) {
-            $builder->where('role', 'resident');
-        });
-
-        // ensures new Resident::create() records save as resident role automatically
-        static::creating(function ($model) {
-            $model->role = 'resident';
-        });
+        static::scopeToRoles(['resident'], 'resident');
     }
 }

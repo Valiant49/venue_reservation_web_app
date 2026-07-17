@@ -38,7 +38,7 @@
                     <tr>
                         <th scope="col" class="px-6 py-3 font-medium">Reservation Code</th>
                         <th scope="col" class="px-6 py-3 font-medium">Facility</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Client Name</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Resident Name</th>
                         <th scope="col" class="px-6 py-3 font-medium">Date</th>
                         <th scope="col" class="px-6 py-3 font-medium">Time</th>
                         <th scope="col" class="px-6 py-3 font-medium">Fee</th>
@@ -54,9 +54,9 @@
                             {{ $reservation->reservation_code }} </td>
                         <td class="px-6 py-4"> {{ $reservation->facility->facility_name ?? 'N/A' }} </td>
                         <td class="px-6 py-4">
-                            {{ $reservation->client->last_name }},
-                            {{ $reservation->client->first_name }}
-                            {{ Str::limit($reservation->client->middle_name, 1, '.') }}
+                            {{ $reservation->resident->last_name }},
+                            {{ $reservation->resident->first_name }}
+                            {{ Str::limit($reservation->resident->middle_name, 1, '.') }}
                         </td>
                         <td class="px-6 py-4"> {{ $reservation->reservation_date }} </td>
                         <td class="px-6 py-4"> {{ $reservation->start_time }} to {{ $reservation->end_time }} </td>
@@ -116,19 +116,19 @@
                             </select>
                         </div>
 
-                        <!-- Client Name Field -->
+                        <!-- Resident Name Field -->
                         <div>
-                            <label for="client" class="mb-1 block text-sm font-medium text-gray-700">Client
+                            <label for="resident" class="mb-1 block text-sm font-medium text-gray-700">Resident
                                 Name</label>
-                            <select name="reserved_by" id="client"
+                            <select name="reserved_by" id="resident"
                                 class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                                 <option value="" disabled {{ old('reserved_by') ? '' : 'selected' }}>Select a
-                                    client...</option>
-                                @foreach ($clients as $client)
-                                    <option value="{{ $client->id }}"
-                                        {{ old('reserved_by') == $client->id ? 'selected' : '' }}>
-                                        {{ $client->last_name }}, {{ $client->first_name }}
-                                        {{ Str::limit($client->middle_name, 1, '.') }}
+                                    resident...</option>
+                                @foreach ($residents as $resident)
+                                    <option value="{{ $resident->id }}"
+                                        {{ old('reserved_by') == $resident->id ? 'selected' : '' }}>
+                                        {{ $resident->last_name }}, {{ $resident->first_name }}
+                                        {{ Str::limit($resident->middle_name, 1, '.') }}
                                     </option>
                                 @endforeach
                             </select>
