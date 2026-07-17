@@ -24,7 +24,7 @@
         @endif
 
         <div class="mb-4 flex items-center justify-between">
-            <x-text-input type="text" id="table-search" class="bg-surface rounded-md px-4 py-2"
+            <x-text-input type="text" id="table-search" class="bg-surface rounded-md px-4 py-2 max-w-80"
                 placeholder="Search name..." />
 
             <button onclick="document.getElementById('add-modal').showModal()"

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->enum('category', ['hall', 'pool', 'court', 'clubhouse']);
             $table->text('decription');
-            $table->time('start_operating_hours');
-            $table->time('end_operating_hours');
+            $table->time('starting_hours');
+            $table->time('closing_hours');
             $table->integer('max_capacity');
             $table->decimal('base_fee', 8, 2);
             $table->enum('reservation_type', ['hourly', 'block']);

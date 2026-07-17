@@ -35,7 +35,6 @@
                 <thead
                     class="text-body bg-background border-default-medium text-text sticky top-0 z-10 border-b text-sm">
                     <tr>
-                        <th scope="col" class="px-6 py-3 font-medium">Facility Code</th>
                         <th scope="col" class="px-6 py-3 font-medium">Name</th>
                         <th scope="col" class="px-6 py-3 font-medium">Type</th>
                         <th scope="col" class="px-6 py-3 font-medium">Base fee</th>
@@ -49,9 +48,6 @@
                 <tbody>
                     @foreach ($facilities as $facility)
                         <tr class="bg-background border-default hover:bg-gray-300 border-b">
-                            <td scope="row" class="text-heading whitespace-nowrap px-6 py-4 font-medium">
-                                {{ $facility->facility_code }}
-                            </td>
                             <td class="px-6 py-4">
                                 {{ $facility->facility_name }}
                             </td>
@@ -102,41 +98,66 @@
                     @csrf
 
                     <div>
-                        <x-input-label for="fac-code">Facility code:</x-input-label>
-                        <x-text-input type="text" id="fac-code" name="facility_code" class="mt-1 w-full" />
+                        <x-input-label for="facility-name">Facility name:</x-input-label>
+                        <x-text-input type="text" id="facility-name" name="facility_name" class="mt-1 w-full" />
                     </div>
 
                     <div>
-                        <x-input-label for="fac-name">Facility name:</x-input-label>
-                        <x-text-input type="text" id="fac-name" name="facility_name" class="mt-1 w-full" />
-                    </div>
-
-                    <div>
-                        <x-input-label for="fac-type">Facility type:</x-input-label>
-                        <x-select-input name="facility_type" id="fac-type" placeholder="Select a facility..."
-                            :options="[
-                                'clubhouse' => 'Clubhouse',
-                                'pool' => 'Pool',
-                                'basketball' => 'Basketball',
-                                'volleyball' => 'Volleyball',
-                                'badminton' => 'Badminton',
-                            ]" />
-                    </div>
-
-                    <div>
-                        <x-input-label for="base-fee">Base fee:</x-input-label>
-                        <x-text-input type="number" id="base-fee" name="base_fee" class="mt-1 w-full" />
-                    </div>
-
-                    <div>
-                        <x-input-label for="capacity">Capacity:</x-input-label>
-                        <x-text-input type="text" id="capacity" name="capacity" class="mt-1 w-full" />
+                        <x-input-label for="facility-type">Facility type:</x-input-label>
+                        <x-select-input name="facility_type" id="facility-type" placeholder="Select a facility..."
+                        :options="[
+                        'court' => 'Court',
+                        'clubhouse' => 'Clubhouse',
+                        'hall' => 'Hall',
+                        'pool' => 'Pool',
+                        ]" />
                     </div>
 
                     <div>
                         <x-input-label for="description">Description:</x-input-label>
-                        <x-text-input type="text" id="description" name="description" class="mt-1 w-full" />
+                        <x-textarea-input type="textarea" id="description" name="description" class="mt-1 w-full h-25 resize-none" placeholder="Enter a description...">Text</x-textarea-input>
                     </div>
+
+                    <div>
+                        <x-input-label for="reservation-type">Reservation Type:</x-input-label>
+                        <x-select-input name="reservation-type" id="reservation-type" placeholder="Hourly"
+                            :options="[
+                                'hourly' => 'Hourly',
+                                'block' => 'Block'
+                            ]" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="facility-status">Status:</x-input-label>
+                        <x-select-input name="facility_status" id="facility-status" placeholder="Select status..."
+                            :options="[
+                                'Open' => 'Open',
+                                'Under Maintenance' => 'Under Maintenance',
+                                'Closed' => 'Closed'
+                            ]" />
+                    </div>
+
+                    <div>
+                        <x-input-label for="base-fee">Base fee (per hour):</x-input-label>
+                        <x-text-input type="number" id="base-fee" name="base_fee" class="mt-1 w-full" />
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <x-input-label for="start-time">Starting Hours:</x-input-label>
+                            <x-text-input type="time" id="start-time" name="starting_time" class="mt-1 w-full" />
+                        </div>
+                        <div>
+                            <x-input-label for="closing-time">Closing Hours:</x-input-label>
+                            <x-text-input type="time" id="closing-time" name="closing_time" class="mt-1 w-full" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <x-input-label for="capacity">Maximum Capacity:</x-input-label>
+                        <x-text-input type="text" id="capacity" name="capacity" class="mt-1 w-full" />
+                    </div>
+
 
                     <div class="mt-6 flex justify-end gap-3 border-t border-gray-100 pt-4">
                         <x-secondary-button type="button" onclick="document.getElementById('add-modal').close()"
