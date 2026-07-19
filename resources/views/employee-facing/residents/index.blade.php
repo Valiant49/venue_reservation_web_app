@@ -136,7 +136,7 @@
 
                 <div>
                     <x-input-label for="password">Password: </x-input-label>
-                    <x-text-input type="tel" name="password" id="password"
+                    <x-text-input type="password" name="password" id="password"
                     value="{{ old('password') }}" required class="mt-1 w-full" />
                 </div>
 

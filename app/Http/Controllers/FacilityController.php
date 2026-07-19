@@ -30,12 +30,16 @@ class FacilityController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'facility_code'     => 'required|string|max:10',
-            'facility_name'     => 'required|string|max:255',
-            'facility_type'     => 'required|in:clubhouse,pool,basketball,volleyball,badminton',
-            'base_fee'          => 'required|numeric|min:1',
-            'capacity'          => 'required|integer|min:1',
-            'description'       => 'required|string|max:255'
+            'name'                          => 'required|string|max:255',
+            'category'                      => 'required|string|in:hall,pool,court,clubhouse',
+            'description'                   => 'required|string',
+            'reservation_type'              => 'required|string|in:hourly,block',
+            'facility_status'               => 'required|string|in:Open,Closed,Under Maintenance',
+            'base_fee'                      => 'required|numeric|min:0',
+            'starting_hours'                => 'required|date_format:H:i',
+            'closing_hours'                 => 'required|date_format:H:i|after:starting_hours',
+            'max_capacity'                  => 'required|integer:min:1',
+            'max_reservation_duration'      => 'required|integer:min:1',
         ]);
 
         Facility::create($validated);
@@ -49,7 +53,7 @@ class FacilityController extends Controller
     public function show(Facility $facility)
     {
         $facilities = Facility::all();
-        return view('facility.delete', compact('facilities', 'facility'));
+        return view('employee-facing.facility.delete', compact('facilities', 'facility'));
     }
 
     /**
@@ -58,7 +62,7 @@ class FacilityController extends Controller
     public function edit(Facility $facility)
     {
         $facilities = Facility::all();
-        return view('facility.edit', compact('facilities', 'facility'));
+        return view('employee-facing.facility.edit', compact('facilities', 'facility'));
     }
 
     /**
@@ -67,12 +71,16 @@ class FacilityController extends Controller
     public function update(Request $request, Facility $facility)
     {
         $validated = $request->validate([
-        'facility_code'     => 'required|string|max:10',
-        'facility_name'     => 'required|string|max:255',
-        'facility_type'     => 'required|in:clubhouse,pool,basketball,volleyball,badminton',
-        'base_fee'          => 'required|numeric|min:1',
-        'capacity'          => 'required|integer|min:1',
-        'description'       => 'required|string|max:255'
+            'name'                          => 'required|string|max:255',
+            'category'                      => 'required|string|in:hall,pool,court,clubhouse',
+            'description'                   => 'required|string',
+            'reservation_type'              => 'required|string|in:hourly,block',
+            'facility_status'               => 'required|string|in:Open,Closed,Under Maintenance',
+            'base_fee'                      => 'required|numeric|min:0',
+            'starting_hours'                => 'required|date_format:H:i',
+            'closing_hours'                 => 'required|date_format:H:i|after:starting_hours',
+            'max_capacity'                  => 'required|integer:min:1',
+            'max_reservation_duration'      => 'required|integer:min:1',
          ]);
 
         $facility->update($validated);

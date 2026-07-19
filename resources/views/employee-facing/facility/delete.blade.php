@@ -14,25 +14,28 @@
                     <table class="w-full text-left text-sm">
                         <tbody>
                             <tr>
-                                <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Facility Code</th>
-                                <td class="text-body px-4 py-3">{{ $facility->facility_code }}</td>
+                                <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Facility Name</th>
+                                <td class="text-body px-4 py-3">{{ $facility->name }}</td>
                             </tr>
                             <tr>
-                                <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Facility Name</th>
-                                <td class="text-body px-4 py-3">{{ $facility->facility_name }}</td>
+                                <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Facility Category</th>
+                                <td class="text-body px-4 py-3">{{ $facility->category }}</td>
                             </tr>
                             <tr>
-                                <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Facility Type</th>
-                                <td class="text-body px-4 py-3">{{ $facility->facility_type }}</td>
+                                <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Facility Hours</th>
+                                <td class="text-body px-4 py-3">{{ $facility->starting_hours }} to {{ $facility->closing_hours }}</td>
                             </tr>
                             <tr>
-                                <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Name</th>
-                                <td class="text-body px-4 py-3">{{ $facility->capacity }}</td>
+                                <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Facility Capacity</th>
+                                <td class="text-body px-4 py-3">{{ $facility->max_capacity }}</td>
                             </tr>
                             <tr>
-                                <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Contact No.
-                                </th>
-                                <td class="text-body px-4 py-3">{{ $facility->description }}</td>
+                                <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Facility Base_fee (per hour/block)</th>
+                                <td class="text-body px-4 py-3">{{ $facility->base_fee }}</td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Facility Status</th>
+                                <td class="text-body px-4 py-3">{{ $facility->facility_status }}</td>
                             </tr>
                         </tbody>
                     </table>

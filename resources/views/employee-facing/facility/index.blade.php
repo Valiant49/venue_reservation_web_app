@@ -24,7 +24,8 @@
 
         <div class="mb-4 flex items-center justify-end">
             <button onclick="document.getElementById('add-modal').showModal()"
-                class="shadow-xs bg-surface text-md text-text hover:bg-secondary-hover hover:text-white focus-visible:outline-secondary-subtle cursor-pointer rounded-md px-4 py-2 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2">
+                class="shadow-xs bg-surface text-md text-text hover:bg-secondary-hover hover:text-white focus-visible:outline-secondary-subtle
+                cursor-pointer rounded-md px-4 py-2 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2">
                 Add Facility
             </button>
         </div>
@@ -38,6 +39,7 @@
                         <th scope="col" class="px-6 py-3 font-medium">Name</th>
                         <th scope="col" class="px-6 py-3 font-medium">Type</th>
                         <th scope="col" class="px-6 py-3 font-medium">Base fee</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Operating Hours</th>
                         <th scope="col" class="px-6 py-3 font-medium">Capacity</th>
                         <th scope="col" class="px-6 py-3 font-medium">Description</th>
                         @can('admin-access')
@@ -49,16 +51,19 @@
                     @foreach ($facilities as $facility)
                         <tr class="bg-background border-default hover:bg-gray-300 border-b">
                             <td class="px-6 py-4">
-                                {{ $facility->facility_name }}
+                                {{ $facility->name }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $facility->facility_type }}
+                                {{ $facility->category }}
                             </td>
                             <td class="px-6 py-4">
                                 {{ $facility->base_fee }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $facility->capacity }} pax
+                                {{ Carbon\Carbon::createFromTimeString($facility->starting_hours)->format('h:i A') }} to {{ Carbon\Carbon::createFromTimeString($facility->closing_hours)->format('h:i A') }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ $facility->max_capacity }} pax
                             </td>
                             <td class="px-6 py-4">
                                 {{ $facility->description }}
@@ -99,59 +104,59 @@
 
                     <div>
                         <x-input-label for="facility-name">Facility name:</x-input-label>
-                        <x-text-input type="text" id="facility-name" name="facility_name" class="mt-1 w-full" />
+                        <x-text-input type="text" id="facility-name" name="name" class="mt-1 w-full" value="{{ old('name') }}" />
                     </div>
 
                     <div>
-                        <x-input-label for="facility-type">Facility type:</x-input-label>
-                        <x-select-input name="category" id="facility-type" placeholder="Select a facility..."
-                        :options="[
-                        'court' => 'Court',
-                        'clubhouse' => 'Clubhouse',
-                        'hall' => 'Hall',
-                        'pool' => 'Pool',
+                        <x-input-label for="facility-type">Facility category:</x-input-label>
+                        <x-select-input name="category" id="facility-type"
+                            placeholder="Select a facility..."
+                            :options="[
+                            'court' => 'Court',
+                            'clubhouse' => 'Clubhouse',
+                            'hall' => 'Hall',
+                            'pool' => 'Pool',
                         ]" />
                     </div>
 
                     <div>
                         <x-input-label for="description">Description:</x-input-label>
-                        <x-textarea-input type="textarea" id="description" name="description" class="mt-1 w-full h-25 resize-none" placeholder="Enter a description...">Text</x-textarea-input>
+                        <x-textarea-input type="textarea" id="description" name="description" class="mt-1 w-full h-25 resize-none" placeholder="Enter a description...">{{ old('description') }}</x-textarea-input>
                     </div>
 
                     <div>
                         <x-input-label for="reservation-type">Reservation Type:</x-input-label>
-                        <x-select-input name="reservation_type" id="reservation-type" placeholder="Hourly"
+                        <x-select-input name="reservation_type" id="reservation-type" placeholder="Please select..."
                             :options="[
                                 'hourly' => 'Hourly',
                                 'block' => 'Block'
-                            ]" />
+                            ]"/>
                     </div>
 
-
                     <div>
-                        <x-input-label for="base-fee">Base fee (per hour):</x-input-label>
-                        <x-text-input type="number" inputmode="decimal" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00"  id="base-fee" name="base_fee" min="1" class="mt-1 w-full" />
+                        <x-input-label for="base-fee">Base fee (per hour/block):</x-input-label>
+                        <x-text-input type="number" inputmode="decimal" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00"  id="base-fee" name="base_fee" min="1" value="{{ old('base_fee') }}" class="mt-1 w-full" />
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
                             <x-input-label for="start-time">Starting Hours:</x-input-label>
-                            <x-text-input type="time" id="start-time" name="starting_time" class="mt-1 w-full" />
+                            <x-text-input type="time" id="start-time" name="starting_hours" class="mt-1 w-full" value="{{ old('starting_hours') }}" />
                         </div>
                         <div>
                             <x-input-label for="closing-time">Closing Hours:</x-input-label>
-                            <x-text-input type="time" id="closing-time" name="closing_time" class="mt-1 w-full" />
+                            <x-text-input type="time" id="closing-time" name="closing_hours" class="mt-1 w-full" value="{{ old('closing_hours') }}" />
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <x-input-label for="capacity">Maximum Capacity:</x-input-label>
-                            <x-text-input type="text" id="capacity" name="capacity" min="1" class="mt-1 w-full" />
+                            <x-input-label for="max_capacity">Maximum Capacity:</x-input-label>
+                            <x-text-input type="text" id="max_capacity" name="max_capacity" min="1" class="mt-1 w-full" value="{{ old('max_capacity') }}"/>
                         </div>
                         <div>
                             <x-input-label for="duration">Maximum Reservation Duration:</x-input-label>
-                            <x-text-input type="number" id="duration" name="maximum_reservation_duration" min=1 class="mt-1 w-full" />
+                            <x-text-input type="number" id="duration" name="max_reservation_duration" min=1 class="mt-1 w-full"/>
                         </div>
                     </div>
 

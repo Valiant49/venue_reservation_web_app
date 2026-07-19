@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->enum('category', ['hall', 'pool', 'court', 'clubhouse']);
-            $table->text('decription');
+            $table->text('description');
             $table->time('starting_hours');
             $table->time('closing_hours');
             $table->integer('max_capacity');
             $table->decimal('base_fee', 8, 2);
             $table->enum('reservation_type', ['hourly', 'block']);
-            $table->integer('max_resservation_duration');
+            $table->integer('max_reservation_duration');
             $table->enum('facility_status', ['Open', 'Under Maintenance', 'Closed']);
         });
     }

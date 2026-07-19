@@ -45,70 +45,55 @@
                         <!-- Section 1: Address Info (3-Column Layout Row) -->
                         <div class="grid grid-cols-3 gap-4">
                             <div>
-                                <label for="block-no"
-                                    class="mb-1 block text-xs font-semibold tracking-wider text-gray-500">Block
-                                    No.</label>
-                                <input type="number" name="block_num" id="block-no" min="1" max="39"
-                                    value="{{ old('block_num', $resident->block_num) }}"
-                                    class="w-full rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                <x-input-label for="block-no" >Block No.</x-input-label>
+                                <x-text-input type="number" name="block_num" id="block-no" min="1" max="39"
+                                    value="{{ old('block_num', $resident->block_num) }}"/>
                             </div>
                             <div>
-                                <label for="lot-no"
-                                    class="mb-1 block text-xs font-semibold tracking-wider text-gray-500">Lot
-                                    No.</label>
-                                <input type="number" name="lot_num" id="lot-no" min="1" max="300"
-                                    value="{{ old('lot_num', $resident->lot_num) }}"
-                                    class="w-full rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                <x-input-label for="lot-no">Lot No.</x-input-label>
+                                <x-text-input type="number" name="lot_num" id="lot-no" min="1" max="300"
+                                    value="{{ old('lot_num', $resident->lot_num) }}"/>
                             </div>
                             <div>
-                                <label for="street-no"
-                                    class="mb-1 block text-xs font-semibold tracking-wider text-gray-500">Street
-                                    No.</label>
-                                <input type="number" name="street_num" id="street-no" min="1" max="100"
-                                    value="{{ old('street_num', $resident->street_num) }}"
-                                    class="w-full rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                <x-input-label for="street-no">Street No.</x-input-label>
+                                <x-text-input type="number" name="street_num" id="street-no" min="1" max="100"
+                                    value="{{ old('street_num', $resident->street_num) }}"/>
                             </div>
                         </div>
                         <!-- Section 2: Name Information (2-Column Grid Layout) -->
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                             <div>
-                                <label for="first-name" class="mb-1 block text-sm font-medium text-gray-700">First Name</label>
-                                <input type="text" name="first_name" id="first-name"
-                                    value="{{ old('first_name', $resident->first_name) }}"
-                                    class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                <x-input-label for="first-name">First Name</x-input-label>
+                                <x-text-input type="text" name="first_name" id="first-name"
+                                    value="{{ old('first_name', $resident->first_name) }}"/>
                             </div>
                             <div>
-                                <label for="middle-name" class="mb-1 block text-sm font-medium text-gray-700">Middle Name</label>
-                                <input type="text" name="middle_name" id="middle-name"
-                                    value="{{ old('middle_name', $resident->middle_name) }}"
-                                    class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                <x-input-label for="middle-name">Middle Name</x-input-label>
+                                <x-text-input type="text" name="middle_name" id="middle-name"
+                                    value="{{ old('middle_name', $resident->middle_name) }}"/>
                             </div>
                             <div>
-                                <label for="last-name" class="mb-1 block text-sm font-medium text-gray-700">Last Name</label>
-                                <input type="text" name="last_name" id="last-name"
-                                    value="{{ old('last_name', $resident->last_name) }}"
-                                    class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                <x-input-label for="last-name">Last Name</x-input-label>
+                                <x-text-input type="text" name="last_name" id="last-name"
+                                    value="{{ old('last_name', $resident->last_name) }}"/>
                             </div>
                         </div>
                         <!-- Password (Full width) -->
                          <div>
-                                <label for="password" class="mb-1 block text-sm font-medium text-gray-700">Password</label>
-                                <input type="password" name="password" id="password"
-                                    value="{{ old('password') }}"
-                                    class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                <x-input-label for="password">Password</x-input-label>
+                                <x-text-input type="password" name="password" id="password"
+                                    value="{{ old('password') }}"/>
                             </div>
                         <!-- Section 3: Contact Info (2-Column Grid Layout) -->
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
-                                <label for="contact-no" class="mb-1 block text-sm font-medium text-gray-700">Contact No.</label>
-                                <input type="tel" name="contact_num" id="contact-no"
-                                    value="{{ old('contact_num', $resident->contact_num) }}"
-                                    class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                <x-input-label for="contact-no">Contact No.</x-input-label>
+                                <x-text-input type="tel" name="contact_num" id="contact-no"
+                                    value="{{ old('contact_num', $resident->contact_num) }}"/>
                             </div>
                             <div>
-                                <label for="email" class="mb-1 block text-sm font-medium text-gray-700">Email Address</label>
-                                <input type="email" name="email" id="email" value="{{ old('email', $resident->email) }}"
-                                    class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                <x-input-label for="email">Email Address</x-input-label>
+                                <x-text-input type="email" name="email" id="email" value="{{ old('email', $resident->email) }}"/>
                             </div>
                         </div>
                         <!-- Modal Action Buttons Footer -->
