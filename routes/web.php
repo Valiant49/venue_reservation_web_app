@@ -15,10 +15,36 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/dashboard', [ReservationController::class, 'dashboardData'])
-    ->middleware(['auth', 'verified'])->name('dashboard');
+// routes/web.php — outside any middleware group, at the top level
+Route::get('/', function () {
+    return view('public-facing.home');
+})->name('home');
 
-Route::middleware('auth')->group(function () {
+Route::get('/', function () {
+    return view('public-facing.facilities');
+})->name('home');
+
+Route::get('/about', function () {
+    return view('public.about');
+})->name('about');
+
+Route::get('/contact', function () {
+    return view('public.contact');
+})->name('contact');
+
+// Route::get('/dashboard', [ReservationController::class, 'dashboardData'])
+//     ->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function() {
+    return match (true) {
+        auth()->user()->role === 'resident' => redirect()->route('resident.dashboard'),
+        in_array(auth()->user()->role, ['admin', 'staff']) => redirect()->route('staff.dashboard'),
+        default => abort(403),
+    };
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware(['auth', 'role:staff,admin'])->group(function () {
+    Route::get('/staff/dashboard', [ReservationController::class, 'dashboardData'])->name('staff.dashboard');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -36,6 +62,15 @@ Route::middleware('auth')->group(function () {
         Route::post('/import/{entity}',        [XmlController::class, 'import'])->name('import');
         Route::delete('/reset',                [XmlController::class, 'reset'])->name('reset');
     });
+});
+
+Route::middleware(['auth', 'role:resident'])->group(function () {
+    Route::get('/resident/dashboard', [ResidentController::class, 'dashboard']);
+});
+
+Route::prefix('resident')->name('resident.')->middleware(['auth', 'role:resident'])->group(function () {
+    Route::get('/dashboard', [ResidentPortalController::class, 'dashboard'])->name('dashboard');
+    // future: reservation booking, own profile, etc.
 });
 
 require __DIR__.'/auth.php';
