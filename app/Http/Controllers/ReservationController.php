@@ -32,7 +32,7 @@ class ReservationController extends Controller
         $pendingReservations = Reservation::where('status', 'Pending')->count();
 
         // dump($reservations);
-        return view('dashboard', compact(
+        return view('employee-facing.dashboard', compact(
             'reservations',
             'totalReservationsThisWeek',
             'activeFacilitiesCount',
