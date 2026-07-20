@@ -12,36 +12,37 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('public.home')" :active="request()->routeIs('home')">
+                        {{ __('Home') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('public.facility')" :active="request()->routeIs('facility')">
+                        {{ __('Facilities') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('public.about')" :active="request()->routeIs('about')">
+                        {{ __('About us') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('public.contact')" :active="request()->routeIs('contact')">
+                        {{ __('Contact us') }}
+                    </x-nav-link>
+                    @can('resident')
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('residents.index')" :active="request()->routeIs('residents.index')">
-                        {{ __('Residents') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('facility.index')" :active="request()->routeIs('facility.index')">
-                        {{ __('Facilities') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('reservation.index')" :active="request()->routeIs('reservation.index')">
+                    <x-nav-link :href="route('reservation')" :active="request()->routeIs('reservation')">
                         {{ __('Reservations') }}
                     </x-nav-link>
-                    @can('admin-access')
-                        <x-nav-link :href="route('staff.index')" :active="request()->routeIs('staff.index')">
-                            {{ __('Staff') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('log.index')" :active="request()->routeIs('log.index')">
-                            {{ __('Logs') }}
-                        </x-nav-link>
                     @endcan
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
+            @can('resident')
             <div class="hidden sm:ms-6 sm:flex sm:items-center">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
                             class="text-text bg-secondary hover:text-text hover:bg-secondary-hover inline-flex items-center rounded-md border border-transparent px-3 py-2 text-sm font-medium leading-4 transition duration-150 ease-in-out focus:outline-none">
-                            <div>{{ Auth::user()->name }}</div>
+                            {{-- <div>{{ Auth::user()->name }}</div> --}}
 
                             <div class="ms-1">
                                 <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
@@ -78,6 +79,7 @@
                     </x-slot>
                 </x-dropdown>
             </div>
+            @endcan
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
@@ -109,8 +111,8 @@
         <!-- Responsive Settings Options -->
         <div class="border-t border-gray-200 pb-1 pt-4">
             <div class="px-4">
-                <div class="text-base font-medium text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="text-sm font-medium text-gray-500">{{ Auth::user()->email }}</div>
+                {{-- <div class="text-base font-medium text-gray-800">{{ Auth::user()->name }}</div>
+                <div class="text-sm font-medium text-gray-500">{{ Auth::user()->email }}</div> --}}
             </div>
 
             <div class="mt-3 space-y-1">

@@ -15,9 +15,12 @@
 
 </head>
 <body class="bg-[#fafafa] font-['Nunito'] text-[#353535]">
+
+    @include('layouts.navigation')
+
     <!-- ================= HERO ================= -->
     <section class="relative h-[350px] w-full">
-        <img src="images/hero.jpg" alt="Hero Banner" class="h-full w-full object-cover">
+        <img src="{{ asset('images/hero.jpg') }}" alt="Hero Banner" class="h-full w-full object-cover">
         <div class="absolute inset-0 bg-black/20"></div>
     </section>
 
@@ -55,7 +58,7 @@
             </div>
             <!-- RIGHT -->
             <div class="order-1 lg:order-2">
-                <img src="images/functionhall.jpg" alt="Function Hall"
+                <img src="{{ asset('images/functionhall.jpg') }}" alt="Function Hall"
                     class="h-[360px] w-full rounded-xl object-cover shadow-xl">
             </div>
         </div>
@@ -70,7 +73,7 @@
             <!-- PARTY POOL -->
             <div class="mb-24 grid items-center gap-16 lg:grid-cols-2">
                 <div>
-                    <img src="images/partypool.jpg" alt="Party Pool"
+                    <img src="{{ asset('images/partypool.jpg') }}" alt="Party Pool"
                         class="h-[350px] w-full rounded-xl object-cover shadow-xl duration-300 hover:scale-105">
                 </div>
                 <div>
@@ -115,14 +118,14 @@
                     </div>
                 </div>
                 <div class="order-1 lg:order-2">
-                    <img src="images/lappool.jpg" alt="Lap Pool"
+                    <img src="{{ asset('images/lappool.jpg') }}" alt="Lap Pool"
                         class="h-[350px] w-full rounded-xl object-cover shadow-xl duration-300 hover:scale-105">
                 </div>
             </div>
             <!-- ACTIVITY GAME POOL -->
             <div class="grid items-center gap-16 lg:grid-cols-2">
                 <div>
-                    <img src="images/activitypool.jpg" alt="Activity Game Pool"
+                    <img src="{{ asset('images/activitypool.jpg') }}" alt="Activity Game Pool"
                         class="h-[350px] w-full rounded-xl object-cover shadow-xl duration-300 hover:scale-105">
                 </div>
                 <div>
@@ -157,12 +160,11 @@
             <!-- ================= BASKETBALL COURT ================= -->
             <div class="mb-24 grid items-center gap-16 lg:grid-cols-2">
                 <div>
-                    <img src="images/basketball.jpg" alt="Basketball Court"
+                    <img src="{{ asset('images/basketball.jpg') }}" alt="Basketball Court"
                         class="h-[350px] w-full rounded-xl object-cover shadow-xl duration-300 hover:scale-105">
                 </div>
                 <div>
-                    <h3 class="font-['Cormorant_Garamond'] text-5xl font-semibold hover:text-white
-                        duration-300">
+                    <h3 class="font-['Cormorant_Garamond'] text-5xl font-semibold">
                         Basketball Court
 
                     </h3>
@@ -191,9 +193,7 @@
                         Volleyball Court
                     </h3>
                     <p class="mt-6 leading-8 text-gray-600">
-                        Gather your fr
-                        hover:text-white
-                        duration-300">iends and enjoy exciting volleyball
+                        Gather your friends and enjoy exciting volleyball
                         matches in our well-maintained court. Perfect for
                         casual games, practice sessions, and community events.
                     </p>
@@ -208,7 +208,7 @@
                     </div>
                 </div>
                 <div class="order-1 lg:order-2">
-                    <img src="images/volleyball.jpg" alt="Volleyball Court"
+                    <img src="{{ asset('images/volleyball.jpg') }}" alt="Volleyball Court"
                         class="h-[350px] w-full rounded-xl object-cover shadow-xl duration-300 hover:scale-105">
                 </div>
             </div>
@@ -216,7 +216,7 @@
             <!-- ================= BADMINTON COURT ================= -->
             <div class="grid items-center gap-16 lg:grid-cols-2">
                 <div>
-                    <img src="images/badminton.jpg" alt="Badminton Court"
+                    <img src="{{ asset('images/badminton.jpg') }}" alt="Badminton Court"
                         class="h-[350px] w-full rounded-xl object-cover shadow-xl duration-300 hover:scale-105">
                 </div>
                 <div>
@@ -248,7 +248,7 @@
         <div class="mx-auto max-w-6xl px-8">
             <div class="mb-24 grid items-center gap-16 lg:grid-cols-2">
                 <div>
-                    <img src="images/clubhouse.jpg" alt="Clubhouse"
+                    <img src="{{ asset('images/clubhouse.jpg') }}" alt="Clubhouse"
                         class="h-[350px] w-full rounded-xl object-cover shadow-xl duration-300 hover:scale-105">
                 </div>
                 <div>
@@ -295,7 +295,7 @@
                     </div>
                 </div>
                 <div class="order-1 lg:order-2">
-                    <img src="images/conference.jpg" alt="Conference Room"
+                    <img src="{{ asset('images/conference.jpg') }}" alt="Conference Room"
                         class="h-[350px] w-full rounded-xl object-cover shadow-xl duration-300 hover:scale-105">
                 </div>
             </div>
@@ -317,22 +317,22 @@
                 <!-- Top Row -->
                 <div class="grid gap-1 md:grid-cols-3">
                     <div>
-                        <label class="mb-1 block text-sm text-[#284b63]">Name:</label>
-                        <input type="text" class="h-9 w-full rounded-md bg-[#fafafa] px-3">
+                        <x-input-label>Name:</x-input-label>
+                        <x-text-input type="text"></x-text-input>
                     </div>
                     <div>
-                        <label class="mb-1 block text-sm text-[#284b63]">Contact Number:</label>
-                        <input type="text" class="h-9 w-full rounded-md bg-[#fafafa] px-3">
+                        <x-input-label> Number:</x-input-label>
+                        <x-text-input type="text"></x-text-input>
                     </div>
                     <div>
-                        <label class="mb-1 block text-sm text-[#284b63]">Email:</label>
-                        <input type="email" class="h-9 w-full rounded-md bg-[#fafafa] px-3">
+                        <x-input-label>Email:</x-input-label>
+                        <x-text-input type="email"></x-text-input>
                     </div>
                 </div>
                 <!-- Message -->
                 <div class="mt-3">
-                    <label class="mb-1 block text-sm text-[#284b63]">Message:</label>
-                    <textarea rows="7" class="w-full resize-none rounded-md bg-[#fafafa] p-3"></textarea>
+                    <x-input-label>Message:</x-input-label>
+                    <x-textarea-input rows="7"></x-textarea-input>
                 </div>
                 <!-- Button -->
                 <div class="mt-5 text-center">
@@ -345,62 +345,8 @@
         </div>
     </section>
 
-    <!-- ================= FOOTER ================= -->
-    <footer class="bg-[#284b63] py-12 text-white">
-        <div class="mx-auto max-w-7xl px-6 lg:px-8">
-            <!-- Footer Grid -->
-            <div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
-                <!-- Logo -->
-                <div class="flex items-center pt-6">
-                    <img src="images/lo.png" alt="Logo" class="h-16 w-16 flex-shrink-0 object-contain">
-                    <h2 class="ml-4 whitespace-nowrap font-['Cormorant_Garamond'] text-xl tracking-wide">
-                        SOLADIA RESIDENCES
-                    </h2>
-                </div>
-                <!-- Contact -->
-                <div class="text-left">
-                    <h3 class="mb-4 font-['Cormorant_Garamond'] text-2xl">
-                        Contact Us
-                    </h3>
-                    <div class="space-y-1 font-['Alegreya'] text-sm leading-6">
-                        <p>+64-000-000</p>
-                        <p>+64-300-000</p>
-                        <p>housing@email.com</p>
-                        <p>
-                            123456 Avenue St.<br>
-                            Long Address City
-                        </p>
-                    </div>
-                </div>
-                <!-- Navigation -->
-                <div class="text-left">
-                    <h3 class="mb-4 font-['Cormorant_Garamond'] text-2xl">
-                        Navigation
-                    </h3>
-                    <div class="space-y-1 font-['Alegreya'] text-sm leading-6">
-                        <a href="#" class="block hover:underline">Home</a>
-                        <a href="#" class="block hover:underline">Facilities</a>
-                        <a href="#" class="block hover:underline">Reserve a Facility</a>
-                    </div>
-                </div>
-                <!-- Policy -->
-                <div class="text-left">
-                    <h3 class="mb-4 font-['Cormorant_Garamond'] text-2xl">
-                        Policy
-                    </h3>
-                    <div class="space-y-1 font-['Alegreya'] text-sm leading-6">
-                        <a href="#" class="block hover:underline">Privacy Policy</a>
-                        <a href="#" class="block hover:underline">Terms and Conditions</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Copyright -->
-            <div class="mt-10 border-t border-white/20 pt-5 text-center">
-                <p class="font-['Alegreya'] text-xs tracking-wide">
-                    Copyright 2026 Soladia Residences, All Rights Reserved
-                </p>
-            </div>
-        </div>
-    </footer>
+    <x-public-footer></x-public-footer>
+
+
 </body>
 </html>

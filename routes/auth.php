@@ -57,3 +57,10 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 });
+
+Route::prefix('resident')->name('resident')->group(function () {
+    Route::get('/login', [ResidentAuthController::class, 'create'])->name('login');
+    Route::post('/login', [ResidentAuthController::class, 'store']);
+    Route::get('/register', [ResidentAuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [ResidentAuthController::class, 'register']);
+});

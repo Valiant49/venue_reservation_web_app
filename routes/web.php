@@ -15,25 +15,28 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// routes/web.php — outside any middleware group, at the top level
-Route::get('/', function () {
-    return view('public-facing.home');
-})->name('home');
+// for the public-facing pages
+Route::prefix('public')->name('public.')->group(function () {
+    Route::get('/home', function() {
+        return view('public-facing.home');
+    })->name('home');
+    Route::get('/facility', function() {
+        return view('public-facing.facilities');
+    })->name('facility');
+    Route::get('/about', function () {
+        return view('public-facing.about');
+    })->name('about');
+    Route::get('/contact', function() {
+        return view('public-facing.contact');
+    })->name('contact');
+    Route::get('/privacy-policy', function() {
+        return view('public-facing.privacy-policy');
+    })->name('privacy-policy');
+    Route::get('/terms-and-conditions', function() {
+        return view('public-facing.toc');
+    })->name('toc');
+});
 
-Route::get('/', function () {
-    return view('public-facing.facilities');
-})->name('home');
-
-Route::get('/about', function () {
-    return view('public.about');
-})->name('about');
-
-Route::get('/contact', function () {
-    return view('public.contact');
-})->name('contact');
-
-// Route::get('/dashboard', [ReservationController::class, 'dashboardData'])
-//     ->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/dashboard', function() {
     return match (true) {
         auth()->user()->role === 'resident' => redirect()->route('resident.dashboard'),
@@ -64,13 +67,14 @@ Route::middleware(['auth', 'role:staff,admin'])->group(function () {
     });
 });
 
-Route::middleware(['auth', 'role:resident'])->group(function () {
-    Route::get('/resident/dashboard', [ResidentController::class, 'dashboard']);
-});
+// i don't remember what this was for.
+// Route::middleware(['auth', 'role:resident'])->group(function () {
+//     Route::get('/resident/dashboard', [ResidentController::class, 'dashboard']);
+// });
 
 Route::prefix('resident')->name('resident.')->middleware(['auth', 'role:resident'])->group(function () {
-    Route::get('/dashboard', [ResidentPortalController::class, 'dashboard'])->name('dashboard');
-    // future: reservation booking, own profile, etc.
+    Route::get('/dashboard', [ResidentPortalController::class, 'dashboard'])->name('dashboard'); //supposed to return all values relating the dashboard page
+    Route::get('/my-reservations' , [ResidentPortalController::class, 'reservations'])->name('my-reservations'); //suppsoed to return only the reservations of a resident
 });
 
 require __DIR__.'/auth.php';
