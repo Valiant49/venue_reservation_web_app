@@ -3,3 +3,5 @@
 @include('layouts.navigation')
 
 This is the Privacy Policy page.
+
+<x-public-footer></x-public-footer>
