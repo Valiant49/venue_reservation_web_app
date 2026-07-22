@@ -1,10 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500;600&family=Cormorant+Garamond:wght@500;600;700&family=Nunito:wght@300;400;500;600&display=swap');
+
 @import "tailwindcss";
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities; */
 
 @theme {
+  /* --font-serif:             "Cormomant Garamond", serif; */
+
+
   /* ─── Brand Colors ─────────────────────────────── */
   --color-primary:           #284b63;
   --color-primary-hover:     #12364d;

@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\ResidentController;
-use App\Http\Controllers\FacilityController;
-use App\Http\Controllers\LogController;
+use App\Http\Controllers\Staff\ResidentController;
+use App\Http\Controllers\Staff\FacilityController;
+use App\Http\Controllers\Staff\LogController;
+use App\Http\Controllers\Staff\ReservationController;
+use App\Http\Controllers\Staff\StaffController;
+use App\Http\Controllers\Staff\XmlController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\StaffController;
-use App\Http\Controllers\XmlController;
+use App\Http\Controllers\Resident\ResidentPortalController;
+use App\Http\Controllers\Resident\ResidentAuthController;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
@@ -37,16 +39,8 @@ Route::prefix('public')->name('public.')->group(function () {
     })->name('toc');
 });
 
-Route::get('/dashboard', function() {
-    return match (true) {
-        auth()->user()->role === 'resident' => redirect()->route('resident.dashboard'),
-        in_array(auth()->user()->role, ['admin', 'staff']) => redirect()->route('staff.dashboard'),
-        default => abort(403),
-    };
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware(['auth', 'role:staff,admin'])->group(function () {
-    Route::get('/staff/dashboard', [ReservationController::class, 'dashboardData'])->name('staff.dashboard');
+Route::middleware(['auth', 'role:staff,admin'])->prefix('staff')->group(function () {
+    Route::get('dashboard', [ReservationController::class, 'dashboardData'])->name('staff.dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -57,7 +51,7 @@ Route::middleware(['auth', 'role:staff,admin'])->group(function () {
     Route::resource('facility', FacilityController::class);
     Route::resource('residents', ResidentController::class);
     Route::resource('reservation', ReservationController::class);
-    Route::resource('/staff', StaffController::class);
+    Route::resource('/employees', StaffController::class);
 
     Route::prefix('xml')->name('xml.')->group(function() {
         Route::get('/',        [XmlController::class, 'index'])->name('index');
@@ -72,9 +66,17 @@ Route::middleware(['auth', 'role:staff,admin'])->group(function () {
 //     Route::get('/resident/dashboard', [ResidentController::class, 'dashboard']);
 // });
 
-Route::prefix('resident')->name('resident.')->middleware(['auth', 'role:resident'])->group(function () {
-    Route::get('/dashboard', [ResidentPortalController::class, 'dashboard'])->name('dashboard'); //supposed to return all values relating the dashboard page
-    Route::get('/my-reservations' , [ResidentPortalController::class, 'reservations'])->name('my-reservations'); //suppsoed to return only the reservations of a resident
+Route::prefix('resident')->name('resident.')->group(function() {
+    Route::get('/register', [ResidentAuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [ResidentAuthController::class, 'register'])->name('register.store');
+
+    Route::get('/login', [ResidentAuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [ResidentAuthController::class, 'login'])->name('login.store');
+});
+
+Route::prefix('resident')->name('resident.')->middleware(['auth', 'status:Active','role:resident'])->group(function () {
+    Route::get('dashboard', [ResidentPortalController::class, 'dashboard'])->name('dashboard'); //supposed to return all values relating the dashboard page
+    Route::get('my-reservations' , [ResidentPortalController::class, 'reservations'])->name('my-reservations'); //suppsoed to return only the reservations of a resident
 });
 
 require __DIR__.'/auth.php';

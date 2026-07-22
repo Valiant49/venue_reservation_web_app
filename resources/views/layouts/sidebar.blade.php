@@ -10,7 +10,7 @@
             </div>
             <div class="navigation flex flex-col p-4">
                 <div class="text-lg text-text-muted ml-0 tracking-wide">MAIN MENU</div>
-                <x-sidebar-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                <x-sidebar-link :href="route('dashboard')" :active="request()->routeIs('staff.dashboard')">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="h-5 w-5 mr-2">
                         <path d="M520-600v-240h320v240H520ZM120-440v-400h320v400H120Zm400 320v-400h320v400H520Zm-400 0v-240h320v240H120Zm80-400h160v-240H200v240Zm400 320h160v-240H600v240Zm0-480h160v-80H600v80ZM200-200h160v-80H200v80Zm160-320Zm240-160Zm0 240ZM360-280Z"/>
                     </svg>
@@ -35,7 +35,7 @@
                     {{ __('Reservations') }}
                 </x-sidebar-link>
                 @can('admin-access')
-                <x-sidebar-link :href="route('staff.index')" :active="request()->routeIs('staff.index')">
+                <x-sidebar-link :href="route('employees.index')" :active="request()->routeIs('employees.index')">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" class="h-5 w-5 mr-2">
                         <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17-62.5t47-43.5q60-30 124.5-46T480-440q67 0 131.5 16T736-378q30 15 47 43.5t17 62.5v112H160Zm376.5-423.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM640-332v92h80v-32q0-11-5-20t-15-14q-14-8-29.5-14.5T640-332Zm-240-21v53h160v-53q-20-4-40-5.5t-40-1.5q-20 0-40 1.5t-40 5.5ZM240-240h80v-92q-15 5-30.5 11.5T260-306q-10 5-15 14t-5 20v32Zm400 0H320h320ZM480-640Z"/>
                     </svg>

@@ -19,7 +19,6 @@ class EnsureUserHasRole
             abort(403);
         }
 
-
         return $next($request);
     }
 }

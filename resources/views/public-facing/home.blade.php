@@ -28,12 +28,12 @@
     </script> --}}
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+{{--
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500;600&family=Cormorant+Garamond:wght@600&family=Nunito:wght@400;700;800&display=swap"
-        rel="stylesheet">
+        rel="stylesheet"> --}}
 </head>
 
 <body class="font-nunito bg-[#fafafa] text-[#353535]">
@@ -47,30 +47,17 @@
 
         <div class="bg-primary flex flex-1 flex-col justify-start px-6 sm:px-10 lg:px-[90px]">
 
-            <h1
-                class="font-cormorant -mt-[0.3em] text-[clamp(3.5rem,15vw,8.75rem)] font-semibold leading-[0.95] text-white sm:-mt-[0.4em] sm:text-[clamp(2rem,6vw,8.75rem)] lg:-mt-[0.5em]">
+            <h1 class="font-cormorant -mt-[0.3em] text-[clamp(3.5rem,15vw,8.75rem)] font-semibold leading-[0.95] text-white sm:-mt-[0.4em] sm:text-[clamp(2rem,6vw,8.75rem)] lg:-mt-[0.5em]">
                 LIVE<br class="sm:hidden"> YOUR<br class="sm:hidden"> LIFE
             </h1>
 
-            <p
-                class="font-alegreya mt-4 text-[clamp(1.15rem,3.2vw,3rem)] font-normal leading-[1.3] text-white sm:mt-5 sm:text-[clamp(1rem,2.2vw,3rem)]">
-                Socialize, exercise, and play in
-                <br>
-                Soladia
+            <p class="font-serif mt-4 mb-4 text-[clamp(1.15rem,3.2vw,3rem)] font-normal leading-[1.3] text-white sm:mt-5 sm:text-[clamp(1rem,2.2vw,3rem)]">
+                Socialize, exercise, and play in {{-- <br> --}} Soladia
             </p>
 
-            <button
-                class="font-alegreya hover:bg-secondary mb-8 mt-6 h-[54px] w-[150px] bg-white text-xl font-medium text-[#353535] transition duration-300 sm:mb-0 sm:mt-8 sm:h-[65px] sm:w-[180px] sm:text-2xl lg:h-[73px] lg:w-[205px]">
-                EXPLORE
-            </button>
-
+            <a class="bg-white w-[10%] px-2 py-4 mt-4 text-center text-2xl hover:bg-primary-hover hover:text-white transition duration-300 rounded-md"
+                href="{{ route('public.facility') }}">Explore</a>
         </div>
-
-        <nav
-            class="absolute left-0 top-4 z-[100] flex w-full items-center justify-between px-5 sm:top-6 sm:px-10 lg:top-[30px] lg:px-[8%]">
-            <!-- unchanged -->
-        </nav>
-
     </section>
 
     <!-- ================= ABOUT SECTION ================= -->
@@ -98,8 +85,8 @@
                         drops cotton candy cookie marshmallow ice cream tootsie roll.
                     </p>
 
-                    <button
-                        class="bg-primary font-alegreya hover:bg-primary-hover mt-6 w-fit px-7 py-3 text-sm font-medium tracking-wide text-white transition duration-300 sm:mt-8 sm:text-base">
+                    <button class="bg-primary font-alegreya hover:bg-primary-hover mt-6 w-fit px-7 py-3 text-sm font-medium tracking-wide text-white transition duration-300 sm:mt-8 sm:text-base"
+                        href={{route('public.about')}}>
                         READ MORE
                     </button>
 
@@ -448,64 +435,46 @@
         </div>
     </section>
 
-    <!-- ================= INQUIRY SECTION ================= -->
-    <section class="bg-white px-6 py-16 sm:px-10 sm:py-20 lg:px-[90px] lg:py-24">
-        <div class="mx-auto max-w-[1400px]">
-
-            <h2 class="font-cormorant mb-2 text-4xl text-[#111] sm:mb-3 sm:text-5xl lg:text-6xl">
+   <!-- ================= INQUIRY ================= -->
+    <section class="bg-white py-20">
+        <div class="mx-auto max-w-5xl px-8">
+            <!-- Heading -->
+            <h2 class="font-['Cormorant_Garamond'] text-6xl text-black">
                 Inquiry
             </h2>
-
-            <p class="font-alegreya mb-8 text-sm italic text-gray-600 sm:mb-10 sm:text-base">
-                Jelly beans cake oat cake marzipan danish jelly-o muffin caramels chocolate — I love pastry sweet roll
-                lemon drops
+            <p class="mb-6 mt-1 font-['Alegreya'] text-sm text-black">
+                Jelly beans cake oat cake marzipan danish jelly-o muffin caramels chocolate —
+                I love pastry sweet roll lemon drops
             </p>
-
-            <form class="flex flex-col gap-5 sm:gap-6">
-
-                <div class="grid grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-6">
-
-                    <div class="flex flex-col">
-                        <label for="name" class="font-nunito mb-2 text-sm text-[#111] sm:text-base">
-                            Name:
-                        </label>
-                        <input type="text" id="name" name="name"
-                            class="bg-secondary font-nunito focus:ring-primary h-11 px-4 text-sm text-[#353535] focus:outline-none focus:ring-2 sm:h-12">
+            <form class="mx-auto max-w-2xl">
+                <!-- Top Row -->
+                <div class="grid gap-1 md:grid-cols-3">
+                    <div>
+                        <x-input-label>Name:</x-input-label>
+                        <x-text-input type="text"></x-text-input>
                     </div>
-
-                    <div class="flex flex-col">
-                        <label for="contact" class="font-nunito mb-2 text-sm text-[#111] sm:text-base">
-                            Contact Number:
-                        </label>
-                        <input type="tel" id="contact" name="contact"
-                            class="bg-secondary font-nunito focus:ring-primary h-11 px-4 text-sm text-[#353535] focus:outline-none focus:ring-2 sm:h-12">
+                    <div>
+                        <x-input-label> Number:</x-input-label>
+                        <x-text-input type="text"></x-text-input>
                     </div>
-
-                    <div class="flex flex-col">
-                        <label for="email" class="font-nunito mb-2 text-sm text-[#111] sm:text-base">
-                            Email:
-                        </label>
-                        <input type="email" id="email" name="email"
-                            class="bg-secondary font-nunito focus:ring-primary h-11 px-4 text-sm text-[#353535] focus:outline-none focus:ring-2 sm:h-12">
+                    <div>
+                        <x-input-label>Email:</x-input-label>
+                        <x-text-input type="email"></x-text-input>
                     </div>
-
                 </div>
-
-                <div class="flex flex-col">
-                    <label for="message" class="font-nunito mb-2 text-sm text-[#111] sm:text-base">
-                        Message:
-                    </label>
-                    <textarea id="message" name="message" rows="6"
-                        class="bg-secondary font-nunito focus:ring-primary resize-none px-4 py-3 text-sm text-[#353535] focus:outline-none focus:ring-2"></textarea>
+                <!-- Message -->
+                <div class="mt-3">
+                    <x-input-label>Message:</x-input-label>
+                    <x-textarea-input rows="7"></x-textarea-input>
                 </div>
-
-                <button type="submit"
-                    class="bg-primary font-alegreya hover:bg-primary-hover mt-2 w-fit self-center px-8 py-3 text-sm font-medium tracking-wide text-white transition duration-300 sm:text-base">
-                    SUBMIT
-                </button>
-
+                <!-- Button -->
+                <div class="mt-5 text-center">
+                    <button type="submit"
+                        class="rounded-md bg-[#284b63] px-8 py-2 tracking-[4px] text-white duration-300 hover:bg-[#12364d]">
+                        SUBMIT
+                    </button>
+                </div>
             </form>
-
         </div>
     </section>
 

@@ -7,14 +7,14 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
+    {{-- <link
         href="https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500;600&family=Cormorant+Garamond:wght@500;600;700&family=Nunito:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
+        rel="stylesheet"> --}}
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
-<body class="bg-[#fafafa] font-['Nunito'] text-[#353535]">
+<body class="bg-background font-['Nunito'] text-[#353535]">
 
     @include('layouts.navigation')
 
@@ -152,7 +152,7 @@
     </section>
 
     <!-- ================= SPORTS COMPLEX ================= -->
-    <section class="bg-[#fafafa] py-24">
+    <section class="bg-background py-24">
         <div class="mx-auto max-w-6xl px-8">
             <h2 class="mb-16 text-center font-['Cormorant_Garamond'] text-6xl font-semibold text-[#284b63]">
                 Sports Complex

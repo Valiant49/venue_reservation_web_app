@@ -13,21 +13,26 @@ class Resident extends User
 
     protected $table = 'users';
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->fillable = array_merge($this->fillable, [
-            'block_num',
-            'lot_num',
-            'street_num',
-            'contact_num',
-            'account_status'
-            ]);
-    }
+    protected $fillable = [
+        'first_name',
+        'middle_name',
+        'last_name',
+        'email',
+        'password',
+        'block_num',
+        'lot_num',
+        'street_num',
+        'contact_num',
+        'account_status',
+        'role',
+    ];
 
     protected static function booted()
     {
+        static::creating(function ($resident) {
+            $resident->role = 'resident';
+        });
+
         static::scopeToRoles(['resident'], 'resident');
     }
 }

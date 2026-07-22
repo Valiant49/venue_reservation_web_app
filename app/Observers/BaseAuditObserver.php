@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class BaseAuditObserver
 {
