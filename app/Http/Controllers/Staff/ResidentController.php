@@ -48,7 +48,7 @@ class ResidentController extends Controller
 
         Resident::create($validated);
 
-        return redirect('/residents')->with('success', 'Resident record added!');
+        return redirect(route('residents.index'))->with('success', 'Resident record added!');
     }
 
     /**
@@ -94,7 +94,7 @@ class ResidentController extends Controller
 
         $resident->update($validated);
 
-        return redirect('/residents')->with('success', 'Resident record updated!');
+        return redirect(route('residents.index'))->with('success', 'Resident record updated!');
 
     }
 
@@ -104,6 +104,6 @@ class ResidentController extends Controller
     public function destroy(Resident $resident)
     {
         $resident->delete();
-        return redirect('/residents')->with('success', 'Resident record removed.');
+        return redirect(route('residents.index'))->with('success', 'Resident record removed.');
     }
 }

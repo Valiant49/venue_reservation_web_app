@@ -64,10 +64,10 @@
                                 {{ $resident->email }}
                             </td>
                             <td class="px-6 py-4">
-                                <a href="/residents/{{ $resident->id }}/edit"
+                                <a href="{{ route('residents.edit', $resident) }}"
                                     class="text-info font-medium hover:underline">Edit</a>
                                 @can('admin-access')
-                                    <a href="/residents/{{ $resident->id }}"
+                                    <a href="{{ route('residents.show', $resident) }}"
                                         class="text-error font-medium hover:underline">Remove</a>
                                 @endcan
                             </td>
@@ -95,7 +95,7 @@
                 </button>
             </div>
 
-            <form action="/residents" method="POST" class="mt-4 space-y-4">
+            <form action="{{ route('residents.store') }}" method="POST" class="mt-4 space-y-4">
                 @csrf
 
                 <div class="grid grid-cols-3 gap-4">
