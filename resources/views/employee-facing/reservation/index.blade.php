@@ -36,8 +36,7 @@
                 <thead
                     class="text-body bg-surface border-default-medium text-text sticky top-0 z-10 border-b text-sm">
                     <tr>
-                        <th scope="col" class="px-6 py-3 font-medium">Reservation Code</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Facility</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Facility Name</th>
                         <th scope="col" class="px-6 py-3 font-medium">Resident Name</th>
                         <th scope="col" class="px-6 py-3 font-medium">Date</th>
                         <th scope="col" class="px-6 py-3 font-medium">Time</th>
@@ -50,25 +49,23 @@
                 </thead>
                 @foreach ($reservations as $reservation)
                     <tr class="bg-background border-default hover:bg-gray-300 border-b">
-                        <td scope="row" class="text-heading whitespace-nowrap px-6 py-4 font-medium">
-                            {{ $reservation->reservation_code }} </td>
-                        <td class="px-6 py-4"> {{ $reservation->facility->facility_name ?? 'N/A' }} </td>
+                        <td class="px-6 py-4"> {{ $reservation->facility->name ?? 'N/A' }} </td>
                         <td class="px-6 py-4">
                             {{ $reservation->resident->last_name }},
                             {{ $reservation->resident->first_name }}
                             {{ Str::limit($reservation->resident->middle_name, 1, '.') }}
                         </td>
-                        <td class="px-6 py-4"> {{ $reservation->reservation_date }} </td>
+                        <td class="px-6 py-4"> {{ $reservation->date }} </td>
                         <td class="px-6 py-4"> {{ $reservation->start_time }} to {{ $reservation->end_time }} </td>
                         <td class="px-6 py-4"> {{ $reservation->total_fee }} </td>
                         <td class="px-6 py-4"> {{ $reservation->status }} </td>
                         <td class="px-6 py-4"> {{ $reservation->event_type }} </td>
                         <td class="px-6 py-4"> {{ $reservation->notes }} </td>
                         <td class="px-6 py-4">
-                            <a href="/reservation/{{ $reservation->id }}/edit"
+                            <a href="{{ route('reservation.edit', $reservation) }}"
                                 class="text-info font-medium hover:underline">Edit</a>
                             @can('admin-access')
-                                <a href="/reservation/{{ $reservation->id }}"
+                                <a href="{{ route('reservation.destroy', $reservation) }}"
                                     class="text-error font-medium hover:underline">Remove</a>
                             @endcan
                         </td>
@@ -94,7 +91,7 @@
 
             <!-- Modal Body & Form -->
             <div>
-                <form action="/reservation" method="POST" class="space-y-4">
+                <form action="{{ route('reservation.store') }}" method="POST" class="space-y-4">
                     @csrf
 
                     <!-- Grid container for a clean 2-column desktop layout -->
@@ -110,7 +107,7 @@
                                 @foreach ($facilities as $facility)
                                     <option value="{{ $facility->id }}"
                                         {{ old('facility_type') == $facility->id ? 'selected' : '' }}>
-                                        {{ $facility->facility_name }}
+                                        {{ $facility->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -153,10 +150,10 @@
                         <div>
                             <label for="date" class="mb-1 block text-sm font-medium text-gray-700">Reservation
                                 Date</label>
-                            <input type="date" name="reservation_date" id="date"
-                                value="{{ old('reservation_date') }}"
+                            <input type="date" name="date" id="date"
+                                value="{{ old('date') }}"
                                 class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
-                            @error('reservation_date')
+                            @error('date')
                                 <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
                             @enderror
                         </div>

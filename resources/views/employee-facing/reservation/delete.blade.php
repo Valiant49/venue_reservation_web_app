@@ -15,43 +15,45 @@
                 <table class="w-full text-left text-sm">
                     <tbody>
                         <tr>
-                            <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Reservation Code</th>
-                            <td class="text-body px-4 py-3">{{ $reservation->reservation_code }}</td>
+                            <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Reservation Code</th>
+                            <td class="text-body px-4 py-3">{{ $reservation->code }}</td>
                         </tr>
                         <tr>
-                            <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Facility</th>
-                            <td class="text-body px-4 py-3">{{ $reservation->facility->facility_name }}</td>
+                            <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Facility</th>
+                            <td class="text-body px-4 py-3">{{ $reservation->facility->name }}</td>
                         </tr>
                         <tr>
-                            <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Resident Name</th>
+                            <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Resident Name</th>
                             <td class="text-body px-4 py-3">
-                                {{ $reservation->client->last_name }},
-                                {{ $reservation->client->first_name }}
-                                {{ $reservation->client->middle_name }}
+                                {{ $reservation->resident->last_name }},
+                                {{ $reservation->resident->first_name }}
+                                {{ $reservation->resident->middle_name }}
                             </td>
                         </tr>
                         <tr>
-                            <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Date</th>
-                            <td class="text-body px-4 py-3">{{ $reservation->reservation_date }}</td>
+                            <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Date</th>
+                            <td class="text-body px-4 py-3">{{ Carbon\Carbon::parse($reservation->date)->format('M j, Y') }}</td>
                         </tr>
                         <tr>
-                            <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Time</th>
-                            <td class="text-body px-4 py-3">{{ $reservation->start_time }} to {{ $reservation->end_time }}</td>
+                            <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Time</th>
+                            <td class="text-body px-4 py-3">
+                                {{ Carbon\Carbon::parse($reservation->start_time)->format('h:i A') }} to {{ Carbon\Carbon::parse($reservation->end_time)->format('h:i A') }}
+                            </td>
                         </tr>
                         <tr>
-                            <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Fee</th>
-                            <td class="text-body px-4 py-3">{{ $reservation->total_fee }}</td>
+                            <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Fee</th>
+                            <td class="text-body px-4 py-3">₱{{ $reservation->total_fee }}</td>
                         </tr>
                         <tr>
-                            <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Status</th>
+                            <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Status</th>
                             <td class="text-body px-4 py-3">{{ $reservation->status }}</td>
                         </tr>
                         <tr>
-                            <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Event Type</th>
+                            <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Event Type</th>
                             <td class="text-body px-4 py-3">{{ $reservation->event_type }}</td>
                         </tr>
                         <tr>
-                            <th class="bg-primary text-secondary w-1/3 px-4 py-3 text-right font-medium">Notes</th>
+                            <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Notes</th>
                             <td class="text-body px-4 py-3">{{ $reservation->notes }}</td>
                         </tr>
                     </tbody>
@@ -62,7 +64,7 @@
                 <a href="{{ route('reservation.index') }}">
                     <x-primary-button type="button" class="mr-4">Cancel</x-primary-button>
                 </a>
-                <form action="/reservation/{{ $reservation->id }}" method="POST">
+                <form action="{{ route('reservation.destroy', $reservation) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <x-secondary-button type="submit">Yes, Delete</x-secondary-button>

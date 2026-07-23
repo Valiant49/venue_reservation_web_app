@@ -70,13 +70,15 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'facility_id'   => 'required|exists:facility,id',
-            'reserved_by'   => 'required|exists:users,id',
+        $request->request->remove('updated_at');
 
-            'date' => 'required|date_format:Y-m-d|after_or_equal:today',
-            'start_time'       => 'required|date_format:H:i',
-            'end_time'         => [
+        $validated = $request->validate([
+            'facility_id'       => 'required|exists:facilities,id',
+            'reserved_by'       => 'required|exists:users,id',
+
+            'date'              => 'required|date_format:Y-m-d|after_or_equal:today',
+            'start_time'        => 'required|date_format:H:i',
+            'end_time'          => [
                 'required',
                 'date_format:H:i',
                 'after:start_time',
@@ -112,26 +114,29 @@ class ReservationController extends Controller
                 }
             ],
 
-            'total_fee'        => 'required|numeric|min:0|max:999999.99',
-            'guest_count'   => [
+            'total_fee'         => 'required|numeric|min:0|max:999999.99',
+            'guest_count'       => [
                 'required',
                 'integer',
                 'min:1',
                 function($attribute, $value, $fail) use ($request) {
                     $facility = Facility::find($request->facility_id);
-                    if ($facility && $value > $facility->capacity) {
-                        $fail("The selected facility only accomodates up to {$facility->capacity} guests.");
+                    if ($facility && $value > $facility->max_capacity) {
+                        $fail("The selected facility only accomodates up to {$facility->max_capacity} guests.");
                     }
                 }
             ],
             'status'        => ['required', Rule::in(['Pending','Confirmed','Cancelled'])],
             'event_type'    => 'required|string',
-            'notes'         => 'nullable|string'
+            'notes'         => 'nullable|string',
+            'last_updated'  => now(),
         ]);
+
+        // dd($request);
 
         Reservation::create($validated);
 
-        return redirect('/reservation')->with('success', 'Reservation created successfully!');
+        return redirect(route('reservation.index'))->with('success', 'Reservation created successfully!');
     }
 
     /**
@@ -140,7 +145,7 @@ class ReservationController extends Controller
     public function show(Reservation $reservation)
     {
         $reservations = Reservation::all();
-        return view('reservation.delete', compact('reservations', 'reservation'));
+        return view('employee-facing.reservation.delete', compact('reservations', 'reservation'));
     }
 
     /**
@@ -148,10 +153,10 @@ class ReservationController extends Controller
      */
     public function edit(Reservation $reservation)
     {
-        $staffs = User::all();
+        $staffs = User::whereIn('role', ['admin', 'staff'])->get();
         $residents = Resident::all();
         $facilities = Facility::all();
-        return view('reservation.edit', compact('reservation', 'facilities', 'staffs', 'residents'));
+        return view('employee-facing.reservation.edit', compact('reservation', 'facilities', 'staffs', 'residents'));
     }
 
     /**
@@ -179,7 +184,7 @@ class ReservationController extends Controller
         }
 
         $validated = $request->validate([
-            'facility_id'   => 'required|exists:facility,id',
+            'facility_id'   => 'required|exists:facilities,id',
             'reserved_by'   => 'required|exists:users,id',
             'facilitated_by'=> 'required|exists:users,id',
 
@@ -204,9 +209,9 @@ class ReservationController extends Controller
                     $requestedStart = $request->start_time;
                     $requestedEnd = $value;
 
-                    $conflictExists = Reservation::where('facility_id', $request->facility_id)
+                    $conflictExists = Reservation::where('id', $request->id)
                         ->where('date', $request->date)
-                        ->where('id', '!=', $reservation->id)
+                        ->where('facility_id', '!=', $reservation->id)
                         ->where(function($query) use ($requestedStart, $requestedEnd){
                             $query->where(function($q) use ($requestedStart, $requestedEnd){
                                 //case 1
@@ -239,8 +244,8 @@ class ReservationController extends Controller
                 'min:1',
                 function($attribute, $value, $fail) use ($request) {
                     $facility = Facility::find($request->facility_id);
-                    if ($facility && $value > $facility->capacity) {
-                        $fail("The selected facility only accomodates up to {$facility->capacity} guests.");
+                    if ($facility && $value > $facility->max_capacity) {
+                        $fail("The selected facility only accomodates up to {$facility->max_capacity} guests.");
                     }
                 }
             ],
@@ -251,7 +256,7 @@ class ReservationController extends Controller
 
         $reservation->update($validated);
 
-        return redirect('/reservation')->with('success', 'Reservation updated successfully!');
+        return redirect(route('reservation.index'))->with('success', 'Reservation updated successfully!');
 
     }
 
@@ -261,6 +266,6 @@ class ReservationController extends Controller
     public function destroy(Reservation $reservation)
     {
         $reservation->delete();
-        return redirect('/reservation')->with('success', 'Reservation removed.');
+        return redirect(route('reservation.index'))->with('success', 'Reservation removed.');
     }
 }

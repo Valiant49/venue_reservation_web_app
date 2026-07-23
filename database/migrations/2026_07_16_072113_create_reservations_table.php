@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('reservations', function (Blueprint $table) {
+            $table->timestamps();
             $table->id();
             $table->string('code');
             $table->date('date');
@@ -22,8 +23,6 @@ return new class extends Migration
             $table->string('event_type');
             $table->enum('status', ['Pending','Rejected','Under Review','Confirmed', 'Completed', 'Cancelled']);
             $table->text('notes');
-            $table->timestamp('created_at');
-            $table->dateTime('last_updated');
             $table->foreignId('facility_id')->constrained('facilities');
             $table->foreignId('reserved_by')->constrained('users');
             $table->foreignId('facilitated_by')->constrained('users');

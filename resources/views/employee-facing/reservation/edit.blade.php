@@ -37,7 +37,7 @@
         @endif
 
         {{-- Form --}}
-        <form action="/reservation/{{ $reservation->id }}" method="POST" class="space-y-4">
+        <form action="{{ route('reservation.update', $reservation) }}" method="POST" class="space-y-4">
             @csrf
             @method('PUT')
 
@@ -50,7 +50,7 @@
                         <option value="" disabled>Please select...</option>
                         @foreach($facilities as $facility)
                             <option value="{{ $facility->id }}" {{ $reservation->facility_id == $facility->id ? 'selected' : '' }}>
-                                {{ $facility->facility_name }}
+                                {{ $facility->name }}
                             </option>
                         @endforeach
                     </select>
@@ -59,10 +59,10 @@
                     <label for="client" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Resident Name</label>
                     <select name="reserved_by" id="client"
                         class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white">
-                        <option value="" disabled>Select a client...</option>
-                        @foreach($clients as $client)
-                            <option value="{{ $client->id }}" {{ $reservation->reserved_by == $client->id ? 'selected' : '' }}>
-                                {{ $client->last_name }}, {{ $client->first_name }} {{ Str::limit($client->middle_name, 1, '.') }}
+                        <option value="" disabled>Select a resident...</option>
+                        @foreach($residents as $resident)
+                            <option value="{{ $resident->id }}" {{ $reservation->reserved_by == $resident->id ? 'selected' : '' }}>
+                                {{ $resident->last_name }}, {{ $resident->first_name }} {{ Str::limit($resident->middle_name, 1, '.') }}
                             </option>
                         @endforeach
                     </select>
@@ -76,7 +76,7 @@
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Reservation Date</label>
-                    <input type="date" name="reservation_date" id="date" value="{{ old('reservation_date', $reservation->reservation_date) }}"
+                    <input type="date" name="date" id="date" value="{{ old('reservation_date', $reservation->date) }}"
                         class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                     @error('reservation_date')
                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -132,7 +132,7 @@
                         class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white">
                         @foreach($staffs as $staff)
                             <option value="{{ $staff->id }}" {{ old('facilitated_by', $reservation->facilitated_by) == $staff->id ? 'selected' : '' }}>
-                                {{ $staff->name }}
+                                {{ $staff->last_name }}, {{ $staff->first_name }} {{ Str::limit($staff->middle_name, 1, '.') }}
                             </option>
                         @endforeach
                     </select>
