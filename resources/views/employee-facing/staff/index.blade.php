@@ -47,28 +47,28 @@
                     </tr>
                 </thead>
                 <tbody id="staff-table-body">
-                    @foreach ($staffs as $staff)
+                    @foreach ($employees as $employee)
                         <tr class="bg-background border-default hover:bg-gray-300 border-b">
                             <td scope="row" class="whitespace-nowrap px-6 py-4">
-                                {{ $staff->first_name }} {{ Str::limit($staff->middle_name, 1, '.')}} {{ $staff->last_name }}
+                                {{ $employee->first_name }} {{ Str::limit($employee->middle_name, 1, '.')}} {{ $employee->last_name }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $staff->email }}
+                                {{ $employee->email }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $staff->role }}
+                                {{ $employee->role }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $staff->created_at }}
+                                {{ $employee->created_at }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $staff->updated_at }}
+                                {{ $employee->updated_at }}
                             </td>
                             @can('admin-access')
                                 <td class="px-6 py-4">
-                                    <a href="/staff/{{ $staff->id }}/edit"
+                                    <a href="{{ route('employees.edit', $employee) }}"
                                         class="text-info font-medium hover:underline">Edit</a>
-                                    <a href="/staff/{{ $staff->id }}"
+                                    <a href="{{ route('employees.show', $employee) }}"
                                         class="text-error font-medium hover:underline">Remove</a>
                                 </td>
                             @endcan
@@ -95,7 +95,7 @@
                 </button>
             </div>
 
-            <form action="/staff" method="POST" class="mt-4 space-y-4">
+            <form action="{{ route('employees.store') }}" method="POST" class="mt-4 space-y-4">
                 @csrf
                 <div class="grid grid-cols-3 gap-4">
                     <div>

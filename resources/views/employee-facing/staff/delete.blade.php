@@ -1,5 +1,5 @@
 <x-app-layout>
-@isset($staff)
+@isset($employee)
     <div class="align-center flex min-h-screen justify-center">
         <div class="m-auto w-full max-w-xl rounded-xl bg-white p-6 shadow-2xl">
 
@@ -34,7 +34,7 @@
                 <a href="{{ route('staff.index') }}">
                     <x-primary-button type="button" class="mr-4">Cancel</x-primary-button>
                 </a>
-                <form action="/staff/{{ $staff->id }}" method="POST">
+                <form action="{{ route('employees.destroy', $staff) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <x-secondary-button type="submit">Yes, Delete</x-secondary-button>

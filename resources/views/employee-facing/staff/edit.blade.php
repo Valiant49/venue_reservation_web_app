@@ -1,5 +1,5 @@
 <x-app-layout>
-    @isset($staff)
+    @isset($employee)
         <div
             class="backdrop-blur-xs fixed inset-y-0 left-[350px] right-0 z-50 flex items-center justify-center bg-gray-900/50">
             <dialog id="edit-modal" open
@@ -7,7 +7,7 @@
                 {{-- Modal Header --}}
                 <div class="mb-5 flex items-center justify-between border-b border-gray-100 pb-4">
                     <h3 class="text-xl font-semibold text-gray-900">Edit Staff Details</h3>
-                    <a href="{{ route('staff.index') }}"
+                    <a href="{{ route('employees.index') }}"
                         class="hover:text-gray:500 cursor-pointer rounded-md p-1.5 text-gray-400 transition-colors hover:bg-gray-100">
                         <span class="sr-only">Close</span>
                         <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -38,7 +38,7 @@
                     </div>
                 @endif
                 {{-- Form --}}
-                <form action="/staff/{{ $staff->id }}" method="POST" class="space-y-4">
+                <form action="{{ route('employees.update', $employee) }}" method="POST" class="space-y-4">
                     @csrf
                     @method('PUT')
                     {{-- Name + Email --}}
@@ -46,7 +46,7 @@
                         <div>
                             <x-input-label for="first-name">First Name</x-input-label>
                             <x-text-input type="text" name="first_name" id="first-name"
-                                value="{{ old('first_name', $staff->first_name) }}" required class="mt-1 w-full" />
+                                value="{{ old('first_name', $employee->first_name) }}" required class="mt-1 w-full" />
                             @error('name')
                                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                             @enderror
@@ -54,7 +54,7 @@
                         <div>
                             <x-input-label for="middle-name">Middle Name</x-input-label>
                             <x-text-input type="text" name="middle_name" id="middle-name"
-                                value="{{ old('middle_name', $staff->middle_name) }}" class="mt-1 w-full" />
+                                value="{{ old('middle_name', $employee->middle_name) }}" class="mt-1 w-full" />
                             @error('name')
                                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                             @enderror
@@ -62,7 +62,7 @@
                         <div>
                             <x-input-label for="last-name">Last Name</x-input-label>
                             <x-text-input type="text" name="last_name" id="last-name"
-                                value="{{ old('last_name', $staff->last_name) }}"
+                                value="{{ old('last_name', $employee->last_name) }}"
                                 required class="mt-1 w-full" />
                             @error('name')
                                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -71,7 +71,7 @@
                     </div>
                     <div>
                         <label for="email" class="mb-1 block text-sm font-medium text-gray-700">Email Address</label>
-                        <input type="email" name="email" id="email" value="{{ old('email', $staff->email) }}"
+                        <input type="email" name="email" id="email" value="{{ old('email', $employee->email) }}"
                             class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                         @error('email')
                             <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -95,11 +95,11 @@
                         <div class="flex gap-3">
                             @foreach (['admin', 'staff'] as $role)
                                 <label
-                                    class="{{ old('role', $staff->role) == $role
+                                    class="{{ old('role', $employee->role) == $role
                                         ? 'border-[var(--color-border-focus)] bg-[var(--color-primary-subtle)] text-[var(--color-text)]'
                                         : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50' }} flex flex-1 cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 text-sm transition duration-150">
                                     <input type="radio" name="role" value="{{ $role }}"
-                                        {{ old('role', $staff->role) == $role ? 'checked' : '' }}
+                                        {{ old('role', $employee->role) == $role ? 'checked' : '' }}
                                         class="accent-[var(--color-primary)]">
                                     <div>
                                         <p class="font-medium capitalize">{{ $role }}</p>
@@ -116,7 +116,7 @@
                     </div>
                     {{-- Footer Buttons --}}
                     <div class="mt-6 flex items-center justify-end space-x-3 border-t border-gray-100 pt-4">
-                        <a href="{{ route('staff.index') }}">
+                        <a href="{{ route('employees.index') }}">
                             <x-secondary-button type="button"
                                 class="cursor-pointer rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                 Cancel

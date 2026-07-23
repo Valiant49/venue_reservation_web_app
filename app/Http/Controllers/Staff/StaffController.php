@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Staff;
 
 use App\Models\User;
-use App\Models\Staff;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
@@ -12,8 +11,8 @@ class StaffController extends Controller
 {
     public function index()
     {
-        $staffs = User::whereIn('role', ['staff', 'admin'])->get();
-        return view('employee-facing.staff.index', compact('staffs'));
+        $employees = User::whereIn('role', ['staff', 'admin'])->get();
+        return view('employee-facing.staff.index', compact('employees'));
     }
 
     public function store(Request $request)
@@ -28,39 +27,40 @@ class StaffController extends Controller
         ]);
 
         User::create($validated);
-        return redirect('/staff')->with('success', 'Staff added successfuly.');
+        return redirect(route('employees.index'))->with('success', 'Staff added successfuly.');
     }
 
-    public function show(Staff $staff)
+    public function show(User $employee)
     {
-        $staffs = Staff::all();
-        return view('employee-facing.staff.delete', compact('staffs', 'staff'));
+        $staffs = User::whereIn('role', ['staff', 'admin'])->get();
+        return view('employee-facing.staff.delete', compact('staffs', 'employee'));
     }
 
-    public function edit(Staff $staff)
+    public function edit(User $employee)
     {
-        $staffs = Staff::all();
-        return view('employee-facing.staff.edit', compact('staffs', 'staff'));
+        $staffs = User::whereIn('role', ['staff', 'admin'])->get();
+        return view('employee-facing.staff.edit', compact('staffs', 'employee'));
     }
 
-    public function update(Request $request, Staff $staff)
+    public function update(Request $request, User $employee)
     {
         $validated = $request->validate([
             'first_name'  => 'required|string',
             'middle_name' => 'nullable|string',
             'last_name'   => 'required|string',
             'email'       => 'required|email',
+            'password'      => 'required|string|min:8',
             'role'        => 'required|in:admin,staff',
         ]);
 
-        $staff->update($validated);
+        $employee->update($validated);
 
-        return redirect('/staff')->with('success', 'Staff record updated.');
+        return redirect(route('employees.index'))->with('success', 'Staff record updated.');
     }
 
-        public function destroy(Staff $staff)
+    public function destroy(User $employee)
     {
-        $staff->delete();
-        return redirect('/staff')->with('success', 'Staff record removed.');
+        $employee->delete();
+        return redirect(route('employees.index'))->with('success', 'Staff record removed.');
     }
 }
