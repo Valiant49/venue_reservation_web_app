@@ -7,7 +7,7 @@
             {{-- Modal Header --}}
             <div class="flex items-center justify-between border-b border-gray-100 pb-4 mb-5">
                 <h3 class="text-xl font-semibold text-gray-900">Edit Facility Details</h3>
-                <a href="/facility"
+                <a href="{{ route('facility.index') }}"
                     class="cursor-pointer rounded-md p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-500 transition-colors">
                     <span class="sr-only">Close</span>
                     <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -38,7 +38,8 @@
             </div>
             @endif
             {{-- Form --}}
-            <form action="/facility/{{ $facility->id }}" method="POST" class="space-y-4">
+            {{-- <form action="/facility/{{ $facility->id }}" method="POST" class="space-y-4"> --}}
+            <form action="{{ route('facility.update', $facility) }}" method="POST" class="space-y-4">
                 @csrf
                 @method('PUT')
                 <div>
@@ -117,7 +118,7 @@
 
                 {{-- Footer Buttons --}}
                 <div class="flex items-center justify-end space-x-3 border-t border-gray-100 pt-4 mt-6">
-                    <x-secondary-button onclick="location.href='/facility'"
+                    <x-secondary-button onclick="location.href='{{ route('facility.index')}}'"
                         class="cursor-pointer rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                         Cancel
                     </x-secondary-button>

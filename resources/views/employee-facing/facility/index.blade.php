@@ -70,9 +70,9 @@
                             </td>
                             @can('admin-access')
                                 <td class="px-6 py-4">
-                                    <a href="/facility/{{ $facility->id }}/edit"
+                                    <a href="{{ route('facility.edit', $facility) }}"
                                         class="text-info font-medium hover:underline">Edit</a>
-                                    <a href="/facility/{{ $facility->id }}"
+                                    <a href="{{ route('facility.destroy', $facility) }}"
                                         class="text-error font-medium hover:underline">Remove</a>
                                 </td>
                             @endcan
@@ -99,7 +99,8 @@
             </div>
 
             <div>
-                <form action="/facility" method="POST" class="mt-1 space-y-4">
+                {{-- <form action="/facility" method="POST" class="mt-1 space-y-4"> --}}
+                <form action="{{ route('facility.store') }}" method="POST" class="mt-1 space-y-4">
                     @csrf
 
                     <div>

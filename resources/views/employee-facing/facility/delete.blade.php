@@ -44,7 +44,8 @@
                     <a href="{{ route('facility.index') }}">
                         <x-primary-button type="button" class="mr-4">Cancel</x-primary-button>
                     </a>
-                    <form action="/facility/{{ $facility->id }}" method="POST">
+                    {{-- <form action="/facility/{{ $facility->id }}" method="POST"> --}}
+                    <form action="{{ route('facility.destroy', $facility) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <x-secondary-button type="submit">Yes, Delete</x-secondary-button>
