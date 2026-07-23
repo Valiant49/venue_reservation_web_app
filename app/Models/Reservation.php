@@ -12,19 +12,21 @@ class Reservation extends Model
 {
     use HasFactory;
 
+    const UPDATED_AT = null;
+
     protected $table = "reservations";
     protected $fillable = [
-        'reservation_code',
-        'reservation_date',
+        'code',
+        'date',
         'start_time',
         'end_time',
         'total_fee',
-        'created_at',
-        'updated_at',
         'guest_count',
-        'status',
         'event_type',
+        'status',
         'notes',
+        'created_at',
+        'last_updated',
         'facility_id',
         'reserved_by',
         'facilitated_by'
@@ -34,8 +36,8 @@ class Reservation extends Model
     protected static function booted()
     {
         static::creating(function($reservation){
-            if(empty($reservation->reservation_code)){
-                $reservation->reservation_code = "RES-" . strtoupper(Str::random(5));
+            if(empty($reservation->code)){
+                $reservation->code = "RES-" . strtoupper(Str::random(5));
             }
 
             if (empty($reservation->facilitated_by)){

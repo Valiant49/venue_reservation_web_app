@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('guest_count');
             $table->string('event_type');
             $table->enum('status', ['Pending','Rejected','Under Review','Confirmed', 'Completed', 'Cancelled']);
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->foreignId('facility_id')->constrained('facilities');
             $table->foreignId('reserved_by')->constrained('users');
             $table->foreignId('facilitated_by')->constrained('users');

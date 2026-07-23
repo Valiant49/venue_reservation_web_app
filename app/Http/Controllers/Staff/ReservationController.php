@@ -72,65 +72,86 @@ class ReservationController extends Controller
     {
         $request->request->remove('updated_at');
 
-        $validated = $request->validate([
-            'facility_id'       => 'required|exists:facilities,id',
-            'reserved_by'       => 'required|exists:users,id',
+        $facility = Facility::findOrFail($request->facility_id);
 
-            'date'              => 'required|date_format:Y-m-d|after_or_equal:today',
-            'start_time'        => 'required|date_format:H:i',
-            'end_time'          => [
-                'required',
-                'date_format:H:i',
-                'after:start_time',
+        $hours = Carbon::parse($request->start_time)
+            ->diffInHours(Carbon::parse($request->end_time));
 
-                function ($attribute, $value, $fail) use ($request) {
-                    $requestedStart = $request->start_time;
-                    $requestedEnd = $value;
+        $opening = Carbon::parse($facility->starting_hours);
+        $closing = Carbon::parse($facility->closing_hours);
 
-                    $conflictExists = Reservation::where('facility_id', $request->facility_id)
-                        ->where('date', $request->date)
-                        ->where(function($query) use ($requestedStart, $requestedEnd){
-                            $query->where(function($q) use ($requestedStart, $requestedEnd){
-                                //case 1
-                                $q->where('start_time', '>=', $requestedStart)
-                                ->where('start_time', '<', $requestedEnd);
-                            })
-                            ->orWhere(function($q) use ($requestedStart, $requestedEnd){
-                                //case 2
-                                $q->where('end_time', '>', $requestedStart)
-                                ->where('end_time', '<=', $requestedEnd);
-                            })
-                            ->orWhere(function($q) use ($requestedStart, $requestedEnd){
-                                //case 3
-                                $q->where('start_time', '<=', $requestedStart)
-                                ->where('end_time', '>=', $requestedEnd);
-                            });
-                        })
-                    ->exists();
+        $start = Carbon::parse($request->start_time);
+        $end = Carbon::parse($request->end_time);
+        $durationMinutes = $start->diffInMinutes($end);
+        $durationHours = $durationMinutes / 60;
 
-                    if ($conflictExists) {
-                        $fail("The selected faciality is already booked for this time block.");
-                    }
-                }
-            ],
+        $totalFee = $facility->base_fee * $durationHours;
 
-            'total_fee'         => 'required|numeric|min:0|max:999999.99',
-            'guest_count'       => [
-                'required',
-                'integer',
-                'min:1',
-                function($attribute, $value, $fail) use ($request) {
-                    $facility = Facility::find($request->facility_id);
-                    if ($facility && $value > $facility->max_capacity) {
-                        $fail("The selected facility only accomodates up to {$facility->max_capacity} guests.");
-                    }
-                }
-            ],
-            'status'        => ['required', Rule::in(['Pending','Confirmed','Cancelled'])],
-            'event_type'    => 'required|string',
-            'notes'         => 'nullable|string',
-            'last_updated'  => now(),
+        $request->merge([
+            'total_fee' => $totalFee
         ]);
+
+        $validated = $request->validate([
+            'facility_id'  => 'required|exists:facilities,id',
+            'reserved_by'  => 'required|exists:users,id',
+
+            'date'         => 'required|date|after_or_equal:today',
+
+            'start_time'   => 'required|date_format:H:i',
+            'end_time'     => 'required|date_format:H:i|after:start_time',
+
+            'guest_count'  => 'required|integer|min:1',
+
+            'status'       => ['required', Rule::in(['Pending','Confirmed','Cancelled'])],
+
+            'event_type'   => 'required|string',
+
+            'notes'        => 'nullable|string',
+
+            'total_fee'    => 'required|numeric|min:0',
+        ]);
+
+
+
+        if ($start->lt($opening) || $end->gt($closing)) {
+            return back()
+                ->withErrors([
+                    'start_time' => 'Reservation must be within facility operating hours.'
+                ])
+                ->withInput();
+        }
+
+        if ($durationMinutes > ($facility->max_reservation_duration * 60)) {
+            return back()
+                ->withErrors([
+                    'end_time' => "Maximum reservation duration is {$facility->max_reservation_duration} hour(s)."
+                ])
+                ->withInput();
+        }
+
+        if ($request->guest_count > $facility->max_capacity) {
+            return back()
+                ->withErrors([
+                    'guest_count' => "Maximum capacity is {$facility->max_capacity} guests."
+                ])
+                ->withInput();
+        }
+
+        $conflict = Reservation::where('facility_id', $facility->id)
+            ->where('date', $request->date)
+            ->where(function ($q) use ($request) {
+                $q->where('start_time', '<', $request->end_time)
+                ->where('end_time', '>', $request->start_time);
+            })
+            ->exists();
+
+        if ($conflict) {
+            return back()
+                ->withErrors([
+                    'start_time' => 'This facility is already reserved during the selected time.'
+                ])
+                ->withInput();
+        }
 
         // dd($request);
 
@@ -164,13 +185,6 @@ class ReservationController extends Controller
      */
     public function update(Request $request, Reservation $reservation)
     {
-        // if ($request->has('start_time')) {
-        //     $request->merge([
-        //         'start_time'    => date('H:i', strtotime($request->start_time)),
-        //         'end_time'      => date('H:i', strtotime($request->end_time)),
-        //     ]);
-        // }
-
         if ($request->filled('start_time') && $request->filled('end_time')) {
             $start = strtotime($request->start_time);
             $end   = strtotime($request->end_time);
