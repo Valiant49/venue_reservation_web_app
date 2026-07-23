@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Staff;
 
 use App\Models\Facility;
 use Illuminate\Http\Request;
+
+use App\Http\Controllers\Controller;
 
 class FacilityController extends Controller
 {

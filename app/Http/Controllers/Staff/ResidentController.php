@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Staff;
 
 use App\Models\Resident;
 use App\Models\User;
 use Illuminate\Http\Request;
+
+use App\Http\Controllers\Controller;
 
 class ResidentController extends Controller
 {

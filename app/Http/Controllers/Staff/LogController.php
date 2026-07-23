@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Staff;
 
 use Illuminate\Http\Request;
 use App\Models\Log;
+
+use App\Http\Controllers\Controller;
 
 class LogController extends Controller
 {

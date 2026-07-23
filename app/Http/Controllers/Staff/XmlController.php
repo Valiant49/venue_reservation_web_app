@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Staff;
 
 use App\Models\Resident;
 use App\Models\Facility;
@@ -12,6 +12,8 @@ use DOMDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+
+use App\Http\Controllers\Controller;
 
 class XmlController extends Controller
 {

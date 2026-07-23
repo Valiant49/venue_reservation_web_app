@@ -6,16 +6,42 @@ use App\Http\Controllers\Staff\LogController;
 use App\Http\Controllers\Staff\ReservationController;
 use App\Http\Controllers\Staff\StaffController;
 use App\Http\Controllers\Staff\XmlController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\Resident\ResidentPortalController;
 use App\Http\Controllers\Resident\ResidentAuthController;
-use Illuminate\Routing\Router;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Routing\Router;
+
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
+
+// Route::get('/dashboard', function () {
+//     $user = auth()->user();
+
+//     return match ($user->role) {
+//         'resident' => redirect()->route('resident.dashboard'),
+//         'staff', 'admin' => redirect()->route('staff.dashboard'),
+//         default => abort(403),
+//     };
+// })->middleware(['auth', 'status:Active'])->name('dashboard');
+
+Route::get('/dashboard', function () {
+    dd(
+        auth()->check(),
+        auth()->user()?->role,
+        auth()->user()?->account_status
+    );
+
+    return match (auth()->user()->role) {
+        'resident' => redirect()->route('resident.dashboard'),
+        'staff', 'admin' => redirect()->route('staff.dashboard'),
+        default => abort(403),
+    };
+})->middleware('auth')->name('dashboard');
+
 
 // for the public-facing pages
 Route::prefix('public')->name('public.')->group(function () {

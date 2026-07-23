@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Staff;
 
 use App\Models\User;
 use App\Models\Staff;
 use Illuminate\Http\Request;
+
+use App\Http\Controllers\Controller;
 
 class StaffController extends Controller
 {

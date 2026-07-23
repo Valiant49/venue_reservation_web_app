@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Resident;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
+use App\Http\Controllers\Controller;
 
 class ResidentPortalController extends Controller
 {
@@ -13,7 +15,7 @@ class ResidentPortalController extends Controller
         return view('resident-facing.dashboard', compact('resident'));
     }
 
-    public function reservation()
+    public function reservations()
     {
         return view('resident-facing.reservations');
     }
