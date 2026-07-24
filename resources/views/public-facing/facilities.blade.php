@@ -261,10 +261,10 @@
                         place for gatherings, meetings, and community activities.
                     </p>
                     <div class="mt-8 flex gap-5">
-                        <button
+                        <a href="{{ route('public.facility.viewer', 'clubhouse') }}"
                             class="rounded-md border border-[#284b63] px-8 py-3 text-[#284b63] duration-300 hover:bg-[#284b63] hover:text-white">
                             Preview
-                        </button>
+                        </a>
                         <button class="rounded-md bg-[#284b63] px-8 py-3 text-white duration-300 hover:bg-[#12364d]">
                             Book Now
                         </button>
@@ -272,33 +272,6 @@
                 </div>
             </div>
 
-            <!-- ================= CONFERENCE ROOM ================= -->
-            <div class="grid items-center gap-16 lg:grid-cols-2">
-                <div class="order-2 lg:order-1">
-                    <h2 class="font-['Cormorant_Garamond'] text-5xl font-semibold">
-                        Conference Room
-                    </h2>
-                    <p class="mt-6 leading-8 text-gray-600">
-                        Conduct productive meetings, seminars, and presentations
-                        in our fully equipped conference room. Designed for
-                        comfort and professionalism, it provides an ideal
-                        environment for business and community discussions.
-                    </p>
-                    <div class="mt-8 flex gap-5">
-                        <button
-                            class="rounded-md border border-[#284b63] px-8 py-3 text-[#284b63] duration-300 hover:bg-[#284b63] hover:text-white">
-                            Preview
-                        </button>
-                        <button class="rounded-md bg-[#284b63] px-8 py-3 text-white duration-300 hover:bg-[#12364d]">
-                            Book Now
-                        </button>
-                    </div>
-                </div>
-                <div class="order-1 lg:order-2">
-                    <img src="{{ asset('images/conference.jpg') }}" alt="Conference Room"
-                        class="h-[350px] w-full rounded-xl object-cover shadow-xl duration-300 hover:scale-105">
-                </div>
-            </div>
         </div>
     </section>
 

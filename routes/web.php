@@ -18,30 +18,15 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-// Route::get('/dashboard', function () {
-//     $user = auth()->user();
-
-//     return match ($user->role) {
-//         'resident' => redirect()->route('resident.dashboard'),
-//         'staff', 'admin' => redirect()->route('staff.dashboard'),
-//         default => abort(403),
-//     };
-// })->middleware(['auth', 'status:Active'])->name('dashboard');
-
 Route::get('/dashboard', function () {
-    dd(
-        auth()->check(),
-        auth()->user()?->role,
-        auth()->user()?->account_status
-    );
+    $user = auth()->user();
 
-    return match (auth()->user()->role) {
+    return match ($user->role) {
         'resident' => redirect()->route('resident.dashboard'),
         'staff', 'admin' => redirect()->route('staff.dashboard'),
         default => abort(403),
     };
-})->middleware('auth')->name('dashboard');
-
+})->middleware(['auth', 'status:Active'])->name('dashboard');
 
 // for the public-facing pages
 Route::prefix('public')->name('public.')->group(function () {
@@ -63,14 +48,32 @@ Route::prefix('public')->name('public.')->group(function () {
     Route::get('/terms-and-conditions', function() {
         return view('public-facing.toc');
     })->name('toc');
+    // Route::get('/facility-viewer/{model}', function($model) {
+    //     return view('facility.viewer', compact('model'));
+    // })->name('facility.viewer');
+
+    Route::get('/facility-viewer/{model}', function ($model) {
+    $path = public_path("models/{$model}.glb");
+    abort_unless(file_exists($path), 404);
+    return view('facility.viewer', compact('model'));
+    })->name('facility.viewer');
+});
+
+Route::get('/test-glb', function () {
+    return response()->json([
+        'exists' => file_exists(public_path('models/clubhouse.glb')),
+        'path' => public_path('models/clubhouse.glb'),
+    ]);
+});
+
+Route::middleware('auth')->group(function() {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 Route::middleware(['auth', 'role:staff,admin'])->prefix('staff')->group(function () {
     Route::get('dashboard', [ReservationController::class, 'dashboardData'])->name('staff.dashboard');
-
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/log', [LogController::class, 'index'])->name('log.index');
 
@@ -102,6 +105,7 @@ Route::prefix('resident')->name('resident.')->group(function() {
 
 Route::prefix('resident')->name('resident.')->middleware(['auth', 'status:Active','role:resident'])->group(function () {
     Route::get('dashboard', [ResidentPortalController::class, 'dashboard'])->name('dashboard'); //supposed to return all values relating the dashboard page
+    Route::get('facility', [ResidentPortalController::class, 'facility'])->name('available-facility');
     Route::get('my-reservations' , [ResidentPortalController::class, 'reservations'])->name('my-reservations'); //suppsoed to return only the reservations of a resident
 });
 
