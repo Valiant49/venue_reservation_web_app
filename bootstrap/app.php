@@ -17,6 +17,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => EnsureUserHasRole::class,
             'status' => CheckStatus::class
         ]);
+
+        $middleware->redirectGuestsTo(function ($request) {
+        return $request->is('resident/*')
+            ? route('resident.login')
+            : route('login');
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
