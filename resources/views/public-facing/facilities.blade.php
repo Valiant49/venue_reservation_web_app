@@ -96,58 +96,7 @@
                     </div>
                 </div>
             </div>
-            <!-- LAP POOL -->
-            <div class="mb-24 grid items-center gap-16 lg:grid-cols-2">
-                <div class="order-2 lg:order-1">
-                    <h3 class="font-['Cormorant_Garamond'] text-5xl font-semibold">
-                        Lap Pool
-                    </h3>
-                    <p class="mt-6 leading-8 text-gray-600">
-                        Designed for fitness enthusiasts, our Lap Pool provides
-                        ample space for exercise, swimming lessons, and daily
-                        training while enjoying a peaceful atmosphere.
-                    </p>
-                    <div class="mt-8 flex gap-5">
-                        <button
-                            class="rounded-md border border-[#284b63] px-8 py-3 text-[#284b63] duration-300 hover:bg-[#284b63] hover:text-white">
-                            Preview
-                        </button>
-                        <button class="rounded-md bg-[#284b63] px-8 py-3 text-white duration-300 hover:bg-[#12364d]">
-                            Book Now
-                        </button>
-                    </div>
-                </div>
-                <div class="order-1 lg:order-2">
-                    <img src="{{ asset('images/lappool.jpg') }}" alt="Lap Pool"
-                        class="h-[350px] w-full rounded-xl object-cover shadow-xl duration-300 hover:scale-105">
-                </div>
-            </div>
-            <!-- ACTIVITY GAME POOL -->
-            <div class="grid items-center gap-16 lg:grid-cols-2">
-                <div>
-                    <img src="{{ asset('images/activitypool.jpg') }}" alt="Activity Game Pool"
-                        class="h-[350px] w-full rounded-xl object-cover shadow-xl duration-300 hover:scale-105">
-                </div>
-                <div>
-                    <h3 class="font-['Cormorant_Garamond'] text-5xl font-semibold">
-                        Activity Game Pool
-                    </h3>
-                    <p class="mt-6 leading-8 text-gray-600">
-                        Have fun with exciting water activities and games in our
-                        Activity Game Pool. Perfect for kids, families, and groups
-                        looking for a lively recreational experience.
-                    </p>
-                    <div class="mt-8 flex gap-5">
-                        <button
-                            class="rounded-md border border-[#284b63] px-8 py-3 text-[#284b63] duration-300 hover:bg-[#284b63] hover:text-white">
-                            Preview
-                        </button>
-                        <button class="rounded-md bg-[#284b63] px-8 py-3 text-white duration-300 hover:bg-[#12364d]">
-                            Book Now
-                        </button>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </section>
 
@@ -213,33 +162,6 @@
                 </div>
             </div>
 
-            <!-- ================= BADMINTON COURT ================= -->
-            <div class="grid items-center gap-16 lg:grid-cols-2">
-                <div>
-                    <img src="{{ asset('images/badminton.jpg') }}" alt="Badminton Court"
-                        class="h-[350px] w-full rounded-xl object-cover shadow-xl duration-300 hover:scale-105">
-                </div>
-                <div>
-                    <h3 class="font-['Cormorant_Garamond'] text-5xl font-semibold">
-                        Badminton Court
-                    </h3>
-                    <p class="mt-6 leading-8 text-gray-600">
-                        Stay active while enjoying a fast-paced game of
-                        badminton. Our indoor court provides a safe and
-                        enjoyable environment for beginners and experienced
-                        players alike.
-                    </p>
-                    <div class="mt-8 flex gap-5">
-                        <button
-                            class="rounded-md border border-[#284b63] px-8 py-3 text-[#284b63] duration-300 hover:bg-[#284b63] hover:text-white">
-                            Preview
-                        </button>
-                        <button class="rounded-md bg-[#284b63] px-8 py-3 text-white duration-300 hover:bg-[#12364d]">
-                            Book Now
-                        </button>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
