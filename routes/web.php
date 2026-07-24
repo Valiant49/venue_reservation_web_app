@@ -48,9 +48,6 @@ Route::prefix('public')->name('public.')->group(function () {
     Route::get('/terms-and-conditions', function() {
         return view('public-facing.toc');
     })->name('toc');
-    // Route::get('/facility-viewer/{model}', function($model) {
-    //     return view('facility.viewer', compact('model'));
-    // })->name('facility.viewer');
 
     Route::get('/facility-viewer/{model}', function ($model) {
     $path = public_path("models/{$model}.glb");
