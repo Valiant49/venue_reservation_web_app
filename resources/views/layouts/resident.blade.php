@@ -25,7 +25,6 @@
             @isset($header)
                 <header class="rounded-lg border-b-2 border-gray-800 shadow">
                     <div class="flex-1 p-5 sm:px-6 lg:px-8">
-                        {{-- @yield('header') --}}
                         {{ $header ?? '' }}
                     </div>
                 </header>
@@ -33,7 +32,6 @@
 
             <!-- Page Content -->
             <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                {{-- @yield('content') --}}
                 {{ $slot }}
             </main>
         </div>

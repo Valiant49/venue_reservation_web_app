@@ -89,7 +89,7 @@
                         <label class="mb-2 block text-sm font-semibold text-gray-700">
                             Event Type
                         </label>
-                        <input type="text" name="event_type" value="{{ old('event_type', $step1['event_type']) }}" placeholder="e.g. Birthday, Meeting, Wedding"
+                        <input type="text" name="event_type" value="{{ old('event_type', $step1['event_type'] ?? null) }}" placeholder="e.g. Birthday, Meeting, Wedding"
                             class="focus:border-primary w-full rounded-xl border border-gray-200 px-4 py-3 outline-none">
                     </div>
 
@@ -99,7 +99,7 @@
                             <label class="mb-2 block text-sm font-semibold text-gray-700">
                                 Reservation Date
                             </label>
-                            <input type="date" name="date" value="{{ old('date', $step1['date']) }}"
+                            <input type="date" name="date" value="{{ old('date', $step1['date'] ?? null) }}"
                                 class="focus:border-primary w-full rounded-xl border border-gray-200 px-4 py-3 outline-none">
                         </div>
 
@@ -108,7 +108,7 @@
                             <label class="mb-2 block text-sm font-semibold text-gray-700">
                                 Number of Guests
                             </label>
-                            <input type="number" name="guest_count" value="{{ old('guest_count', $step1['guest_count']) }}" placeholder="Enter guest count"
+                            <input type="number" name="guest_count" value="{{ old('guest_count', $step1['guest_count'] ?? null) }}" placeholder="Enter guest count"
                                 class="focus:border-primary w-full rounded-xl border border-gray-200 px-4 py-3 outline-none">
                             <p class="mt-1 text-sm text-gray-500">
                                 Maximum capacity: 50 guests
@@ -121,14 +121,14 @@
                             <label class="mb-2 block text-sm font-semibold text-gray-700">
                                 Reservation Start Time
                             </label>
-                            <input type="time" name="start_time" value="{{ old('start_time', $step1['start_time']) }}"
+                            <input type="time" name="start_time" value="{{ old('start_time', $step1['start_time'] ?? null) }}"
                                 class="focus:border-primary w-full rounded-xl border border-gray-200 px-4 py-3 outline-none">
                         </div>
                         <div>
                             <label class="mb-2 block text-sm font-semibold text-gray-700">
                                 Reservation End Time
                             </label>
-                            <input type="time" name="end_time" value="{{ old('end_time', $step1['end_time']) }}"
+                            <input type="time" name="end_time" value="{{ old('end_time', $step1['end_time'] ?? null) }}"
                                 class="focus:border-primary w-full rounded-xl border border-gray-200 px-4 py-3 outline-none">
                         </div>
                     </div>
@@ -215,7 +215,7 @@
                             Additional Notes
                         </label>
                         <textarea name="notes" rows="3" placeholder="Any special requests or notes (optional)"
-                            class="focus:border-primary w-full rounded-xl border border-gray-200 px-4 py-3 outline-none">{{ old('notes', $step1['notes']) }}</textarea>
+                            class="focus:border-primary w-full rounded-xl border border-gray-200 px-4 py-3 outline-none">{{ old('notes', $step1['notes'] ?? null) }}</textarea>
                     </div>
 
                     <!-- Client Information -->

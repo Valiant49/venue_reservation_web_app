@@ -11,7 +11,7 @@
         <div class="bg-background w-full lg:flex-1 rounded-md px-4 py-4">
             <p class="mb-3 text-lg font-semibold">Quick Actions</p>
             <div class="flex flex-col gap-2">
-                <a href="{{ route('resident.create-reservation') }}"
+                <a href="{{ route('resident.create-reservation', ['new' => 1]) }}"
                     class="bg-primary hover:bg-primary/90 rounded-md py-2 text-center text-sm text-white">
                     Reserve a Facility
                 </a>

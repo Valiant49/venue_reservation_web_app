@@ -154,7 +154,7 @@
                                 Facility Fee
                             </span>
                             <span class="font-semibold">
-                                ₱{{ $totalFee }}
+                                ₱{{ number_format($totalFee, 2, '.', ',') }}
                             </span>
                         </div>
 

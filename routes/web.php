@@ -104,6 +104,12 @@ Route::prefix('resident')->name('resident.')->middleware(['auth', 'status:Active
     Route::get('dashboard', [ResidentPortalController::class, 'dashboard'])->name('dashboard'); //supposed to return all values relating the dashboard page
     Route::get('facility', [ResidentPortalController::class, 'facility'])->name('available-facility');
     Route::get('my-reservations' , [ResidentPortalController::class, 'reservations'])->name('my-reservations'); //suppsoed to return only the reservations of a resident
+    Route::get('create-reservation', [ResidentPortalController::class, 'create_reservation'])->name('create-reservation');
+
+    Route::get('billing', [ResidentPortalController::class, 'showBilling'])->name('billing');
+    Route::post('billing', [ResidentPortalController::class, 'functionA'])->name('billing.store');
+
+    Route::post('reservation/store', [ResidentPortalController::class, 'store'])->name('reservation.store');
 });
 
 require __DIR__.'/auth.php';
