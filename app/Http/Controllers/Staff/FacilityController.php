@@ -91,6 +91,7 @@ class FacilityController extends Controller
          ]);
 
         $facility->update($validated);
+
         $facility->addOns()->sync($request->add_ons ?? []);
         return redirect(route('facility.index'))->with('success', 'Facility updated!');
     }

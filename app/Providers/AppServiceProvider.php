@@ -8,6 +8,7 @@ use App\Models\Resident;
 use App\Models\Reservation;
 use App\Models\Staff;
 use App\Models\User;
+use App\Models\AddOn;
 use App\Observers\BaseAuditObserver;
 
 class AppServiceProvider extends ServiceProvider
@@ -30,5 +31,6 @@ class AppServiceProvider extends ServiceProvider
         Reservation::observe(BaseAuditObserver::class);
         Staff::observe(BaseAuditObserver::class);
         User::observe(BaseAuditObserver::class);
+        AddOn::observe(BaseAuditObserver::class);
     }
 }
