@@ -25,7 +25,7 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->foreignId('facility_id')->constrained('facilities');
             $table->foreignId('reserved_by')->constrained('users');
-            $table->foreignId('facilitated_by')->constrained('users');
+            $table->foreignId('facilitated_by')->nullable()->constrained('users');
 
         });
     }

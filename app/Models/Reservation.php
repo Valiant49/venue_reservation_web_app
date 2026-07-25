@@ -40,7 +40,7 @@ class Reservation extends Model
                 $reservation->code = "RES-" . strtoupper(Str::random(5));
             }
 
-            if (empty($reservation->facilitated_by)){
+            if (empty($reservation->facilitated_by) && in_array(Auth::user()->role, ['staff', 'admin'])){
                 $reservation->facilitated_by = Auth::id();
             }
         });

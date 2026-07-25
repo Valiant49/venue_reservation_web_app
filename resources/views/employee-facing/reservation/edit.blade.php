@@ -174,7 +174,7 @@
 
             {{-- Footer Buttons --}}
             <div class="flex items-center justify-end space-x-3 border-t border-gray-100 pt-4 mt-6">
-                <x-secondary-button onclick="location.href='/reservation'"
+                <x-secondary-button onclick="{{ route('reservation.index') }}"
                     class="cursor-pointer rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                     Cancel
                 </x-secondary-button>

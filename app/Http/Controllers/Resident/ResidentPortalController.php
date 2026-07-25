@@ -40,6 +40,10 @@ class ResidentPortalController extends Controller
 
     public function create_reservation(Request $request)
     {
+        if ($request->query('new')) {
+            session()->forget('reservation.step1');
+        }
+
         $facilities = Facility::all();
         $step1 = session('reservation.step1');
         return view('resident-facing.reservation', compact('facilities', 'step1'));
