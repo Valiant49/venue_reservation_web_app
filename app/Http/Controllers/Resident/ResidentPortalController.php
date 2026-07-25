@@ -125,10 +125,6 @@ class ResidentPortalController extends Controller
 
         $totalFee = $facility->base_fee * $durationHours;
 
-        // dump($step1);
-        // dump($facility);
-        // dump($totalFee);
-
         return view('resident-facing.billing', compact('step1', 'facility', 'totalFee'));
     }
 
@@ -170,5 +166,13 @@ class ResidentPortalController extends Controller
 
         return redirect()->route('resident.my-reservations')
             ->with('success', 'Reservation submitted successfully.');
+    }
+
+    public function show(Request $request, Reservation $reservation)
+    {
+        $reservations = Reservation::where('reserved_by', '=', $request->user()->id)->get();
+        // dump($reservations);
+        // dump($reservation);
+        return view('resident-facing.show', compact('reservations', 'reservation'));
     }
 }
