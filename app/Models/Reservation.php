@@ -53,4 +53,11 @@ class Reservation extends Model
     public function resident() {
         return $this->belongsTo(Resident::class, 'reserved_by');
     }
+
+    public function addOns()
+    {
+        return $this->belongsToMany(AddOn::class, 'reservation_add_ons')
+                    ->withPivot('quantity', 'unit_price')
+                    ->withTimestamps();
+    }
 }

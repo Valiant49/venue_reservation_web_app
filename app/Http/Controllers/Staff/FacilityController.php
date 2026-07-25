@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Staff;
 
 use App\Models\Facility;
+use App\Models\AddOn;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
@@ -14,8 +15,9 @@ class FacilityController extends Controller
      */
     public function index()
     {
+        $addOns = AddOn::where('is_active', '=', 'Active')->get();
         $facilities = Facility::all();
-        return view('employee-facing.facility.index', compact('facilities'));
+        return view('employee-facing.facility.index', compact('facilities', 'addOns'));
     }
 
     /**
@@ -42,10 +44,12 @@ class FacilityController extends Controller
             'closing_hours'                 => 'required|date_format:H:i|after:starting_hours',
             'max_capacity'                  => 'required|integer:min:1',
             'max_reservation_duration'      => 'required|integer:min:1',
+            'add_ons'                       => 'nullable|array',
+            'add_ons.*'                     => 'exists:add_ons,id',
         ]);
 
-        Facility::create($validated);
-
+        $facility = Facility::create($validated);
+        $facility->addOns()->sync($request->add_ons ?? []);
         return redirect(route('facility.index'))->with('success', 'Facility added!');
     }
 
@@ -63,8 +67,9 @@ class FacilityController extends Controller
      */
     public function edit(Facility $facility)
     {
+        $addOns = AddOn::where('is_active', '=', 'Active')->get();
         $facilities = Facility::all();
-        return view('employee-facing.facility.edit', compact('facilities', 'facility'));
+        return view('employee-facing.facility.edit', compact('facilities', 'facility', 'addOns'));
     }
 
     /**
@@ -86,6 +91,7 @@ class FacilityController extends Controller
          ]);
 
         $facility->update($validated);
+        $facility->addOns()->sync($request->add_ons ?? []);
         return redirect(route('facility.index'))->with('success', 'Facility updated!');
     }
 

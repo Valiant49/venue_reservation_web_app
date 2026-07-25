@@ -89,7 +89,7 @@
 
 
         <dialog id="add-modal"
-            class="backdrop:backdrop-blur-xs open:animate-fade-in inset-0 m-auto w-full max-w-lg rounded-xl bg-white p-6 shadow-2xl backdrop:bg-gray-900/50">
+            class="backdrop:backdrop-blur-xs open:animate-fade-in inset-0 m-auto w-full max-w-3xl rounded-xl bg-white p-6 shadow-2xl backdrop:bg-gray-900/50">
 
             <div class="flex items-center justify-between border-b border-gray-100 pb-3">
                 <h3 class="text-lg font-semibold text-gray-900">Add Facility</h3>
@@ -107,72 +107,89 @@
                 <form action="{{ route('facility.store') }}" method="POST" class="mt-1 space-y-4">
                     @csrf
 
-                    <div>
-                        <x-input-label for="facility-name">Facility name:</x-input-label>
-                        <x-text-input type="text" id="facility-name" name="name" class="mt-1 w-full" value="{{ old('name') }}" />
-                    </div>
-
-                    <div>
-                        <x-input-label for="facility-type">Facility category:</x-input-label>
-                        <x-select-input name="category" id="facility-type"
-                            placeholder="Select a facility..."
-                            :options="[
-                            'court' => 'Court',
-                            'clubhouse' => 'Clubhouse',
-                            'hall' => 'Hall',
-                            'pool' => 'Pool',
-                        ]" />
-                    </div>
-
-                    <div>
-                        <x-input-label for="description">Description:</x-input-label>
-                        <x-textarea-input type="textarea" id="description" name="description" class="mt-1 w-full h-25 resize-none" placeholder="Enter a description...">{{ old('description') }}</x-textarea-input>
-                    </div>
-
-                    <div>
-                        <x-input-label for="reservation-type">Reservation Type:</x-input-label>
-                        <x-select-input name="reservation_type" id="reservation-type" placeholder="Please select..."
-                            :options="[
-                                'hourly' => 'Hourly',
-                                'block' => 'Block'
-                            ]"/>
-                    </div>
-
-                    <div>
-                        <x-input-label for="base-fee">Base fee (per hour/block):</x-input-label>
-                        <x-text-input type="number" inputmode="decimal" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00"  id="base-fee" name="base_fee" min="1" value="{{ old('base_fee') }}" class="mt-1 w-full" />
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <x-input-label for="start-time">Starting Hours:</x-input-label>
-                            <x-text-input type="time" id="start-time" name="starting_hours" class="mt-1 w-full" value="{{ old('starting_hours') }}" />
+                    <div class="flex">
+                        <div class="flex-1">
+                            <div>
+                                <x-input-label for="facility-name">Facility name:</x-input-label>
+                                <x-text-input type="text" id="facility-name" name="name" class="mt-1 w-full" value="{{ old('name') }}" />
+                            </div>
+                            <div>
+                                <x-input-label for="facility-type">Facility category:</x-input-label>
+                                <x-select-input name="category" id="facility-type"
+                                    placeholder="Select a facility..."
+                                    :options="[
+                                    'court' => 'Court',
+                                    'clubhouse' => 'Clubhouse',
+                                    'hall' => 'Hall',
+                                    'pool' => 'Pool',
+                                ]" />
+                            </div>
+                            <div>
+                                <x-input-label for="description">Description:</x-input-label>
+                                <x-textarea-input type="textarea" id="description" name="description" class="mt-1 w-full h-25 resize-none" placeholder="Enter a description...">{{ old('description') }}</x-textarea-input>
+                            </div>
+                            <div>
+                                <x-input-label for="reservation-type">Reservation Type:</x-input-label>
+                                <x-select-input name="reservation_type" id="reservation-type" placeholder="Please select..."
+                                    :options="[
+                                        'hourly' => 'Hourly',
+                                        'block' => 'Block'
+                                    ]"/>
+                            </div>
+                            <div>
+                                <x-input-label for="base-fee">Base fee (per hour/block):</x-input-label>
+                                <x-text-input type="number" inputmode="decimal" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00"  id="base-fee" name="base_fee" min="1" value="{{ old('base_fee') }}" class="mt-1 w-full" />
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <x-input-label for="start-time">Starting Hours:</x-input-label>
+                                    <x-text-input type="time" id="start-time" name="starting_hours" class="mt-1 w-full" value="{{ old('starting_hours') }}" />
+                                </div>
+                                <div>
+                                    <x-input-label for="closing-time">Closing Hours:</x-input-label>
+                                    <x-text-input type="time" id="closing-time" name="closing_hours" class="mt-1 w-full" value="{{ old('closing_hours') }}" />
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <x-input-label for="max_capacity">Maximum Capacity:</x-input-label>
+                                    <x-text-input type="text" id="max_capacity" name="max_capacity" min="1" class="mt-1 w-full" value="{{ old('max_capacity') }}"/>
+                                </div>
+                                <div>
+                                    <x-input-label for="duration">Max. Reservation Duration:</x-input-label>
+                                    <x-text-input type="number" id="duration" name="max_reservation_duration" min=1 class="mt-1 w-full"/>
+                                </div>
+                            </div>
+                            <div>
+                                <x-input-label for="facility-status">Status:</x-input-label>
+                                <x-select-input name="facility_status" id="facility-status" placeholder="Select status..."
+                                    :options="[
+                                        'Open' => 'Open',
+                                        'Under Maintenance' => 'Under Maintenance',
+                                        'Closed' => 'Closed'
+                                    ]" />
+                            </div>
                         </div>
                         <div>
-                            <x-input-label for="closing-time">Closing Hours:</x-input-label>
-                            <x-text-input type="time" id="closing-time" name="closing_hours" class="mt-1 w-full" value="{{ old('closing_hours') }}" />
+                            <x-input-label>Add-ons for this Facility</x-input-label>
+                            <div class="max-h-60 overflow-y-auto pr-1">
+                                @foreach ($addOns as $addOn)
+                                    <label class="flex items-center gap-2 px-4 py-3 m-2 bg-background rounded">
+                                        <input
+                                            type="checkbox"
+                                            name="add_ons[]"
+                                            value="{{ $addOn->id }}"
+                                            class="p-2"
+                                            @checked(isset($facility) && $facility->addOns->contains($addOn->id))
+                                        >
+                                        <div class="flex flex-1 justify-between items-center">
+                                            <span class="text-black/80 font-medium">{{ $addOn->name }}</span>
+                                            <span class="text-black/80">(₱{{ number_format($addOn->price, 2) }})</span>
+                                        </div>
+                                    </label>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <x-input-label for="max_capacity">Maximum Capacity:</x-input-label>
-                            <x-text-input type="text" id="max_capacity" name="max_capacity" min="1" class="mt-1 w-full" value="{{ old('max_capacity') }}"/>
-                        </div>
-                        <div>
-                            <x-input-label for="duration">Maximum Reservation Duration:</x-input-label>
-                            <x-text-input type="number" id="duration" name="max_reservation_duration" min=1 class="mt-1 w-full"/>
-                        </div>
-                    </div>
-
-                    <div>
-                        <x-input-label for="facility-status">Status:</x-input-label>
-                        <x-select-input name="facility_status" id="facility-status" placeholder="Select status..."
-                            :options="[
-                                'Open' => 'Open',
-                                'Under Maintenance' => 'Under Maintenance',
-                                'Closed' => 'Closed'
-                            ]" />
                     </div>
 
                     <div class="mt-6 flex justify-end gap-3 border-t border-gray-100 pt-4">

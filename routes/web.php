@@ -6,6 +6,7 @@ use App\Http\Controllers\Staff\LogController;
 use App\Http\Controllers\Staff\ReservationController;
 use App\Http\Controllers\Staff\StaffController;
 use App\Http\Controllers\Staff\XmlController;
+use App\Http\Controllers\Staff\AddOnController;
 use App\Http\Controllers\Resident\ResidentPortalController;
 use App\Http\Controllers\Resident\ResidentAuthController;
 use App\Http\Controllers\ProfileController;
@@ -78,6 +79,7 @@ Route::middleware(['auth', 'role:staff,admin'])->prefix('staff')->group(function
     Route::resource('residents', ResidentController::class);
     Route::resource('reservation', ReservationController::class);
     Route::resource('/employees', StaffController::class);
+    Route::resource('add-ons', AddOnController::class);
 
     Route::prefix('xml')->name('xml.')->group(function() {
         Route::get('/',        [XmlController::class, 'index'])->name('index');

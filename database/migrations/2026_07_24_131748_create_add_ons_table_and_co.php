@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2)->default(0);
-            $table->boolean('is_active')->default(true);
+            $table->enum('is_active', ['Active', 'Inactive'])->default('Active');
             $table->timestamps();
         });
 

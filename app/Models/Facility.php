@@ -23,4 +23,11 @@ class Facility extends Model
         'max_capacity',
         'max_reservation_duration',
     ];
+
+    public function addOns()
+    {
+        return $this->belongsToMany(AddOn::class, 'facility_add_ons');
+    }
+
+
 }
