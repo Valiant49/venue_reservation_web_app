@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('base_fee', 8, 2);
             $table->enum('reservation_type', ['hourly', 'block']);
             $table->integer('max_reservation_duration');
-            $table->enum('facility_status', ['Open', 'Under Maintenance', 'Closed']);
+            $table->enum('facility_status', ['Open', 'Under Maintenance', 'Closed', 'Archived']);
         });
     }
 

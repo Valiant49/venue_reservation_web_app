@@ -36,40 +36,44 @@
                 <thead
                     class="text-body bg-background border-default-medium text-text sticky top-0 z-10 border-b text-sm">
                     <tr>
-                        <th scope="col" class="px-6 py-3 font-medium">Name</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Type</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Base fee</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Operating Hours</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Capacity</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Description</th>
+                        <th scope="col" class="px-4 py-3 font-medium">Name</th>
+                        <th scope="col" class="px-4 py-3 font-medium">Type</th>
+                        <th scope="col" class="px-4 py-3 font-medium">Base fee</th>
+                        <th scope="col" class="px-4 py-3 font-medium">Operating Hours</th>
+                        <th scope="col" class="px-4 py-3 font-medium">Capacity</th>
+                        <th scope="col" class="px-4 py-3 font-medium">Description</th>
+                        <th scope="col" class="px-4 py-3 font-medium">Status</th>
                         @can('admin-access')
-                            <th scope="col" class="px-6 py-3 font-medium">Actions</th>
+                            <th scope="col" class="px-4 py-3 font-medium">Actions</th>
                         @endcan
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($facilities as $facility)
                         <tr class="bg-background border-default hover:bg-gray-300 border-b">
-                            <td class="px-6 py-4">
+                            <td class="px-4 py-4">
                                 {{ $facility->name }}
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-4 py-4">
                                 {{ $facility->category }}
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-4 py-4">
                                 {{ $facility->base_fee }}
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-4 py-4">
                                 {{ Carbon\Carbon::createFromTimeString($facility->starting_hours)->format('h:i A') }} to {{ Carbon\Carbon::createFromTimeString($facility->closing_hours)->format('h:i A') }}
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-4 py-4">
                                 {{ $facility->max_capacity }} pax
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-4 py-4">
                                 {{ $facility->description }}
                             </td>
+                            <td class="px-4 py-4">
+                                {{ $facility->facility_status }}
+                            </td>
                             @can('admin-access')
-                                <td class="px-6 py-4">
+                                <td class="px-4 py-4">
                                     <a href="{{ route('facility.edit', $facility) }}"
                                         class="text-info font-medium hover:underline">Edit</a>
                                     <a href="{{ route('facility.destroy', $facility) }}"

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->enum('role', ['admin','staff','resident'])->default('staff');
-            $table->enum('account_status', ['Active', 'Blacklisted']);
+            $table->enum('account_status', ['Active', 'Archived', 'Blacklisted']);
             $table->integer('block_num')->nullable();
             $table->integer('lot_num')->nullable();
             $table->integer('street_num')->nullable();

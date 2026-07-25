@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('total_fee');
             $table->integer('guest_count');
             $table->string('event_type');
-            $table->enum('status', ['Pending','Rejected','Under Review','Confirmed', 'Completed', 'Cancelled']);
+            $table->enum('status', ['Pending','Rejected','Under Review','Confirmed', 'Completed', 'Cancelled', 'Archived']);
             $table->text('notes')->nullable();
             $table->foreignId('facility_id')->constrained('facilities');
             $table->foreignId('reserved_by')->constrained('users');
