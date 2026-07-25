@@ -33,6 +33,10 @@ class BaseAuditObserver
 
     private function record(Model $model, String $action, array $old, array $new): void
     {
+        $user = Auth::user();
+        $userName = $user ? $user->getFullNameAttribute() : ($model instanceof User ? $model->getFullNameAttribute() : 'system');
+
+
         Log::create([
             'entity_type'   => get_class($model),
             'entity_id'     => $model->getKey(),
@@ -40,7 +44,7 @@ class BaseAuditObserver
             'old_values'    => $old ?: null,
             'new_values'    => $new ?: null,
             'user_id'       => Auth::id(),
-            'user_name'     => Auth::user()->getFullNameAttribute() ?? 'system',
+            'user_name'     => $userName,
         ]);
     }
 }
