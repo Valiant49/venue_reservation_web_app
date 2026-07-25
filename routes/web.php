@@ -9,6 +9,7 @@ use App\Http\Controllers\Staff\XmlController;
 use App\Http\Controllers\Staff\AddOnController;
 use App\Http\Controllers\Resident\ResidentPortalController;
 use App\Http\Controllers\Resident\ResidentAuthController;
+use App\Http\Controllers\Resident\ResidentCalendarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -112,6 +113,10 @@ Route::prefix('resident')->name('resident.')->middleware(['auth', 'status:Active
     Route::post('billing', [ResidentPortalController::class, 'functionA'])->name('billing.store');
 
     Route::post('reservation/store', [ResidentPortalController::class, 'store'])->name('reservation.store');
+    Route::get('calendar-events', [ResidentCalendarController::class, 'events'])->name('calendar.events');
+    Route::get('calendar', function () {
+        return view('resident-facing.calendar');
+    })->name('calendar');
 });
 
 require __DIR__.'/auth.php';

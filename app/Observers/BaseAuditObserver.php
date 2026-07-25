@@ -36,6 +36,7 @@ class BaseAuditObserver
         $user = Auth::user();
         $userName = $user ? $user->getFullNameAttribute() : ($model instanceof User ? $model->getFullNameAttribute() : 'system');
 
+        $userId = Auth::id() ?? ($model instanceof User ? $model->getKey() : null);
 
         Log::create([
             'entity_type'   => get_class($model),
@@ -43,7 +44,7 @@ class BaseAuditObserver
             'action'        => $action,
             'old_values'    => $old ?: null,
             'new_values'    => $new ?: null,
-            'user_id'       => Auth::id(),
+            'user_id'       => $userId,
             'user_name'     => $userName,
         ]);
     }

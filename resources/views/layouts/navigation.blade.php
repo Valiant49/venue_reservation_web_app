@@ -42,6 +42,9 @@
                         <x-nav-link :href="route('resident.my-reservations')" :active="request()->routeIs('resident.my-reservations')">
                             {{ __('My Reservations') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('resident.calendar')" :active="request()->routeIs('resident.calendar')">
+                            {{ __('Calendar') }}
+                        </x-nav-link>
                     @endif
                 </div>
             </div>
