@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 
+use App\Models\AddOn;
 use App\Models\Facility;
 use App\Models\Reservation;
 
@@ -44,7 +45,7 @@ class ResidentPortalController extends Controller
             session()->forget('reservation.step1');
         }
 
-        $facilities = Facility::all();
+        $facilities = Facility::with('addOns')->get();
         $step1 = session('reservation.step1');
         return view('resident-facing.reservation', compact('facilities', 'step1'));
     }
@@ -62,6 +63,8 @@ class ResidentPortalController extends Controller
             'start_time'   => 'required|date_format:H:i',
             'end_time'     => 'required|date_format:H:i|after:start_time',
             'notes'        => 'nullable|string',
+            'addons'       => 'nullable|array',
+            'addons.*'     => 'exists:add_ons,id',
         ]);
 
         $opening = Carbon::parse($facility->starting_hours);
@@ -123,9 +126,16 @@ class ResidentPortalController extends Controller
         $end   = Carbon::parse($step1['end_time']);
         $durationHours = $start->diffInMinutes($end) / 60;
 
-        $totalFee = $facility->base_fee * $durationHours;
+        $facilityFee = $facility->base_fee * $durationHours;
 
-        return view('resident-facing.billing', compact('step1', 'facility', 'totalFee'));
+        $selectedAddOns = AddOn::whereIn('id', $step1['addons'] ?? [])->get();
+        $addonsFee = $selectedAddOns->sum('price');
+
+        $totalFee = $facilityFee + $addonsFee;
+
+        return view('resident-facing.billing', compact(
+            'step1', 'facility', 'facilityFee', 'selectedAddOns', 'addonsFee', 'totalFee'
+        ));
     }
 
     // POST resident/reservation/store — final submission
@@ -143,11 +153,13 @@ class ResidentPortalController extends Controller
         $start = Carbon::parse($step1['start_time']);
         $end   = Carbon::parse($step1['end_time']);
         $durationHours = $start->diffInMinutes($end) / 60;
-        $totalFee = $facility->base_fee * $durationHours;
+        $facilityFee = $facility->base_fee * $durationHours;
 
-        // TODO: add addon fees to $totalFee once addons are implemented
+        $selectedAddOns = AddOn::whereIn('id', $step1['addons'] ?? [])->get();
+        $addonsFee = $selectedAddOns->sum('price');
+        $totalFee = $facilityFee + $addonsFee;
 
-        Reservation::create([
+        $reservation = Reservation::create([
             'facility_id'    => $step1['facility_id'],
             'event_type'     => $step1['event_type'],
             'date'           => $step1['date'],
@@ -161,6 +173,14 @@ class ResidentPortalController extends Controller
             'facilitated_by' => null,
         ]);
 
+        foreach ($selectedAddOns as $addOn) {
+            $reservation->addOns()->attach($addOn->id, [
+                'quantity'   => 1,
+                'unit_price' => $addOn->price,
+                'subtotal'   => $addOn->price,
+            ]);
+        }
+
         session()->forget('reservation.step1');
 
         return redirect()->route('resident.my-reservations')
@@ -169,7 +189,8 @@ class ResidentPortalController extends Controller
 
     public function show(Request $request, Reservation $reservation)
     {
-        $reservations = Reservation::where('reserved_by', '=', $request->user()->id)->get();
+        // $reservations = Reservation::where('reserved_by', '=', $request->user()->id)->get();
+        $reservations = Reservation::with('facility', 'addOns')->where('reserved_by', '=', $request->user()->id)->get();
 
         $this->authorize('view', $reservation);
 

@@ -122,23 +122,14 @@
                         </h3>
 
                         <div class="space-y-3">
-                            <div class="flex justify-between">
-                                <span class="text-gray-500">
-                                    Sound System
-                                </span>
-                                <span class="font-semibold">
-                                    ₱500
-                                </span>
-                            </div>
-
-                            <div class="flex justify-between">
-                                <span class="text-gray-500">
-                                    Chairs
-                                </span>
-                                <span class="font-semibold">
-                                    ₱300
-                                </span>
-                            </div>
+                            @forelse ($selectedAddOns as $addOn)
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">{{ $addOn->name }}</span>
+                                    <span class="font-semibold">₱{{ number_format($addOn->price, 2) }}</span>
+                                </div>
+                            @empty
+                                <p class="text-sm text-gray-400">No add-ons selected.</p>
+                            @endforelse
                         </div>
                     </div>
                 </section>
@@ -164,7 +155,7 @@
                                 Add-ons
                             </span>
                             <span class="font-semibold">
-
+                                ₱{{ number_format($addonsFee, 2, '.', ',') }}
                             </span>
                         </div>
 
@@ -173,7 +164,7 @@
                                 Total
                             </span>
                             <span class="text-lg font-bold text-primary">
-                                ₱2,800
+                                ₱{{ number_format($totalFee, 2, '.', ',') }}
                             </span>
                         </div>
                     </div>

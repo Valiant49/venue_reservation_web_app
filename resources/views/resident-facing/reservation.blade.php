@@ -47,7 +47,7 @@
             </div>
         @endif
 
-        <form action="{{ route('resident.billing.store') }}" method="POST">
+        <form action="{{ route('resident.billing.store') }}" method="POST" id="reservation-form">
             @csrf
 
             <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
@@ -76,8 +76,10 @@
                                 <option value="{{ $facility->id }}"
                                     {{ old('facility_id', $step1['facility_id'] ?? null) == $facility->id ? 'selected' : '' }}
                                     data-fee="{{ $facility->base_fee }}"
-                                    data-type="{{ $facility->reservation_type }}"
-                                    data-capacity="{{ $facility->max_capacity }}">
+                                    data-capacity="{{ $facility->max_capacity }}"
+                                    data-starting-hours="{{ $facility->starting_hours }}"
+                                    data-closing-hours="{{ $facility->closing_hours }}"
+                                    data-max-duration="{{ $facility->max_reservation_duration }}">
                                     {{ $facility->name }}
                                 </option>
                             @endforeach
@@ -99,8 +101,9 @@
                             <label class="mb-2 block text-sm font-semibold text-gray-700">
                                 Reservation Date
                             </label>
-                            <input type="date" name="date" value="{{ old('date', $step1['date'] ?? null) }}"
+                            <input type="date" name="date" id="date" value="{{ old('date', $step1['date'] ?? null) }}"
                                 class="focus:border-primary w-full rounded-xl border border-gray-200 px-4 py-3 outline-none">
+                            <p id="date-warning" class="mt-1 text-xs font-medium text-red-600"></p>
                         </div>
 
                         <!-- Guest Count -->
@@ -108,11 +111,10 @@
                             <label class="mb-2 block text-sm font-semibold text-gray-700">
                                 Number of Guests
                             </label>
-                            <input type="number" name="guest_count" value="{{ old('guest_count', $step1['guest_count'] ?? null) }}" placeholder="Enter guest count"
+                            <input type="number" name="guest_count" id="guest-count" value="{{ old('guest_count', $step1['guest_count'] ?? null) }}" placeholder="Enter guest count"
                                 class="focus:border-primary w-full rounded-xl border border-gray-200 px-4 py-3 outline-none">
-                            <p class="mt-1 text-sm text-gray-500">
-                                Maximum capacity: 50 guests
-                            </p>
+                            <p id="guest-warning" class="mt-1 text-xs font-medium text-red-600"></p>
+
                         </div>
                     </div>
 
@@ -121,15 +123,16 @@
                             <label class="mb-2 block text-sm font-semibold text-gray-700">
                                 Reservation Start Time
                             </label>
-                            <input type="time" name="start_time" value="{{ old('start_time', $step1['start_time'] ?? null) }}"
+                            <input type="time" name="start_time" id="start-time" value="{{ old('start_time', $step1['start_time'] ?? null) }}"
                                 class="focus:border-primary w-full rounded-xl border border-gray-200 px-4 py-3 outline-none">
                         </div>
                         <div>
                             <label class="mb-2 block text-sm font-semibold text-gray-700">
                                 Reservation End Time
                             </label>
-                            <input type="time" name="end_time" value="{{ old('end_time', $step1['end_time'] ?? null) }}"
+                            <input type="time" name="end_time" id="end-time" value="{{ old('end_time', $step1['end_time'] ?? null) }}"
                                 class="focus:border-primary w-full rounded-xl border border-gray-200 px-4 py-3 outline-none">
+                            <p id="time-warning" class="mt-1 text-xs font-medium text-red-600"></p>
                         </div>
                     </div>
 
@@ -138,74 +141,24 @@
                             Additional Services
                         </label>
                         <!-- Add-ons Section -->
-                        <div class="grid gap-3 sm:grid-cols-2">
-
-                            <label class="flex cursor-pointer items-center justify-between rounded-xl border border-gray-200 p-4 transition hover:bg-gray-50">
-                                <div class="flex items-center gap-3">
-                                    <input type="checkbox" name="addons[]" value="sound_system" class="h-4 w-4 rounded border-gray-300 text-blue-600">
-                                    <span class="text-sm text-gray-700">
-                                        Sound System
-                                    </span>
-                                </div>
-                                <span class="text-sm font-semibold text-gray-900">
-                                    ₱500
-                                </span>
-                            </label>
-                            <label class="flex cursor-pointer items-center justify-between rounded-xl border border-gray-200 p-4 transition hover:bg-gray-50">
-                                <div class="flex items-center gap-3">
-                                    <input type="checkbox" name="addons[]" value="chairs" class="h-4 w-4 rounded border-gray-300 text-blue-600">
-                                    <span class="text-sm text-gray-700">
-                                        Chairs
-                                    </span>
-                                </div>
-                                <span class="text-sm font-semibold text-gray-900">
-                                    ₱300
-                                </span>
-                            </label>
-                            <label class="flex cursor-pointer items-center justify-between rounded-xl border border-gray-200 p-4 transition hover:bg-gray-50">
-                                <div class="flex items-center gap-3">
-                                    <input type="checkbox" name="addons[]" value="tables" class="h-4 w-4 rounded border-gray-300 text-blue-600">
-                                    <span class="text-sm text-gray-700">
-                                        Tables
-                                    </span>
-                                </div>
-                                <span class="text-sm font-semibold text-gray-900">
-                                    ₱200
-                                </span>
-                            </label>
-                            <label class="flex cursor-pointer items-center justify-between rounded-xl border border-gray-200 p-4 transition hover:bg-gray-50">
-                                <div class="flex items-center gap-3">
-                                    <input type="checkbox" name="addons[]" value="lights" class="h-4 w-4 rounded border-gray-300 text-blue-600">
-                                    <span class="text-sm text-gray-700">
-                                        Lights
-                                    </span>
-                                </div>
-                                <span class="text-sm font-semibold text-gray-900">
-                                    ₱400
-                                </span>
-                            </label>
-                            <label class="flex cursor-pointer items-center justify-between rounded-xl border border-gray-200 p-4 transition hover:bg-gray-50">
-                                <div class="flex items-center gap-3">
-                                    <input type="checkbox" name="addons[]" value="cleaning_service" class="h-4 w-4 rounded border-gray-300 text-blue-600">
-                                    <span class="text-sm text-gray-700">
-                                        Cleaning Service
-                                    </span>
-                                </div>
-                                <span class="text-sm font-semibold text-gray-900">
-                                    ₱600
-                                </span>
-                            </label>
-                            <label class="flex cursor-pointer items-center justify-between rounded-xl border border-gray-200 p-4 transition hover:bg-gray-50">
-                                <div class="flex items-center gap-3">
-                                    <input type="checkbox" name="addons[]" value="decoration" class="h-4 w-4 rounded border-gray-300 text-blue-600">
-                                    <span class="text-sm text-gray-700">
-                                        Decoration
-                                    </span>
-                                </div>
-                                <span class="text-sm font-semibold text-gray-900">
-                                    ₱800
-                                </span>
-                            </label>
+                        <div class="mb-8" id="addons-container">
+                            <div class="grid gap-3 sm:grid-cols-2">
+                                @foreach ($facilities as $facility)
+                                    @foreach ($facility->addOns as $addOn)
+                                        <label class="addon-option flex cursor-pointer items-center justify-between rounded-xl border border-gray-200 p-4 transition hover:bg-gray-50 hidden"
+                                            data-facility-id="{{ $facility->id }}">
+                                            <div class="flex items-center gap-3">
+                                                <input type="checkbox" name="addons[]" value="{{ $addOn->id }}"
+                                                    data-price="{{ $addOn->price }}"
+                                                    class="h-4 w-4 rounded border-gray-300 text-blue-600">
+                                                <span class="text-sm text-gray-700">{{ $addOn->name }}</span>
+                                            </div>
+                                            <span class="text-sm font-semibold text-gray-900">₱{{ number_format($addOn->price, 2) }}</span>
+                                        </label>
+                                    @endforeach
+                                @endforeach
+                            </div>
+                            <p id="no-addons-msg" class="text-sm text-gray-400 hidden">No add-ons available for this facility.</p>
                         </div>
                     </div>
 
@@ -251,7 +204,7 @@
                             <span class="text-sm text-gray-500">
                                 Facility Fee
                             </span>
-                            <span class="font-semibold text-gray-900">
+                            <span class="font-semibold text-gray-900" id="facility-fee-display">
                                 ₱0.00
                             </span>
                         </div>
@@ -260,7 +213,7 @@
                             <span class="text-sm text-gray-500">
                                 Add-ons
                             </span>
-                            <span class="font-semibold text-gray-900">
+                            <span class="font-semibold text-gray-900" id="addons-fee-display">
                                 ₱0.00
                             </span>
                         </div>
@@ -270,15 +223,17 @@
                                 <span class="text-lg font-bold text-gray-900">
                                     Total
                                 </span>
-                                <span class="text-primary text-lg font-bold">
+                                <span class="text-primary text-lg font-bold" id="total-fee-display">
                                     ₱0.00
                                 </span>
                             </div>
                         </div>
                     </div>
 
+                    <input type="hidden" name="total_fee" id="total-fee">
+
                     <div class="mt-8 space-y-3">
-                        <button type="submit"
+                        <button type="submit" id="form-submit"
                             class="bg-primary hover:bg-primary-hover block w-full rounded-xl px-5 py-3 text-center font-semibold text-white transition">
                             Continue to Review
                         </button>

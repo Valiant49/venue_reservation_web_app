@@ -63,6 +63,18 @@ function initFormValidation({ form, submitBtn, checks }) {
     });
 }
 
+function toMinutes(timeStr) {
+    const [h, m] = timeStr.split(':').map(Number);
+    return h * 60 + m;
+}
+
+function to12Hour(timeStr) {
+    const [h, m] = timeStr.split(':').map(Number);
+    const period = h >= 12 ? 'PM' : 'AM';
+    const hour12 = h % 12 || 12; // 0 becomes 12
+    return `${hour12}:${String(m).padStart(2, '0')} ${period}`;
+}
+
 // ---------------------------------------------------------------------
 // Example: wiring this up for the reservation "Add" modal
 // ---------------------------------------------------------------------
@@ -288,6 +300,207 @@ document.addEventListener('DOMContentLoaded', () => {
                     const warning = editModal.querySelector('#date-warning');
                     selectedDate.classList.remove('border-gray-300', 'focus:border-secondary');
                     selectedDate.classList.add('border-red-500', 'focus:border-red-500');
+                    if (warning) warning.textContent = result.message;
+                },
+            },
+        ],
+    });
+});
+
+//resident-facing reservation.pt1
+document.addEventListener('DOMContentLoaded', () => {
+    const billingForm = document.getElementById('reservation-form');
+    console.log('form found:', billingForm);
+    if (!billingForm) return;
+
+    const facility = billingForm.querySelector('#facility'); // ← scoped, not global
+
+    function toggleAddOns() {
+        const container = billingForm.querySelector('#addons-container');
+        const options = container.querySelectorAll('.addon-option');
+        const noAddonsMsg = container.querySelector('#no-addons-msg');
+        const facilityId = facility.value;
+
+        let visibleCount = 0;
+
+        options.forEach((opt) => {
+            const matches = opt.dataset.facilityId === facilityId;
+            opt.classList.toggle('hidden', !matches);
+            if (matches) visibleCount++;
+
+            if (!matches) {
+                const checkbox = opt.querySelector('input[type="checkbox"]');
+                if (checkbox) checkbox.checked = false;
+            }
+        });
+
+        noAddonsMsg.classList.toggle('hidden', visibleCount > 0);
+    }
+
+    facility.addEventListener('change', toggleAddOns);
+    toggleAddOns(); // run once on load, handles old() repopulation
+
+    function calculateBilling() {
+        const start = billingForm.querySelector('#start-time');
+        const end = billingForm.querySelector('#end-time');
+
+        const facilityFeeDisplay = billingForm.querySelector('#facility-fee-display');
+        const addonsFeeDisplay = billingForm.querySelector('#addons-fee-display');
+        const totalFeeDisplay = billingForm.querySelector('#total-fee-display');
+        const totalFeeHidden = billingForm.querySelector('#total-fee');
+
+        const formatPeso = (amt) =>
+            new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amt);
+
+        // --- Facility fee ---
+        let facilityFee = 0;
+        if (facility.value && start.value && end.value) {
+            const option = facility.options[facility.selectedIndex];
+            const rate = Number(option.dataset.fee);
+            const type = option.dataset.type; // "hourly" or "block"
+
+            const startTime = new Date('1970-01-01 ' + start.value);
+            const endTime = new Date('1970-01-01 ' + end.value);
+            const hours = (endTime - startTime) / (1000 * 60 * 60);
+            facilityFee = hours > 0 ? rate * hours : 0;
+        }
+
+        // --- Add-ons subtotal ---
+        const checkedAddOns = billingForm.querySelectorAll('.addon-option input[type="checkbox"]:checked');
+        let addonsFee = 0;
+        checkedAddOns.forEach((cb) => {
+            addonsFee += Number(cb.dataset.price);
+        });
+
+        // --- Total ---
+        const total = facilityFee + addonsFee;
+
+        facilityFeeDisplay.textContent = formatPeso(facilityFee);
+        addonsFeeDisplay.textContent = formatPeso(addonsFee);
+        totalFeeDisplay.textContent = formatPeso(total);
+        totalFeeHidden.value = total;
+    }
+
+    facility.addEventListener('change', calculateBilling);
+    billingForm.querySelector('#start-time').addEventListener('input', calculateBilling);
+    billingForm.querySelector('#end-time').addEventListener('input', calculateBilling);
+    billingForm.querySelector('#addons-container').addEventListener('change', calculateBilling); // catches any checkbox toggle inside
+
+    calculateBilling(); // run once on load
+
+    initFormValidation({
+        form: billingForm,
+        submitBtn: billingForm.querySelector('#form-submit'),
+        checks: [
+            {
+                name: 'guestCount',
+                fields: { guestCount: 'guest-count', facility: 'facility' },
+                watch: ['guestCount', 'facility'],
+                validate: ({ guestCount, facility }) => {
+                    if (!guestCount.value || !facility.value) return { valid: true };
+
+                    const option = facility.options[facility.selectedIndex];
+                    const maxCapacity = Number(option.dataset.capacity);
+                    const count = Number(guestCount.value);
+
+                    return count > maxCapacity
+                        ? { valid: false, message: `Facility's max capacity is ${maxCapacity}.` }
+                        : { valid: true };
+                },
+                onValid: ({ guestCount }) => {
+                    const warning = billingForm.querySelector('#guest-warning');
+                    guestCount.classList.remove('border-red-500');
+                    if (warning) warning.textContent = '';
+                },
+                onInvalid: ({ guestCount }, result) => {
+                    const warning = billingForm.querySelector('#guest-warning');
+                    guestCount.classList.add('border-red-500');
+                    if (warning) warning.textContent = result.message;
+                },
+            },
+            {
+                name: 'checkDate',
+                fields: { selectedDate: 'date' },
+                watch: ['selectedDate'],
+                validate: ({ selectedDate }) => {
+                    if (!selectedDate.value) return { valid: true };
+                    const today = new Date().toISOString().split('T')[0];
+                    return selectedDate.value < today
+                        ? { valid: false, message: 'Date cannot be in the past.' }
+                        : { valid: true };
+                },
+                onValid: ({ selectedDate }) => {
+                    const warning = billingForm.querySelector('#date-warning');
+                    selectedDate.classList.remove('border-red-500');
+                    if (warning) warning.textContent = '';
+                },
+                onInvalid: ({ selectedDate }, result) => {
+                    const warning = billingForm.querySelector('#date-warning');
+                    selectedDate.classList.add('border-red-500');
+                    if (warning) warning.textContent = result.message;
+                },
+            },
+            {
+                name: 'endAfterStart',
+                fields: { start: 'start-time', end: 'end-time' },
+                watch: ['start', 'end'],
+                validate: ({ start, end }) => {
+                    if (!start.value || !end.value) return { valid: true };
+                    return end.value <= start.value
+                        ? { valid: false, message: 'End time must be after start time.' }
+                        : { valid: true };
+                },
+                onValid: ({ end }) => {
+                    const warning = billingForm.querySelector('#time-warning');
+                    end.classList.remove('border-red-500');
+                    if (warning) warning.textContent = '';
+                },
+                onInvalid: ({ end }, result) => {
+                    const warning = billingForm.querySelector('#time-warning');
+                    end.classList.add('border-red-500');
+                    if (warning) warning.textContent = result.message;
+                },
+            },
+            {
+                name: 'operatingHoursAndDuration',
+                fields: { facility: 'facility', start: 'start-time', end: 'end-time' },
+                watch: ['facility', 'start', 'end'],
+                validate: ({ facility, start, end }) => {
+                    if (!facility.value || !start.value || !end.value) return { valid: true };
+
+                    const option = facility.options[facility.selectedIndex];
+                    const openTime = option.dataset.startingHours;   // e.g. "08:00"
+                    const closeTime = option.dataset.closingHours;    // e.g. "20:00"
+                    const maxDuration = Number(option.dataset.maxDuration); // in hours
+
+                    if (start.value < openTime || end.value > closeTime) {
+                        return {
+                            valid: false,
+                            message: `This facility is only available from ${to12Hour(openTime.slice(0,5))} to ${to12Hour(closeTime.slice(0,5))}.`,
+                        };
+                    }
+
+                    const startMins = toMinutes(start.value);
+                    const endMins = toMinutes(end.value);
+                    const durationHours = (endMins - startMins) / 60;
+
+                    if (durationHours > maxDuration) {
+                        return {
+                            valid: false,
+                            message: `Max reservation duration is ${maxDuration} hour(s).`,
+                        };
+                    }
+
+                    return { valid: true };
+                },
+                onValid: ({ end }) => {
+                    const warning = billingForm.querySelector('#time-warning');
+                    end.classList.remove('border-red-500');
+                    if (warning) warning.textContent = '';
+                },
+                onInvalid: ({ end }, result) => {
+                    const warning = billingForm.querySelector('#time-warning');
+                    end.classList.add('border-red-500');
                     if (warning) warning.textContent = result.message;
                 },
             },

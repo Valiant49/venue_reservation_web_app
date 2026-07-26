@@ -46,7 +46,13 @@
                             </tr>
                             <tr>
                                 <th class="bg-primary text-white w-1/3 px-4 py-3 text-right font-medium">Add-ons</th>
-                                <td class="text-body px-4 py-3">{{ 'TODO' }}</td>
+                                <td class="text-body px-4 py-3">
+                                    @forelse ($reservation->addOns as $addOn)
+                                        <div>{{ $addOn->name }} — ₱{{ number_format($addOn->pivot->subtotal, 2) }}</div>
+                                    @empty
+                                        None
+                                    @endforelse
+                                </td>
                             </tr>
                         </tbody>
                     </table>

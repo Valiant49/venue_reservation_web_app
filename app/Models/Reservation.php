@@ -63,7 +63,7 @@ class Reservation extends Model
     public function addOns()
     {
         return $this->belongsToMany(AddOn::class, 'reservation_add_ons')
-                    ->withPivot('quantity', 'unit_price')
+                    ->withPivot('quantity', 'unit_price', 'subtotal')
                     ->withTimestamps();
     }
 
