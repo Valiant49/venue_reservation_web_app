@@ -55,8 +55,8 @@
                             {{ $reservation->resident->first_name }}
                             {{ Str::limit($reservation->resident->middle_name, 1, '.') }}
                         </td>
-                        <td class="px-6 py-4"> {{ $reservation->date }} </td>
-                        <td class="px-6 py-4"> {{ $reservation->start_time }} to {{ $reservation->end_time }} </td>
+                        <td class="px-6 py-4"> {{ $reservation->date->format('M j, Y') }} </td>
+                        <td class="px-6 py-4"> {{ $reservation->start_time->format('H:i A') }} to {{ $reservation->end_time->format('H:i A') }} </td>
                         <td class="px-6 py-4"> {{ $reservation->total_fee }} </td>
                         <td class="px-6 py-4"> {{ $reservation->status }} </td>
                         <td class="px-6 py-4"> {{ $reservation->event_type }} </td>

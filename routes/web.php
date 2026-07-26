@@ -106,17 +106,20 @@ Route::prefix('resident')->name('resident.')->group(function() {
 Route::prefix('resident')->name('resident.')->middleware(['auth', 'status:Active','role:resident'])->group(function () {
     Route::get('dashboard', [ResidentPortalController::class, 'dashboard'])->name('dashboard'); //supposed to return all values relating the dashboard page
     Route::get('facility', [ResidentPortalController::class, 'facility'])->name('available-facility');
-    Route::get('my-reservations' , [ResidentPortalController::class, 'reservations'])->name('my-reservations'); //suppsoed to return only the reservations of a resident
-    Route::get('create-reservation', [ResidentPortalController::class, 'create_reservation'])->name('create-reservation');
 
+    Route::get('my-reservations' , [ResidentPortalController::class, 'reservations'])->name('my-reservations'); //suppsoed to return only the reservations of a resident
+    Route::get('my-reservation/{reservation}', [ResidentPortalController::class, 'show'])->name('reservation.show');
+    Route::get('create-reservation', [ResidentPortalController::class, 'create_reservation'])->name('create-reservation');
     Route::get('billing', [ResidentPortalController::class, 'showBilling'])->name('billing');
     Route::post('billing', [ResidentPortalController::class, 'functionA'])->name('billing.store');
-
     Route::post('reservation/store', [ResidentPortalController::class, 'store'])->name('reservation.store');
+
     Route::get('calendar-events', [ResidentCalendarController::class, 'events'])->name('calendar.events');
     Route::get('calendar', function () {
         return view('resident-facing.calendar');
     })->name('calendar');
+    Route::get('/resident/reservations/{reservation}/calendar', [ResidentCalendarController::class, 'export'])
+    ->name('reservations.calendar');
 });
 
 require __DIR__.'/auth.php';

@@ -132,6 +132,9 @@
                 <x-responsive-nav-link :href="route('resident.available-facility')" :active="request()->routeIs('resident.available-facility')">
                     {{ __('Facility Availability') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('resident.calendar')" :active="request()->routeIs('resident.calendar')">
+                    {{ __('Calendar') }}
+                </x-responsive-nav-link>
             @endif
         </div>
 

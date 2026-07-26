@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Override;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 
 class Reservation extends Model
 {
@@ -30,6 +31,11 @@ class Reservation extends Model
         'facility_id',
         'reserved_by',
         'facilitated_by'
+    ];
+    protected $casts = [
+        'date' => 'date',
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
 
     #[Override]
@@ -59,5 +65,15 @@ class Reservation extends Model
         return $this->belongsToMany(AddOn::class, 'reservation_add_ons')
                     ->withPivot('quantity', 'unit_price')
                     ->withTimestamps();
+    }
+
+    public function getStartDateTimeAttribute()
+    {
+        return Carbon::parse($this->date->format('Y-m-d') . ' ' . $this->start_time->format('H:i:s'));
+    }
+
+    public function getEndDateTimeAttribute()
+    {
+        return Carbon::parse($this->date->format('Y-m-d') . ' ' . $this->end_time->format('H:i:s'));
     }
 }

@@ -27,38 +27,30 @@
         <div id="calendar"></div>
     </div>
 
-    @push('scripts')
+@push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
+        var calendarEl = document.getElementById('calendar');
+        var isMobile = window.innerWidth < 640;
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
             plugins: [FullCalendar.dayGridPlugin, FullCalendar.timeGridPlugin, FullCalendar.listPlugin],
             initialView: 'dayGridMonth',
             height: '100%',
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,listWeek'
-            },
+            headerToolbar: isMobile
+                ? { left: 'prev,next', center: 'title', right: 'dayGridMonth,timeGridWeek,listWeek' }
+                : { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,listWeek' },
             windowResize: function(view) {
                 if (window.innerWidth < 640) {
-                    calendar.setOption('headerToolbar', {
-                        left: 'prev,next',
-                        center: 'title',
-                        right: 'dayGridMonth,timeGridWeek'
-                    });
+                    calendar.setOption('headerToolbar', { left: 'prev,next', center: 'title', right: 'timeGridWeek,listWeek' });
                 } else {
-                    calendar.setOption('headerToolbar', {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,listWeek'
-                    });
+                    calendar.setOption('headerToolbar', { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,listWeek' });
                 }
             },
             events: '{{ route('resident.calendar.events') }}'
         });
         calendar.render();
-        });
+    });
     </script>
 @endpush
 

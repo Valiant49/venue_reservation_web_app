@@ -148,7 +148,6 @@ class ResidentPortalController extends Controller
         // TODO: add addon fees to $totalFee once addons are implemented
 
         Reservation::create([
-            'code'           => strtoupper(Str::random(8)),
             'facility_id'    => $step1['facility_id'],
             'event_type'     => $step1['event_type'],
             'date'           => $step1['date'],
@@ -171,8 +170,9 @@ class ResidentPortalController extends Controller
     public function show(Request $request, Reservation $reservation)
     {
         $reservations = Reservation::where('reserved_by', '=', $request->user()->id)->get();
-        // dump($reservations);
-        // dump($reservation);
+
+        $this->authorize('view', $reservation);
+
         return view('resident-facing.show', compact('reservations', 'reservation'));
     }
 }

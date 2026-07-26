@@ -94,24 +94,15 @@ class ReservationController extends Controller
         $validated = $request->validate([
             'facility_id'  => 'required|exists:facilities,id',
             'reserved_by'  => 'required|exists:users,id',
-
             'date'         => 'required|date|after_or_equal:today',
-
             'start_time'   => 'required|date_format:H:i',
             'end_time'     => 'required|date_format:H:i|after:start_time',
-
             'guest_count'  => 'required|integer|min:1',
-
             'status'       => ['required', Rule::in(['Pending','Confirmed','Cancelled'])],
-
             'event_type'   => 'required|string',
-
             'notes'        => 'nullable|string',
-
             'total_fee'    => 'required|numeric|min:0',
         ]);
-
-
 
         if ($start->lt($opening) || $end->gt($closing)) {
             return back()

@@ -74,10 +74,16 @@
                         </div>
                     @endif
                     {{-- Action --}}
-                    {{-- <a href="{{ route('resident.reservation.show', $reservation->id) }}"
+                    <a href="{{ route('resident.reservation.show', $reservation->id) }}"
                             class="mt-2 inline-flex items-center justify-center rounded-md bg-white/10 py-2 text-sm font-medium transition hover:bg-white/20">
                             View Details
-                        </a> --}}
+                        </a>
+                    @if (strtolower($reservation->status) === 'confirmed')
+                    <a href="{{ route('resident.reservations.calendar', $reservation) }}"
+                            class="inline-flex items-center rounded bg-green-600 px-3 py-2 text-sm text-white">
+                        Add to Calendar
+                    </a>
+                    @endif
                 </div>
             @empty
                 <div class="text-sm text-gray-500">You have no reservations yet.</div>
