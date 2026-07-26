@@ -51,7 +51,11 @@
                         @foreach($facilities as $facility)
                             <option value="{{ $facility->id }}" {{ $reservation->facility_id == $facility->id ? 'selected' : '' }}
                                 data-fee="{{ $facility->base_fee }}"
-                                data-capacity="{{ $facility->max_capacity }}">
+                                data-type="{{ $facility->reservation_type }}"
+                                data-capacity="{{ $facility->max_capacity }}"
+                                data-starting-hours="{{ $facility->starting_hours }}"
+                                data-closing-hours="{{ $facility->closing_hours }}"
+                                data-max-duration="{{ $facility->max_reservation_duration }}">
                                 {{ $facility->name }}
                             </option>
                         @endforeach
@@ -105,9 +109,11 @@
                     <label for="start-time" class="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
                     <input type="time" name="start_time" id="start-time" value="{{ old('start_time', $reservation->start_time->format('H:i')) }}"
                         class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
-                    @error('start_time')
-                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                    @enderror
+                    <p id="time-warning" class="mt-1 text-xs font-medium text-red-600">
+                        @error('start_time')
+                            {{ $message }}
+                        @enderror
+                    </p>
                 </div>
                 <div>
                     <label for="end-time" class="block text-sm font-medium text-gray-700 mb-1">End Time</label>

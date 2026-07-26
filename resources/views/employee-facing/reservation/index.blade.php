@@ -109,7 +109,10 @@
                                         {{ old('facility_type') == $facility->id ? 'selected' : '' }}
                                         data-fee="{{ $facility->base_fee }}"
                                         data-type="{{ $facility->reservation_type }}"
-                                        data-capacity="{{ $facility->max_capacity }}">
+                                        data-capacity="{{ $facility->max_capacity }}"
+                                        data-starting-hours="{{ $facility->starting_hours }}"
+                                        data-closing-hours="{{ $facility->closing_hours }}"
+                                        data-max-duration="{{ $facility->max_reservation_duration }}">
                                         {{ $facility->name }}
                                     </option>
                                 @endforeach
@@ -171,9 +174,11 @@
                                 Time</label>
                             <input type="time" name="start_time" id="start-time" value="{{ old('start_time') }}"
                                 class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
-                            @error('start_time')
-                                <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
-                            @enderror
+                                <p id="time-warning" class="mt-1 text-xs font-medium text-red-600">
+                                    @error('start_time')
+                                        {{ $message }}
+                                    @enderror
+                                </p>
                         </div>
 
                         <!-- End Time Field -->

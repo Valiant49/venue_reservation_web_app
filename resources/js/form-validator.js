@@ -193,7 +193,44 @@ document.addEventListener('DOMContentLoaded', () => {
                     selectedDate.classList.add('border-red-500', 'focus:border-red-500');
                     if (warning) warning.textContent = result.message;
                 }
-            }
+            },
+            {
+                name: 'operatingHoursAndDuration',
+                fields: { facility: 'facility', start: 'start-time', end: 'end-time' },
+                watch: ['facility', 'start', 'end'],
+                validate: ({ facility, start, end }) => {
+                    if (!facility.value || !start.value || !end.value) return { valid: true };
+
+                    const option = facility.options[facility.selectedIndex];
+                    const openTime = option.dataset.startingHours;
+                    const closeTime = option.dataset.closingHours;
+                    const maxDuration = Number(option.dataset.maxDuration);
+
+                    if (start.value < openTime || end.value > closeTime) {
+                        return {
+                            valid: false,
+                            message: `This facility is only available from ${to12Hour(openTime.slice(0,5))} to ${to12Hour(closeTime.slice(0,5))}.`,
+                        };
+                    }
+
+                    const durationHours = (toMinutes(end.value) - toMinutes(start.value)) / 60;
+                    if (durationHours > maxDuration) {
+                        return { valid: false, message: `Max reservation duration is ${maxDuration} hour(s).` };
+                    }
+
+                    return { valid: true };
+                },
+                onValid: ({ end }) => {
+                    const warning = addModal.querySelector('#time-warning'); // use editModal for edit-modal
+                    end.classList.remove('border-red-500');
+                    if (warning) warning.textContent = '';
+                },
+                onInvalid: ({ end }, result) => {
+                    const warning = addModal.querySelector('#time-warning'); // use editModal for edit-modal
+                    end.classList.add('border-red-500');
+                    if (warning) warning.textContent = result.message;
+                },
+            },
         ],
     });
 });
@@ -300,6 +337,43 @@ document.addEventListener('DOMContentLoaded', () => {
                     const warning = editModal.querySelector('#date-warning');
                     selectedDate.classList.remove('border-gray-300', 'focus:border-secondary');
                     selectedDate.classList.add('border-red-500', 'focus:border-red-500');
+                    if (warning) warning.textContent = result.message;
+                },
+            },
+            {
+                name: 'operatingHoursAndDuration',
+                fields: { facility: 'facility', start: 'start-time', end: 'end-time' },
+                watch: ['facility', 'start', 'end'],
+                validate: ({ facility, start, end }) => {
+                    if (!facility.value || !start.value || !end.value) return { valid: true };
+
+                    const option = facility.options[facility.selectedIndex];
+                    const openTime = option.dataset.startingHours;
+                    const closeTime = option.dataset.closingHours;
+                    const maxDuration = Number(option.dataset.maxDuration);
+
+                    if (start.value < openTime || end.value > closeTime) {
+                        return {
+                            valid: false,
+                            message: `This facility is only available from ${to12Hour(openTime.slice(0,5))} to ${to12Hour(closeTime.slice(0,5))}.`,
+                        };
+                    }
+
+                    const durationHours = (toMinutes(end.value) - toMinutes(start.value)) / 60;
+                    if (durationHours > maxDuration) {
+                        return { valid: false, message: `Max reservation duration is ${maxDuration} hour(s).` };
+                    }
+
+                    return { valid: true };
+                },
+                onValid: ({ end }) => {
+                    const warning = editModal.querySelector('#time-warning'); // use editModal for edit-modal
+                    end.classList.remove('border-red-500');
+                    if (warning) warning.textContent = '';
+                },
+                onInvalid: ({ end }, result) => {
+                    const warning = editModal.querySelector('#time-warning'); // use editModal for edit-modal
+                    end.classList.add('border-red-500');
                     if (warning) warning.textContent = result.message;
                 },
             },
