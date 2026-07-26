@@ -6,9 +6,11 @@ use App\Models\Resident;
 use App\Models\Facility;
 use App\Models\Reservation;
 use App\Models\User;
+use App\Models\AddOn;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
+
 use App\Http\Controllers\Controller;
 
 class ReservationController extends Controller
@@ -52,9 +54,10 @@ class ReservationController extends Controller
     {
         $staffs = User::all();
         $residents = Resident::all();
+        $addOns = AddOn::where('is_active', '=', 'Active')->get();
         $reservations = Reservation::with('facility', 'resident')->latest()->get();
-        $facilities = Facility::all();
-        return view('employee-facing.reservation.index', compact('reservations', 'facilities', 'residents', 'staffs'));
+        $facilities = Facility::with('addOns')->get();
+        return view('employee-facing.reservation.index', compact('reservations', 'facilities', 'residents', 'staffs', 'addOns'));
     }
 
     /**
@@ -102,6 +105,8 @@ class ReservationController extends Controller
             'event_type'   => 'required|string',
             'notes'        => 'nullable|string',
             'total_fee'    => 'required|numeric|min:0',
+            'add_ons'                       => 'nullable|array',
+            'add_ons.*'                     => 'exists:add_ons,id',
         ]);
 
         if ($start->lt($opening) || $end->gt($closing)) {
@@ -148,6 +153,18 @@ class ReservationController extends Controller
 
         Reservation::create($validated);
 
+        if ($request->add_ons) {
+            $addOns = AddOn::whereIn('id', $request->add_ons)->get();
+            $syncData = $addOns->mapWithKeys(fn ($addOn) => [
+                $addOn->id => [
+                    'quantity'   => 1,
+                    'unit_price' => $addOn->price,
+                    'subtotal'   => $addOn->price,
+                ],
+            ]);
+            $reservation->addOns()->sync($syncData);
+        }
+
         return redirect(route('reservation.index'))->with('success', 'Reservation created successfully!');
     }
 
@@ -165,10 +182,11 @@ class ReservationController extends Controller
      */
     public function edit(Reservation $reservation)
     {
+        $addOns = AddOn::where('is_active', '=', 'Active')->get();
         $staffs = User::whereIn('role', ['admin', 'staff'])->get();
         $residents = Resident::all();
-        $facilities = Facility::all();
-        return view('employee-facing.reservation.edit', compact('reservation', 'facilities', 'staffs', 'residents'));
+        $facilities = Facility::with('addOns')->get();
+        return view('employee-facing.reservation.edit', compact('reservation', 'facilities', 'staffs', 'residents', 'addOns'));
     }
 
     /**
@@ -256,10 +274,22 @@ class ReservationController extends Controller
             ],
             'status'        => ['required', Rule::in(['Pending','Confirmed','Cancelled'])],
             'event_type'    => 'required|string',
-            'notes'         => 'nullable|string'
+            'notes'         => 'nullable|string',
+            'add_ons'   => 'nullable|array',
+            'add_ons.*' => 'exists:add_ons,id',
         ]);
 
         $reservation->update($validated);
+
+        $addOns = AddOn::whereIn('id', $request->add_ons ?? [])->get();
+        $syncData = $addOns->mapWithKeys(fn ($addOn) => [
+            $addOn->id => [
+                'quantity'   => 1,
+                'unit_price' => $addOn->price,
+                'subtotal'   => $addOn->price,
+            ],
+        ]);
+        $reservation->addOns()->sync($syncData);
 
         return redirect(route('reservation.index'))->with('success', 'Reservation updated successfully!');
 

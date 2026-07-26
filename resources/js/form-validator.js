@@ -84,6 +84,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const addModal = document.getElementById('add-modal');
     if (!addModal) return;
 
+    const facility = addModal.querySelector('#facility');
+
+    function toggleAddOns() {
+        const container = addModal.querySelector('#addons-container');
+        if (!container) return; // skip if this modal has no add-ons section
+
+        const options = container.querySelectorAll('.addon-option');
+        const noAddonsMsg = container.querySelector('#no-addons-msg');
+        const facilityId = facility.value;
+
+        let visibleCount = 0;
+
+        options.forEach((opt) => {
+            const matches = opt.dataset.facilityId === facilityId;
+            opt.classList.toggle('hidden', !matches);
+            if (matches) visibleCount++;
+
+            if (!matches) {
+                const checkbox = opt.querySelector('input[type="checkbox"]');
+                if (checkbox) checkbox.checked = false;
+            }
+        });
+
+        if (noAddonsMsg) noAddonsMsg.classList.toggle('hidden', visibleCount > 0);
+    }
+
+    facility.addEventListener('change', toggleAddOns);
+    toggleAddOns(); // run once on load
+
     initFormValidation({
         form: addModal,
         submitBtn: addModal.querySelector('#form-submit'),
@@ -240,6 +269,35 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const editModal = document.getElementById('edit-modal');
     if (!editModal) return;
+
+    const facility = editModal.querySelector('#facility');
+
+    function toggleAddOns() {
+        const container = editModal.querySelector('#addons-container');
+        if (!container) return; // skip if this modal has no add-ons section
+
+        const options = container.querySelectorAll('.addon-option');
+        const noAddonsMsg = container.querySelector('#no-addons-msg');
+        const facilityId = facility.value;
+
+        let visibleCount = 0;
+
+        options.forEach((opt) => {
+            const matches = opt.dataset.facilityId === facilityId;
+            opt.classList.toggle('hidden', !matches);
+            if (matches) visibleCount++;
+
+            if (!matches) {
+                const checkbox = opt.querySelector('input[type="checkbox"]');
+                if (checkbox) checkbox.checked = false;
+            }
+        });
+
+        if (noAddonsMsg) noAddonsMsg.classList.toggle('hidden', visibleCount > 0);
+    }
+
+    facility.addEventListener('change', toggleAddOns);
+    toggleAddOns(); // run once on load
 
     initFormValidation({
         form: editModal,

@@ -103,7 +103,6 @@
             </div>
 
             <div>
-                {{-- <form action="/facility" method="POST" class="mt-1 space-y-4"> --}}
                 <form action="{{ route('facility.store') }}" method="POST" class="mt-1 space-y-4">
                     @csrf
 

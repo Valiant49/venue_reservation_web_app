@@ -86,8 +86,10 @@ class FacilityController extends Controller
             'base_fee'                      => 'required|numeric|min:0',
             'starting_hours'                => 'required|date_format:H:i',
             'closing_hours'                 => 'required|date_format:H:i|after:starting_hours',
-            'max_capacity'                  => 'required|integer:min:1',
-            'max_reservation_duration'      => 'required|integer:min:1',
+            'max_capacity'                  => 'required|integer|min:1',
+            'max_reservation_duration'      => 'required|integer|min:1',
+            'add_ons'                       => 'nullable|array',
+            'add_ons.*'                     => 'exists:add_ons,id',
          ]);
 
         $facility->update($validated);

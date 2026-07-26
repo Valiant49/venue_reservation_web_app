@@ -36,32 +36,32 @@
                 <thead
                     class="text-body bg-surface border-default-medium text-text sticky top-0 z-10 border-b text-sm">
                     <tr>
-                        <th scope="col" class="px-6 py-3 font-medium">Facility Name</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Resident Name</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Date</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Time</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Fee</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Status</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Event Type</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Notes</th>
-                        <th scope="col" class="px-6 py-3 font-medium">Actions</th>
+                        <th scope="col" class="px-3 py-3 font-medium">Facility Name</th>
+                        <th scope="col" class="px-3 py-3 font-medium">Resident Name</th>
+                        <th scope="col" class="px-3 py-3 font-medium">Date</th>
+                        <th scope="col" class="px-3 py-3 font-medium">Time</th>
+                        <th scope="col" class="px-3 py-3 font-medium">Fee</th>
+                        <th scope="col" class="px-3 py-3 font-medium">Status</th>
+                        <th scope="col" class="px-3 py-3 font-medium">Event Type</th>
+                        <th scope="col" class="px-3 py-3 font-medium">Notes</th>
+                        <th scope="col" class="px-3 py-3 font-medium">Actions</th>
                     </tr>
                 </thead>
                 @foreach ($reservations as $reservation)
                     <tr class="bg-background border-default hover:bg-gray-300 border-b">
-                        <td class="px-6 py-4"> {{ $reservation->facility->name ?? 'N/A' }} </td>
-                        <td class="px-6 py-4">
+                        <td class="px-3 py-4"> {{ $reservation->facility->name ?? 'N/A' }} </td>
+                        <td class="px-3 py-4">
                             {{ $reservation->resident->last_name }},
                             {{ $reservation->resident->first_name }}
                             {{ Str::limit($reservation->resident->middle_name, 1, '.') }}
                         </td>
-                        <td class="px-6 py-4"> {{ $reservation->date->format('M j, Y') }} </td>
-                        <td class="px-6 py-4"> {{ $reservation->start_time->format('H:i A') }} to {{ $reservation->end_time->format('H:i A') }} </td>
-                        <td class="px-6 py-4"> {{ $reservation->total_fee }} </td>
-                        <td class="px-6 py-4"> {{ $reservation->status }} </td>
-                        <td class="px-6 py-4"> {{ $reservation->event_type }} </td>
-                        <td class="px-6 py-4"> {{ $reservation->notes }} </td>
-                        <td class="px-6 py-4">
+                        <td class="px-3 py-4"> {{ $reservation->date->format('M j, Y') }} </td>
+                        <td class="px-3 py-4"> {{ $reservation->start_time->format('H:i A') }} to {{ $reservation->end_time->format('H:i A') }} </td>
+                        <td class="px-3 py-4"> {{ $reservation->total_fee }} </td>
+                        <td class="px-3 py-4"> {{ $reservation->status }} </td>
+                        <td class="px-3 py-4"> {{ $reservation->event_type }} </td>
+                        <td class="px-3 py-4"> {{ $reservation->notes }} </td>
+                        <td class="px-3 py-4">
                             <a href="{{ route('reservation.edit', $reservation) }}"
                                 class="text-info font-medium hover:underline">Edit</a>
                             @can('admin-access')
@@ -75,7 +75,7 @@
         </div>
 
         <dialog id="add-modal"
-            class="backdrop:backdrop-blur-xs open:animate-fade-in inset-0 m-auto w-full max-w-xl rounded-xl bg-white p-6 shadow-2xl backdrop:bg-gray-900/50">
+            class="backdrop:backdrop-blur-xs open:animate-fade-in inset-0 m-auto w-full max-w-3xl rounded-xl bg-white p-6 shadow-2xl backdrop:bg-gray-900/50">
 
             <!-- Modal Header -->
             <div class="mb-5 flex items-center justify-between border-b border-gray-100 pb-4">
@@ -95,166 +95,177 @@
                     @csrf
 
                     <!-- Grid container for a clean 2-column desktop layout -->
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-
-                        <!-- Facility Field -->
-                        <div>
-                            <label for="facility" class="mb-1 block text-sm font-medium text-gray-700">Facility</label>
-                            <select name="facility_id" id="facility"
-                                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
-                                <option value="" disabled {{ old('facility_type') === null ? 'selected' : '' }}>
-                                    Please select...</option>
-                                @foreach ($facilities as $facility)
-                                    <option value="{{ $facility->id }}"
-                                        {{ old('facility_type') == $facility->id ? 'selected' : '' }}
-                                        data-fee="{{ $facility->base_fee }}"
-                                        data-type="{{ $facility->reservation_type }}"
-                                        data-capacity="{{ $facility->max_capacity }}"
-                                        data-starting-hours="{{ $facility->starting_hours }}"
-                                        data-closing-hours="{{ $facility->closing_hours }}"
-                                        data-max-duration="{{ $facility->max_reservation_duration }}">
-                                        {{ $facility->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <!-- Resident Name Field -->
-                        <div>
-                            <label for="resident" class="mb-1 block text-sm font-medium text-gray-700">Resident
-                                Name</label>
-                            <select name="reserved_by" id="resident"
-                                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
-                                <option value="" disabled {{ old('reserved_by') ? '' : 'selected' }}>Select a
-                                    resident...</option>
-                                @foreach ($residents as $resident)
-                                    <option value="{{ $resident->id }}"
-                                        {{ old('reserved_by') == $resident->id ? 'selected' : '' }}>
-                                        {{ $resident->last_name }}, {{ $resident->first_name }}
-                                        {{ Str::limit($resident->middle_name, 1, '.') }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('reserved_by')
-                                <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Guest Count Field -->
-                        <div>
-                            <label for="guest-count" class="mb-1 block text-sm font-medium text-gray-700">Guest
-                                Count</label>
-                            <input type="number" name="guest_count" id="guest-count" min="1"
-                                value="{{ old('guest_count') }}"
-                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
-                                <p id="guest-warning" class="mt-1 text-xs font-medium text-red-600">
-                                    @error('guest_count')
-                                        {{ $message }}
+                    <div class="flex">
+                        <div class="flex-1">
+                            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                <!-- Facility Field -->
+                                <div>
+                                    <label for="facility" class="mb-1 block text-sm font-medium text-gray-700">Facility</label>
+                                    <select name="facility_id" id="facility"
+                                        class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
+                                        <option value="" disabled {{ old('facility_type') === null ? 'selected' : '' }}>
+                                            Please select...</option>
+                                        @foreach ($facilities as $facility)
+                                            <option value="{{ $facility->id }}"
+                                                {{ old('facility_type') == $facility->id ? 'selected' : '' }}
+                                                data-fee="{{ $facility->base_fee }}"
+                                                data-type="{{ $facility->reservation_type }}"
+                                                data-capacity="{{ $facility->max_capacity }}"
+                                                data-starting-hours="{{ $facility->starting_hours }}"
+                                                data-closing-hours="{{ $facility->closing_hours }}"
+                                                data-max-duration="{{ $facility->max_reservation_duration }}">
+                                                {{ $facility->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <!-- Resident Name Field -->
+                                <div>
+                                    <label for="resident" class="mb-1 block text-sm font-medium text-gray-700">Resident
+                                        Name</label>
+                                    <select name="reserved_by" id="resident"
+                                        class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
+                                        <option value="" disabled {{ old('reserved_by') ? '' : 'selected' }}>Select a
+                                            resident...</option>
+                                        @foreach ($residents as $resident)
+                                            <option value="{{ $resident->id }}"
+                                                {{ old('reserved_by') == $resident->id ? 'selected' : '' }}>
+                                                {{ $resident->last_name }}, {{ $resident->first_name }}
+                                                {{ Str::limit($resident->middle_name, 1, '.') }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('reserved_by')
+                                        <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
                                     @enderror
-                                </p>
-                        </div>
-
-                        <!-- Reservation Date Field -->
-                        <div>
-                            <label for="date" class="mb-1 block text-sm font-medium text-gray-700">Reservation
-                                Date</label>
-                            <input type="date" name="date" id="date"
-                                value="{{ old('date') }}"
-                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
-                            <p id="date-warning" class="mt-1 text-xs font-medium text-red-600">
-                                @error('date')
-                                    {{ $message }}
-                                @enderror
-                            </p>
-                        </div>
-
-                        <!-- Start Time Field -->
-                        <div>
-                            <label for="start-time" class="mb-1 block text-sm font-medium text-gray-700">Start
-                                Time</label>
-                            <input type="time" name="start_time" id="start-time" value="{{ old('start_time') }}"
-                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
-                                <p id="time-warning" class="mt-1 text-xs font-medium text-red-600">
-                                    @error('start_time')
-                                        {{ $message }}
+                                </div>
+                                <!-- Guest Count Field -->
+                                <div>
+                                    <label for="guest-count" class="mb-1 block text-sm font-medium text-gray-700">Guest
+                                        Count</label>
+                                    <input type="number" name="guest_count" id="guest-count" min="1"
+                                        value="{{ old('guest_count') }}"
+                                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
+                                        <p id="guest-warning" class="mt-1 text-xs font-medium text-red-600">
+                                            @error('guest_count')
+                                                {{ $message }}
+                                            @enderror
+                                        </p>
+                                </div>
+                                <!-- Reservation Date Field -->
+                                <div>
+                                    <label for="date" class="mb-1 block text-sm font-medium text-gray-700">Reservation
+                                        Date</label>
+                                    <input type="date" name="date" id="date"
+                                        value="{{ old('date') }}"
+                                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
+                                    <p id="date-warning" class="mt-1 text-xs font-medium text-red-600">
+                                        @error('date')
+                                            {{ $message }}
+                                        @enderror
+                                    </p>
+                                </div>
+                                <!-- Start Time Field -->
+                                <div>
+                                    <label for="start-time" class="mb-1 block text-sm font-medium text-gray-700">Start
+                                        Time</label>
+                                    <input type="time" name="start_time" id="start-time" value="{{ old('start_time') }}"
+                                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
+                                        <p id="time-warning" class="mt-1 text-xs font-medium text-red-600">
+                                            @error('start_time')
+                                                {{ $message }}
+                                            @enderror
+                                        </p>
+                                </div>
+                                <!-- End Time Field -->
+                                <div>
+                                    <label for="end-time" class="mb-1 block text-sm font-medium text-gray-700">End
+                                        Time</label>
+                                    <input type="time" name="end_time" id="end-time" value="{{ old('end_time') }}"
+                                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
+                                    @error('end_time')
+                                        <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
                                     @enderror
-                                </p>
+                                </div>
+                                <!-- Status Field -->
+                                <div>
+                                    <label for="status" class="mb-1 block text-sm font-medium text-gray-700">Status</label>
+                                    <select name="status" id="status"
+                                        class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
+                                        <option value="Pending" {{ old('status', 'Pending') == 'Pending' ? 'selected' : '' }}>
+                                            Pending</option>
+                                        <option value="Confirmed" {{ old('status') == 'Confirmed' ? 'selected' : '' }}>
+                                            Confirmed</option>
+                                        <option value="Cancelled" {{ old('status') == 'Cancelled' ? 'selected' : '' }}>
+                                            Cancelled</option>
+                                    </select>
+                                    @error('status')
+                                        <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <!-- Event Type Field -->
+                                <div>
+                                    <label for="event-type" class="mb-1 block text-sm font-medium text-gray-700">Event
+                                        Type</label>
+                                    <input type="text" name="event_type" id="event-type" value="{{ old('event_type') }}"
+                                        placeholder="e.g. Seminar"
+                                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
+                                    @error('event_type')
+                                        <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <!-- Fee Field -->
+                                <div>
+                                    <label for="fee" class="mb-1 block text-sm font-medium text-gray-700">Estimated Fee</label>
+                                    <input type="text" id="estimated-fee" value="{{ old('total_fee') }}"
+                                        placeholder="₱0.00" disabled
+                                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
+                                    @error('total_fee')
+                                        <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <input type="hidden" name="total_fee" id="total-fee">
+                                <!-- Duration Calculation -->
+                                <div>
+                                    <label for="fee" class="mb-1 block text-sm font-medium text-gray-700">Duration</label>
+                                    <input type="text" id="duration"
+                                        placeholder="e.g. 1 hr" disabled
+                                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
+                                    @error('duration')
+                                        <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                                <!-- Notes Field (Spans full width) -->
+                                <div>
+                                    <label for="notes" class="mb-1 block text-sm font-medium text-gray-700">Notes</label>
+                                    <textarea name="notes" id="notes" rows="2" placeholder="Provide additional reservation details..."
+                                    class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 resize-none h-25">{{ old('notes') }}</textarea>
+                                    @error('notes')
+                                    <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
                         </div>
 
-                        <!-- End Time Field -->
-                        <div>
-                            <label for="end-time" class="mb-1 block text-sm font-medium text-gray-700">End
-                                Time</label>
-                            <input type="time" name="end_time" id="end-time" value="{{ old('end_time') }}"
-                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
-                            @error('end_time')
-                                <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
-                            @enderror
+                        <div id="addons-container" class="pl-4 flex-1">
+                            <x-input-label>Add-ons for this Facility</x-input-label>
+                            <div class="max-h-60 overflow-y-auto pr-1">
+                                @foreach ($facilities as $fac)
+                                    @foreach ($fac->addOns as $addOn)
+                                        <label class="addon-option flex items-center gap-2 px-4 py-3 m-2 bg-background rounded hidden"
+                                            data-facility-id="{{ $fac->id }}">
+                                            <input type="checkbox" name="add_ons[]" value="{{ $addOn->id }}"
+                                                @checked($reservation->addOns->contains($addOn->id))>
+                                            <div class="flex flex-1 justify-between items-center">
+                                                <span class="text-black/80 font-medium">{{ $addOn->name }}</span>
+                                                <span class="text-black/80">(₱{{ number_format($addOn->price, 2) }})</span>
+                                            </div>
+                                        </label>
+                                    @endforeach
+                                @endforeach
+                            </div>
+                            <p id="no-addons-msg" class="text-sm text-gray-400 hidden">No add-ons available for this facility.</p>
                         </div>
-
-                        <!-- Status Field -->
-                        <div>
-                            <label for="status" class="mb-1 block text-sm font-medium text-gray-700">Status</label>
-                            <select name="status" id="status"
-                                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
-                                <option value="Pending" {{ old('status', 'Pending') == 'Pending' ? 'selected' : '' }}>
-                                    Pending</option>
-                                <option value="Confirmed" {{ old('status') == 'Confirmed' ? 'selected' : '' }}>
-                                    Confirmed</option>
-                                <option value="Cancelled" {{ old('status') == 'Cancelled' ? 'selected' : '' }}>
-                                    Cancelled</option>
-                            </select>
-                            @error('status')
-                                <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Event Type Field -->
-                        <div>
-                            <label for="event-type" class="mb-1 block text-sm font-medium text-gray-700">Event
-                                Type</label>
-                            <input type="text" name="event_type" id="event-type" value="{{ old('event_type') }}"
-                                placeholder="e.g. Seminar"
-                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
-                            @error('event_type')
-                                <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Fee Field -->
-                        <div>
-                            <label for="fee" class="mb-1 block text-sm font-medium text-gray-700">Estimated Fee</label>
-                            <input type="text" id="estimated-fee" value="{{ old('total_fee') }}"
-                                placeholder="₱0.00" disabled
-                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
-                            @error('total_fee')
-                                <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <input type="hidden" name="total_fee" id="total-fee">
-
-                        <!-- Duration Calculation -->
-                        <div>
-                            <label for="fee" class="mb-1 block text-sm font-medium text-gray-700">Duration</label>
-                            <input type="text" id="duration"
-                                placeholder="e.g. 1 hr" disabled
-                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
-                            @error('duration')
-                                <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                    </div>
-
-                    <!-- Notes Field (Spans full width) -->
-                    <div>
-                        <label for="notes" class="mb-1 block text-sm font-medium text-gray-700">Notes</label>
-                        <textarea name="notes" id="notes" rows="2" placeholder="Provide additional reservation details..."
-                            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">{{ old('notes') }}</textarea>
-                        @error('notes')
-                            <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
-                        @enderror
                     </div>
 
                     <!-- Modal Action Buttons Footer -->
