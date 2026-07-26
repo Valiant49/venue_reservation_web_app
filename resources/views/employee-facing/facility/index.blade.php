@@ -32,7 +32,7 @@
 
         <div
             class="bg-surface shadow-xs border-border-strong max-h-180 relative overflow-x-auto overflow-y-auto rounded-md border">
-            <table class="text-body w-full text-left text-sm">
+            <table class="text-body w-full text-left text-sm table-fixed">
                 <thead
                     class="text-body bg-background border-default-medium text-text sticky top-0 z-10 border-b text-sm">
                     <tr>

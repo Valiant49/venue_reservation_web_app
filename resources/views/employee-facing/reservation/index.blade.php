@@ -32,7 +32,7 @@
 
         <div
             class="bg-surface-alt shadow-xs border-border-strong max-h-180 relative overflow-x-auto overflow-y-auto rounded-md border">
-            <table class="text-body w-full text-left text-sm">
+            <table class="text-body w-full text-left text-sm table-fixed">
                 <thead
                     class="text-body bg-surface border-default-medium text-text sticky top-0 z-10 border-b text-sm">
                     <tr>
@@ -50,7 +50,7 @@
                 @foreach ($reservations as $reservation)
                     <tr class="bg-background border-default hover:bg-gray-300 border-b">
                         <td class="px-3 py-4"> {{ $reservation->facility->name ?? 'N/A' }} </td>
-                        <td class="px-3 py-4">
+                        <td class="px-3 py-4 truncate">
                             {{ $reservation->resident->last_name }},
                             {{ $reservation->resident->first_name }}
                             {{ Str::limit($reservation->resident->middle_name, 1, '.') }}
@@ -60,7 +60,7 @@
                         <td class="px-3 py-4"> {{ $reservation->total_fee }} </td>
                         <td class="px-3 py-4"> {{ $reservation->status }} </td>
                         <td class="px-3 py-4"> {{ $reservation->event_type }} </td>
-                        <td class="px-3 py-4"> {{ $reservation->notes }} </td>
+                        <td class="px-3 py-4 max-w-3xs truncate"> {{ $reservation->notes }} </td>
                         <td class="px-3 py-4">
                             <a href="{{ route('reservation.edit', $reservation) }}"
                                 class="text-info font-medium hover:underline">Edit</a>
