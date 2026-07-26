@@ -6,7 +6,7 @@
         {{-- Modal Header --}}
         <div class="flex items-center justify-between border-b border-gray-100 pb-4 mb-5">
             <h3 class="text-xl font-semibold text-gray-900">Edit Reservation Details</h3>
-            <a href="/reservation"
+            <a href="{{ route('reservation.index') }}"
                 class="cursor-pointer rounded-md p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-500 transition-colors">
                 <span class="sr-only">Close</span>
                 <svg class="size-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -46,10 +46,12 @@
                 <div>
                     <label for="facility" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Facility</label>
                     <select name="facility_id" id="facility"
-                        class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white">
+                        class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary bg-white">
                         <option value="" disabled>Please select...</option>
                         @foreach($facilities as $facility)
-                            <option value="{{ $facility->id }}" {{ $reservation->facility_id == $facility->id ? 'selected' : '' }}>
+                            <option value="{{ $facility->id }}" {{ $reservation->facility_id == $facility->id ? 'selected' : '' }}
+                                data-fee="{{ $facility->base_fee }}"
+                                data-capacity="{{ $facility->max_capacity }}">
                                 {{ $facility->name }}
                             </option>
                         @endforeach
@@ -58,7 +60,7 @@
                 <div>
                     <label for="client" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Resident Name</label>
                     <select name="reserved_by" id="client"
-                        class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white">
+                        class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary bg-white">
                         <option value="" disabled>Select a resident...</option>
                         @foreach($residents as $resident)
                             <option value="{{ $resident->id }}" {{ $reservation->reserved_by == $resident->id ? 'selected' : '' }}>
@@ -74,21 +76,26 @@
 
             {{-- Row 2: Date + Guest Count --}}
             <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Reservation Date</label>
-                    <input type="date" name="date" id="date" value="{{ old('reservation_date', $reservation->date->format('Y-m-d')) }}"
-                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
-                    @error('reservation_date')
-                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
+
                 <div>
                     <label for="guest-count" class="block text-sm font-medium text-gray-700 mb-1">Guest Count</label>
                     <input type="number" name="guest_count" id="guest-count" min="1" value="{{ old('guest_count', $reservation->guest_count) }}"
-                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
-                    @error('guest_count')
-                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                    @enderror
+                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                    <p id="guest-warning" class="mt-1 text-xs font-medium text-red-600">
+                        @error('guest_count')
+                            {{ $message }}
+                        @enderror
+                    </p>
+                </div>
+                <div>
+                    <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Reservation Date</label>
+                    <input type="date" name="date" id="date" value="{{ old('reservation_date', $reservation->date->format('Y-m-d')) }}"
+                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                    <p id="date-warning" class="mt-1 text-xs font-medium text-red-600">
+                        @error('date')
+                            {{ $message }}
+                        @enderror
+                    </p>
                 </div>
             </div>
 
@@ -97,7 +104,7 @@
                 <div>
                     <label for="start-time" class="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
                     <input type="time" name="start_time" id="start-time" value="{{ old('start_time', $reservation->start_time->format('H:i')) }}"
-                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
                     @error('start_time')
                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                     @enderror
@@ -105,7 +112,7 @@
                 <div>
                     <label for="end-time" class="block text-sm font-medium text-gray-700 mb-1">End Time</label>
                     <input type="time" name="end_time" id="end-time" value="{{ old('end_time', $reservation->end_time->format('H:i')) }}"
-                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
                     @error('end_time')
                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                     @enderror
@@ -117,7 +124,7 @@
                 <div>
                     <label for="status" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Status</label>
                     <select name="status" id="status"
-                        class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white">
+                        class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary bg-white">
                         <option value="Pending"   {{ old('status', $reservation->status) == 'Pending'   ? 'selected' : '' }}>Pending</option>
                         <option value="Confirmed" {{ old('status', $reservation->status) == 'Confirmed' ? 'selected' : '' }}>Confirmed</option>
                         <option value="Cancelled" {{ old('status', $reservation->status) == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
@@ -129,7 +136,7 @@
                 <div>
                     <label for="facilitated-by" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Facilitated By</label>
                     <select name="facilitated_by" id="facilitated-by"
-                        class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 bg-white">
+                        class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary bg-white">
                         @foreach($staffs as $staff)
                             <option value="{{ $staff->id }}" {{ old('facilitated_by', $reservation->facilitated_by) == $staff->id ? 'selected' : '' }}>
                                 {{ $staff->last_name }}, {{ $staff->first_name }} {{ Str::limit($staff->middle_name, 1, '.') }}
@@ -144,18 +151,34 @@
 
             {{-- Row 5: Fee + Event Type --}}
             <div class="grid grid-cols-2 gap-4">
-                <div>
+                {{-- <div>
                     <label for="fee" class="block text-sm font-medium text-gray-700 mb-1">Total Fee</label>
                     <input type="text" name="total_fee" id="fee" value="{{ old('total_fee', $reservation->total_fee) }}"
-                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
                     @error('total_fee')
                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                    @enderror
+                </div> --}}
+                <input type="hidden" name="total_fee" id="total-fee">
+                <div>
+                    <label for="duration" class="mb-1 block text-sm font-medium text-gray-700">Duration</label>
+                    <input type="text" id="duration" placeholder="e.g. 1 hr" disabled
+                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
+                </div>
+
+                <div>
+                    <label for="fee" class="mb-1 block text-sm font-medium text-gray-700">Total Fee</label>
+                    <input type="text" id="estimated-fee" value="{{ old('total_fee', $reservation->total_fee) }}"
+                        placeholder="₱0.00" disabled
+                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
+                    @error('total_fee')
+                        <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
                 <div>
                     <label for="event-type" class="block text-sm font-medium text-gray-700 mb-1">Event Type</label>
                     <input type="text" name="event_type" id="event-type" value="{{ old('event_type', $reservation->event_type) }}"
-                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
                     @error('event_type')
                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                     @enderror
@@ -166,7 +189,7 @@
             <div>
                 <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
                 <textarea name="notes" id="notes" rows="3"
-                    class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">{{ old('notes', $reservation->notes) }}</textarea>
+                    class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">{{ old('notes', $reservation->notes) }}</textarea>
                 @error('notes')
                     <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                 @enderror
@@ -174,11 +197,11 @@
 
             {{-- Footer Buttons --}}
             <div class="flex items-center justify-end space-x-3 border-t border-gray-100 pt-4 mt-6">
-                <x-secondary-button onclick="{{ route('reservation.index') }}"
-                    class="cursor-pointer rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                <x-secondary-button onclick="window.location.href='{{ route('reservation.index') }}'"
+                    class="cursor-pointer rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
                     Cancel
                 </x-secondary-button>
-                <x-primary-button type="submit"
+                <x-primary-button type="submit" id="form-submit"
                     class="cursor-pointer rounded-lg px-4 py-2 bg-secondary hover:bg-secondary-hover text-sm font-medium text-text shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
                     Update Reservation
                 </x-primary-button>

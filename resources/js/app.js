@@ -6,7 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 
-import './staff-reservation-form';
+import './form-validator';
 
 import Alpine from 'alpinejs';
 

@@ -158,9 +158,11 @@
                             <input type="date" name="date" id="date"
                                 value="{{ old('date') }}"
                                 class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
-                            @error('date')
-                                <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
-                            @enderror
+                            <p id="date-warning" class="mt-1 text-xs font-medium text-red-600">
+                                @error('date')
+                                    {{ $message }}
+                                @enderror
+                            </p>
                         </div>
 
                         <!-- Start Time Field -->
