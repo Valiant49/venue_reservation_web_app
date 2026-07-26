@@ -18,7 +18,7 @@ class NotifyUpcomingReservations extends Command
      */
     public function handle()
     {
-        $targetDate = now()->addDays(3)->format('Y-m-d'); // adjust "1 day ahead" to whatever window you want
+        $targetDate = now()->addDays(1)->format('Y-m-d'); // adjust "1 day ahead" to whatever window you want
 
         $reservations = Reservation::with(['facility', 'resident'])
             ->where('date', $targetDate)
