@@ -53,8 +53,9 @@
   --color-grey-5:            #f4f5f8;
 
   /* ─── Typography ────────────────────────────────── */
-  --font-serif:               'Cormomant Garamond', sans-serif;
-  --font-display:            'Playfair Display', Georgia, serif;
+  --font-cormorant:         "Cormorant Garamond", serif;
+  --font-alegreya:          "Alegreya", serif;
+  --font-nunito:            "Nunito", sans-serif;
 
   --font-weight-normal:      400;
   --font-weight-medium:      500;

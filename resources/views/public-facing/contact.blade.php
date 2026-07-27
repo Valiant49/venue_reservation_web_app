@@ -23,28 +23,28 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
 
-                <div class="flex flex-col items-center text-center bg-primary rounded-xl px-5 py-8">
+                <div class="flex flex-col items-center text-center bg-primary px-5 py-8 rounded-tr-lg rounded-bl-lg">
                     <h3 class="font-alegreya font-medium text-white text-lg mb-2">HOA Office</h3>
                     <p class="font-nunito text-sm text-gray-200 leading-6">
                         123456 Avenue St,<br>Very Long Address City
                     </p>
                 </div>
 
-                <div class="flex flex-col items-center text-center bg-primary rounded-xl px-5 py-8">
+                <div class="flex flex-col items-center text-center bg-primary rounded-tr-lg rounded-bl-lg px-5 py-8">
                     <h3 class="font-alegreya font-medium text-white text-lg mb-2">Phone</h3>
                     <p class="font-nunito text-sm text-gray-200 leading-6">
                         +64-000-000<br>+64-300-000
                     </p>
                 </div>
 
-                <div class="flex flex-col items-center text-center bg-primary rounded-xl px-5 py-8">
+                <div class="flex flex-col items-center text-center bg-primary rounded-tr-lg rounded-bl-lg px-5 py-8">
                     <h3 class="font-alegreya font-medium text-white text-lg mb-2">Email</h3>
                     <p class="font-nunito text-sm text-gray-200 leading-6">
                         housing@rmeil.com<br>hoa@rmeil.com
                     </p>
                 </div>
 
-                <div class="flex flex-col items-center text-center bg-primary rounded-xl px-5 py-8">
+                <div class="flex flex-col items-center text-center bg-primary rounded-tr-lg rounded-bl-lg px-5 py-8">
                     <h3 class="font-alegreya font-medium text-white text-lg mb-2">Office Hours</h3>
                     <p class="font-nunito text-sm text-gray-200 leading-6">
                         Mon–Fri: 8AM–5PM<br>Sat: 9AM–12PM
@@ -99,47 +99,7 @@
     </section>
 
     <!-- ================= INQUIRY ================= -->
-    <section class="bg-white py-20">
-        <div class="mx-auto max-w-5xl px-8">
-            <!-- Heading -->
-            <h2 class="font-['Cormorant_Garamond'] text-6xl text-black">
-                Inquiry
-            </h2>
-            <p class="mb-6 mt-1 font-['Alegreya'] text-sm text-black">
-                Jelly beans cake oat cake marzipan danish jelly-o muffin caramels chocolate —
-                I love pastry sweet roll lemon drops
-            </p>
-            <form class="mx-auto max-w-2xl">
-                <!-- Top Row -->
-                <div class="grid gap-1 md:grid-cols-3">
-                    <div>
-                        <x-input-label>Name:</x-input-label>
-                        <x-text-input type="text"></x-text-input>
-                    </div>
-                    <div>
-                        <x-input-label> Number:</x-input-label>
-                        <x-text-input type="text"></x-text-input>
-                    </div>
-                    <div>
-                        <x-input-label>Email:</x-input-label>
-                        <x-text-input type="email"></x-text-input>
-                    </div>
-                </div>
-                <!-- Message -->
-                <div class="mt-3">
-                    <x-input-label>Message:</x-input-label>
-                    <x-textarea-input rows="7"></x-textarea-input>
-                </div>
-                <!-- Button -->
-                <div class="mt-5 text-center">
-                    <button type="submit"
-                        class="rounded-md bg-[#284b63] px-8 py-2 tracking-[4px] text-white duration-300 hover:bg-[#12364d]">
-                        SUBMIT
-                    </button>
-                </div>
-            </form>
-        </div>
-    </section>
+    <x-inquiry></x-inquiry>
 
     <x-public-footer></x-public-footer>
 </body>

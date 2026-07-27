@@ -24,8 +24,8 @@
 
             <div class="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
 
-                <img src="./assets/images/black.jpg" alt="Soladia community aerial view"
-                     class="w-full lg:w-1/2 h-[260px] sm:h-[340px] lg:h-[420px] object-cover">
+                <img src="{{ asset('images/about 2.jpg') }}" alt="Soladia community aerial view"
+                     class="w-full lg:w-1/2 h-[260px] sm:h-[340px] lg:h-[420px] object-cover rounded-tr-lg rounded-bl-lg">
 
                 <div class="w-full lg:w-1/2 flex flex-col">
                     <p class="font-alegreya text-base sm:text-lg leading-7 sm:leading-8 text-gray-800">
@@ -44,7 +44,7 @@
         </div>
     </section>
 
-    <!-- ================= HISTORY ================= -->
+   <!-- ================= HISTORY ================= -->
     <section class="bg-white py-16 sm:py-20 lg:py-24 px-6 sm:px-10 lg:px-[90px]">
         <div class="max-w-[1400px] mx-auto">
 
@@ -54,8 +54,8 @@
 
             <div class="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
 
-                <img src="./assets/images/black.jpg" alt="Soladia development history"
-                     class="w-full lg:w-1/2 h-[260px] sm:h-[340px] lg:h-[420px] object-cover">
+                <img src="{{ asset('images/history.jpg') }}" alt="Soladia development history"
+                     class="w-full lg:w-1/2 h-[260px] sm:h-[340px] lg:h-[420px] object-cover rounded-tr-lg rounded-bl-lg">
 
                 <div class="w-full lg:w-1/2 flex flex-col">
                     <p class="font-alegreya text-base sm:text-lg leading-7 sm:leading-8 text-gray-800">
