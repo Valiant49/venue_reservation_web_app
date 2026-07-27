@@ -136,7 +136,7 @@
                             </div>
                             <div>
                                 <label for="facilitated-by" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Facilitated By</label>
-                                <select name="facilitated_by" id="facilitated-by" disabled
+                                <select name="facilitated_by" id="facilitated-by"
                                     class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary bg-white">
                                     @foreach($staffs as $staff)
                                         <option value="{{ $staff->id }}" {{ old('facilitated_by', $reservation->facilitated_by) == $staff->id ? 'selected' : '' }}>

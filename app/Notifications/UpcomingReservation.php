@@ -36,11 +36,17 @@ class UpcomingReservation extends Notification
     {
         return (new MailMessage)
             ->subject('Upcoming Reservation Reminder')
-            ->greeting("Hi {$notifiable->first_name},")
-            ->line("You have an upcoming reservation at {$this->reservation->facility->name}.")
-            ->line("Date: {$this->reservation->date->format('M j, Y')}")
-            ->line("Time: {$this->reservation->start_time->format('h:i A')} - {$this->reservation->end_time->format('h:i A')}")
-            ->line('See you there!');
+            ->view('vendor.mail.reservation-reminder', [
+                'reservation' => $this->reservation,
+                'resident' => $notifiable,
+                'facility' => $this->reservation->facility,
+            ]);
+
+            // ->greeting("Hi {$notifiable->first_name},")
+            // ->line("You have an upcoming reservation at {$this->reservation->facility->name}.")
+            // ->line("Date: {$this->reservation->date->format('M j, Y')}")
+            // ->line("Time: {$this->reservation->start_time->format('h:i A')} - {$this->reservation->end_time->format('h:i A')}")
+            // ->line('See you there!');
     }
 
     /**

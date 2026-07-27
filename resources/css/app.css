@@ -7,9 +7,6 @@
 @tailwind utilities; */
 
 @theme {
-  /* --font-serif:             "Cormomant Garamond", serif; */
-
-
   /* ─── Brand Colors ─────────────────────────────── */
   --color-primary:           #284b63;
   --color-primary-hover:     #12364d;
