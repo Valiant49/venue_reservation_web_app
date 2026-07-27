@@ -34,6 +34,7 @@
                                 <tr class="border-b border-gray-200 text-gray-500">
                                     <th class="whitespace-nowrap py-2 pr-4 font-medium">Resident</th>
                                     <th class="whitespace-nowrap py-2 pr-4 font-medium">Facility</th>
+                                    <th class="whitespace-nowrap py-2 pr-4 font-medium">Date</th>
                                     <th class="whitespace-nowrap py-2 pr-4 font-medium">Time</th>
                                     <th class="whitespace-nowrap py-2 pr-4 font-medium">Status</th>
                                 </tr>
@@ -45,6 +46,7 @@
                                             {{ $reservation->resident->first_name }}
                                             {{ Str::limit($reservation->resident->middle_name, 1, '.') }} </td>
                                         <td class="whitespace-nowrap py-2 pr-4">{{ $reservation->facility->name }}</td>
+                                        <td class="whitespace-nowrap py-2 pr-4">{{ $reservation->date->format('M j, Y') }}</td>
                                         <td class="whitespace-nowrap py-2 pr-4">
                                             {{ $reservation->start_time->format('H:i A') }} -
                                             {{ $reservation->end_time->format('H:i A') }}</td>
@@ -80,6 +82,7 @@
                             <tr class="border-b border-gray-200 text-gray-500">
                                 <th class="whitespace-nowrap py-2 pr-4 font-medium">Resident</th>
                                 <th class="whitespace-nowrap py-2 pr-4 font-medium">Facility</th>
+                                <th class="whitespace-nowrap py-2 pr-4 font-medium">Date</th>
                                 <th class="whitespace-nowrap py-2 pr-4 font-medium">Time</th>
                                 <th class="whitespace-nowrap py-2 pr-4 font-medium">Status</th>
                             </tr>
@@ -91,6 +94,7 @@
                                         {{ $reservation->resident->first_name }}
                                         {{ Str::limit($reservation->resident->middle_name, 1, '.') }} </td>
                                     <td class="whitespace-nowrap py-2 pr-4">{{ $reservation->facility->name }}</td>
+                                    <td class="whitespace-nowrap py-2 pr-4">{{ $reservation->date->format('M j, Y') }}</td>
                                     <td class="whitespace-nowrap py-2 pr-4">{{ $reservation->start_time->format('H:i A') }}
                                         - {{ $reservation->end_time->format('H:i A') }}</td>
                                     <td class="whitespace-nowrap py-2 pr-4">

@@ -31,7 +31,8 @@ class ReservationController extends Controller
         ->get();
 
         $reservationsToday = Reservation::with(['facility', 'resident'])
-        // ->whereDate('date', Carbon::today())
+        ->whereDate('date', Carbon::today())
+        ->orderBy('start_time')
         ->take(2)
         ->get();
 
