@@ -27,7 +27,7 @@ class ResidentPortalController extends Controller
 
     public function facility()
     {
-        $facilities = Facility::all();
+        $facilities = Facility::where('facility_status', '=', 'Open')->get();
         return view('resident-facing.facility', compact('facilities'));
     }
 
@@ -45,7 +45,12 @@ class ResidentPortalController extends Controller
             session()->forget('reservation.step1');
         }
 
-        $facilities = Facility::with('addOns')->get();
+        // $facilities = Facility::with('addOns')->get();
+        $facilities = Facility::with(['addOns' => function ($query) {
+            $query->where('is_active', true);
+        }])
+        ->where('facility_status', '=', 'Open')
+        ->get();
         $step1 = session('reservation.step1');
         return view('resident-facing.reservation', compact('facilities', 'step1'));
     }
