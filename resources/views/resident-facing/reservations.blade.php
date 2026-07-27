@@ -74,13 +74,28 @@
                         </div>
                     @endif
                     {{-- Action --}}
-                    <a href="{{ route('resident.reservation.show', $reservation->id) }}"
-                            class="mt-2 inline-flex items-center justify-center rounded-md bg-white/10 py-2 text-sm font-medium transition hover:bg-white/20">
+                    <div class="mt-2 flex items-center gap-3">
+                        <form method="POST"
+                            action="{{ route('resident.reservations.cancel', $reservation) }}"
+                            onsubmit="return confirm('Are you sure you want to cancel this reservation?');">
+                            @csrf
+                            @method('PATCH')
+
+                            <button
+                                type="submit"
+                                class="inline-flex items-center justify-center rounded-md bg-red/10 px-4 py-2 text-sm font-medium transition hover:bg-red/20 w-full">
+                                Cancel Reservation
+                            </button>
+                        </form>
+
+                        <a href="{{ route('resident.reservation.show', $reservation->id) }}"
+                            class="flex-1 text-center items-center justify-center rounded-md bg-white/10 px-4 py-2 text-sm font-medium transition hover:bg-white/20">
                             View Details
                         </a>
+                    </div>
                     @if (strtolower($reservation->status) === 'confirmed')
                     <a href="{{ route('resident.reservations.calendar', $reservation) }}"
-                            class="inline-flex items-center rounded bg-green-600 px-3 py-2 text-sm text-white">
+                            class="text-center rounded bg-green-600 px-3 py-2 text-sm text-white">
                         Add to Calendar
                     </a>
                     @endif

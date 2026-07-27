@@ -120,6 +120,8 @@ Route::prefix('resident')->name('resident.')->middleware(['auth', 'status:Active
     })->name('calendar');
     Route::get('/resident/reservations/{reservation}/calendar', [ResidentCalendarController::class, 'export'])
     ->name('reservations.calendar');
+
+    Route::patch('/resident/reservations/{reservation}/cancel',[ResidentPortalController::class, 'cancel'])->name('reservations.cancel');
 });
 
 require __DIR__.'/auth.php';
