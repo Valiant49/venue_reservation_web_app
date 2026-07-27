@@ -79,6 +79,12 @@ Route::middleware(['auth', 'role:staff,admin'])->prefix('staff')->group(function
     Route::resource('facility', FacilityController::class);
     Route::resource('residents', ResidentController::class);
     Route::resource('reservation', ReservationController::class);
+    Route::get('/reservation/{reservation}/remove', [ReservationController::class, 'remove'])
+    ->name('reservation.remove');
+
+    Route::patch('/reservation/{reservation}/archive', [ReservationController::class, 'archive'])
+        ->name('reservation.archive');
+
     Route::resource('/employees', StaffController::class);
     Route::resource('add-ons', AddOnController::class);
 

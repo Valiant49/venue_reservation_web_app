@@ -60,7 +60,7 @@ class ReservationController extends Controller
         $staffs = User::all();
         $residents = Resident::all();
         $addOns = AddOn::where('is_active', '=', 'Active')->get();
-        $reservations = Reservation::with('facility', 'resident')->latest()->get();
+        $reservations = Reservation::with('facility', 'resident')->where('status', '!=', 'Archived')->latest()->get();
         $facilities = Facility::with('addOns')->get();
 
         $tableData = $reservations->map(function ($r) {
@@ -331,5 +331,23 @@ class ReservationController extends Controller
     {
         $reservation->delete();
         return redirect(route('reservation.index'))->with('success', 'Reservation removed.');
+    }
+
+    public function remove(Reservation $reservation)
+    {
+        return view('employee-facing.reservation.archive', [
+            'reservation' => $reservation,
+        ]);
+    }
+
+    public function archive(Reservation $reservation)
+    {
+        $reservation->update([
+            'status' => 'Archived',
+        ]);
+
+        return redirect()
+            ->route('reservation.index')
+            ->with('success', 'Reservation archived successfully.');
     }
 }

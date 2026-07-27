@@ -81,9 +81,10 @@
                                 <td class="max-w-3xs truncate px-3 py-4" x-text="row.notes"></td>
                                 <td class="px-3 py-4">
                                     <a :href="editUrl(row.id)" class="text-info font-medium hover:underline">Edit</a>
+                                    <a :href="removeUrl(row.id)" class="text-warning font-medium hover:underline">Remove</a>
                                     @can('admin-access')
                                         <a :href="destroyUrl(row.id)"
-                                            class="text-error font-medium hover:underline">Remove</a>
+                                            class="text-error font-medium hover:underline">Delete</a>
                                     @endcan
                                 </td>
                             </tr>
@@ -385,6 +386,9 @@
 
                 editUrl(id) {
                     return "{{ route('reservation.edit', ':id') }}".replace(':id', id);
+                },
+                removeUrl(id) {
+                    return "{{ route('reservation.remove', ':id') }}".replace(':id', id);
                 },
                 destroyUrl(id) {
                     return "{{ route('reservation.destroy', ':id') }}".replace(':id', id);
