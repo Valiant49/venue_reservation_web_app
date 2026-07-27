@@ -7,8 +7,10 @@ use App\Models\Facility;
 use App\Models\Reservation;
 use App\Models\User;
 use App\Models\AddOn;
+use App\Models\Log;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 use App\Http\Controllers\Controller;
@@ -17,32 +19,34 @@ class ReservationController extends Controller
 {
     public function dashboardData()
     {
-        $startOfWeek = Carbon::now()->startOfWeek(Carbon::SUNDAY)->format('Y-m-d');
-        $endOfWeek = Carbon::now()->endOfWeek(Carbon::SATURDAY)->format('Y-m-d');
+        $reservationsTodayCount = Reservation::whereDate('date', Carbon::today())->count();
 
-        $reservations = Reservation::with(['facility', 'resident'])
-            ->whereBetween('date', [$startOfWeek, $endOfWeek])
-            ->orderBy('date', 'asc')
-            ->orderBy('start_time', 'asc')
-            ->get();
-        $facilities = Facility::all();
-
-        $reservationsToday = Reservation::whereDate('date', Carbon::today())->get();
-
-        $totalReservationsThisWeek = $reservations->count();
-        $activeFacilitiesCount = Facility::count();
+        $totalReservationsThisMonth = Reservation::whereMonth('date', now()->month)
+            ->whereYear('date', now()->year)
+            ->count();
         $activeResidentsCount = Resident::count();
-        $pendingReservations = Reservation::where('status', 'Pending')->count();
+        $pendingReservationsCount = Reservation::where('status', 'Pending')->count();
+        $pendingReservations = Reservation::where('status', 'Pending')
+        ->take(2)
+        ->get();
 
-        // dump($reservations);
+        $reservationsToday = Reservation::with(['facility', 'resident'])
+        // ->whereDate('date', Carbon::today())
+        ->take(2)
+        ->get();
+
+        $logs = Log::latest()->get();
+
+        // dump($reservationsToday);
+
         return view('employee-facing.dashboard', compact(
-            'reservations',
-            'totalReservationsThisWeek',
-            'activeFacilitiesCount',
             'activeResidentsCount',
+            'pendingReservationsCount',
             'pendingReservations',
-            'facilities',
-            'reservationsToday'
+            'reservationsToday',
+            'reservationsTodayCount',
+            'totalReservationsThisMonth',
+            'logs'
         ));
     }
 
@@ -57,7 +61,23 @@ class ReservationController extends Controller
         $addOns = AddOn::where('is_active', '=', 'Active')->get();
         $reservations = Reservation::with('facility', 'resident')->latest()->get();
         $facilities = Facility::with('addOns')->get();
-        return view('employee-facing.reservation.index', compact('reservations', 'facilities', 'residents', 'staffs', 'addOns'));
+
+        $tableData = $reservations->map(function ($r) {
+            return [
+                'id' => $r->id,
+                'facility' => $r->facility->name ?? 'N/A',
+                'resident' => $r->resident->last_name . ', ' . $r->resident->first_name . ' ' . Str::limit($r->resident->middle_name, 1, '.'),
+                'date' => $r->date->format('Y-m-d'),
+                'date_display' => $r->date->format('M j, Y'),
+                'time_display' => $r->start_time->format('H:i A') . ' to ' . $r->end_time->format('H:i A'),
+                'fee' => (float) $r->total_fee,
+                'status' => $r->status,
+                'event_type' => $r->event_type,
+                'notes' => $r->notes,
+            ];
+        })->values();
+
+        return view('employee-facing.reservation.index', compact('reservations', 'facilities', 'residents', 'staffs', 'addOns', 'tableData'));
     }
 
     /**
