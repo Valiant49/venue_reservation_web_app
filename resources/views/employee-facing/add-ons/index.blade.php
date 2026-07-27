@@ -90,24 +90,24 @@
                 @csrf
 
                 <div>
-                    <x-input-label for="name">Add-on Name</x-input-label>
+                    <x-input-label for="name">Add-on Name <span class="text-red-500">*</span></x-input-label>
                     <x-text-input type="text" name="name" id="name" value="{{ old('name') }}" class="mt-1 w-full"/>
                 </div>
 
                 <div>
-                    <x-input-label for="description">Add-on Description</x-input-label>
+                    <x-input-label for="description">Add-on Description <span class="text-red-500">*</span></x-input-label>
                     <x-textarea-input type="text" name="description" id="description" value="{{ old('description') }}" class="mt-1 w-full resize-none"></x-textarea-input>
                 </div>
 
                 <div>
-                    <x-input-label for="price">Add-on Price</x-input-label>
+                    <x-input-label for="price">Add-on Price <span class="text-red-500">*</span></x-input-label>
                     <x-text-input type="number" name="price" id="price" value="{{ old('price') }}"
                         placeholder="0.00" step="0.01"
                         class="mt-1 w-full"/>
                 </div>
 
                 <div>
-                    <x-input-label for="status">Add-on Status</x-input-label>
+                    <x-input-label for="status">Add-on Status <span class="text-red-500">*</span></x-input-label>
                     <x-select-input name="is_active" id="status"
                         placeholder="Please select..."
                         :selected="old('is_active')"

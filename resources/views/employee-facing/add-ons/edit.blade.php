@@ -65,7 +65,7 @@
 
                     <div>
                         <x-input-label for="name">
-                            Add-on Name
+                            Add-on Name <span class="text-red-500">*</span>
                         </x-input-label>
 
                         <x-text-input
@@ -78,7 +78,7 @@
 
                     <div>
                         <x-input-label for="description">
-                            Description
+                            Description <span class="text-red-500">*</span>
                         </x-input-label>
 
                         <x-textarea-input
@@ -89,7 +89,7 @@
 
                     <div>
                         <x-input-label for="price">
-                            Price
+                            Price <span class="text-red-500">*</span>
                         </x-input-label>
 
                         <x-text-input
@@ -104,7 +104,7 @@
 
                     <div>
                         <x-input-label for="status">
-                            Status
+                            Status <span class="text-red-500">*</span>
                         </x-input-label>
 
                         <x-select-input

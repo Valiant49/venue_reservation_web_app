@@ -36,12 +36,12 @@ class FacilityController extends Controller
         $validated = $request->validate([
             'name'                          => 'required|string|max:255',
             'description'                   => 'required|string',
-            'facility_status'               => 'required|string|in:Open,Closed,Under Maintenance',
-            'base_fee'                      => 'required|numeric|min:0',
             'starting_hours'                => 'required|date_format:H:i',
             'closing_hours'                 => 'required|date_format:H:i|after:starting_hours',
             'max_capacity'                  => 'required|integer:min:1',
+            'base_fee'                      => 'required|numeric|min:0',
             'max_reservation_duration'      => 'required|integer:min:1',
+            'facility_status'               => 'required|string|in:Open,Closed,Under Maintenance',
             'add_ons'                       => 'nullable|array',
             'add_ons.*'                     => 'exists:add_ons,id',
         ]);
