@@ -7,42 +7,33 @@
 
     <div class="mt-4">
         @foreach ($facilities as $facility)
-            <div class="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm mt-3">
-                {{-- Image --}}
-                <div class="relative h-40 w-full bg-gray-100 md:h-48">
-                    @if ($facility->image)
-                        <img src="{{ asset('storage/' . $facility->image) }}" alt="{{ $facility->name }}"
-                            class="h-full w-full object-cover">
-                    @else
-                        <div class="flex h-full w-full items-center justify-center text-sm text-gray-400">
-                            No image available
-                        </div>
-                    @endif
-
-                    {{-- Status badge, floating top-right --}}
-                    @php
-                        $statusColors = [
-                            'open' => 'bg-green-500/90 text-white',
-                            'under maintenance' => 'bg-yellow-500/90 text-white',
-                            'closed' => 'bg-red-500/90 text-white',
-                        ];
-                        $badge = $statusColors[strtolower($facility->facility_status)] ?? 'bg-gray-500/90 text-white';
-                    @endphp
-                    <span class="{{ $badge }} absolute right-2 top-2 rounded-full px-2 py-1 text-xs font-medium">
-                        {{ $facility->facility_status }}
-                    </span>
-                </div>
-
+            <div class="mt-3 flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
                 {{-- Body --}}
                 <div class="flex flex-1 flex-col gap-3 p-4">
-                    {{-- Name + category --}}
-                    <div>
-                        <div class="text-lg font-bold leading-tight text-gray-900">
-                            {{ $facility->name }}
+                    {{-- Header: Name + Category on left, Status badge on right --}}
+                    <div class="flex items-start justify-between gap-3">
+                        <div>
+                            <div class="text-lg font-bold leading-tight text-gray-900">
+                                {{ $facility->name }}
+                            </div>
+                            <div class="text-xs uppercase tracking-wide text-gray-500">
+                                {{ Str::title($facility->category) }}
+                            </div>
                         </div>
-                        <div class="text-xs uppercase tracking-wide text-gray-500">
-                            {{ Str::title($facility->category) }}
-                        </div>
+
+                        {{-- Status badge --}}
+                        @php
+                            $statusColors = [
+                                'open' => 'bg-green-500/90 text-white',
+                                'under maintenance' => 'bg-yellow-500/90 text-white',
+                                'closed' => 'bg-red-500/90 text-white',
+                            ];
+                            $badge =
+                                $statusColors[strtolower($facility->facility_status)] ?? 'bg-gray-500/90 text-white';
+                        @endphp
+                        <span class="{{ $badge }} shrink-0 rounded-full px-2.5 py-1 text-xs font-medium">
+                            {{ $facility->facility_status }}
+                        </span>
                     </div>
 
                     {{-- Description, truncated --}}
@@ -80,22 +71,11 @@
                             <div class="font-medium text-gray-800">
                                 {{ Str::title($facility->reservation_type) }}
                                 ({{ $facility->max_reservation_duration }} hrs max)
-                                {{-- {{ $facility->reservation_type === 'hourly' ? 'hr max' : 'min max' }} --}}
                             </div>
                         </div>
                     </div>
-
-                    {{-- CTA
-        <a href="{{ route('resident.facility.show', $facility->id) }}"
-           class="mt-auto inline-flex justify-center items-center text-sm font-medium text-white bg-primary hover:bg-primary/90 rounded-md py-2 transition">
-            View Details
-        </a> --}}
                 </div>
             </div>
         @endforeach
     </div>
-
-
-
-
 </x-resident-layout>
