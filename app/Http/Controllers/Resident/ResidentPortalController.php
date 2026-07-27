@@ -201,4 +201,25 @@ class ResidentPortalController extends Controller
 
         return view('resident-facing.show', compact('reservations', 'reservation'));
     }
+
+    public function cancel(Reservation $reservation)
+    {
+        // Authorization
+        abort_unless(
+            $reservation->reserved_by === auth()->id(),
+            403
+        );
+
+        // Optional: only allow certain statuses
+        if ($reservation->status !== 'Pending' &&
+            $reservation->status !== 'Confirmed') {
+            return back()->with('error', 'This reservation can no longer be cancelled.');
+        }
+
+        $reservation->update([
+            'status' => 'Cancelled',
+        ]);
+
+        return back()->with('success', 'Reservation cancelled.');
+    }
 }
