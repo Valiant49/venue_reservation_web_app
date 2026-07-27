@@ -109,10 +109,10 @@
                     <div class="flex">
                         <div class="flex-1">
                             <div>
-                                <x-input-label for="facility-name">Facility name:</x-input-label>
+                                <x-input-label for="facility-name">Facility name <span class="text-red-500">*</span></x-input-label>
                                 <x-text-input type="text" id="facility-name" name="name" class="mt-1 w-full" value="{{ old('name') }}" />
                             </div>
-                            <div>
+                            {{-- <div>
                                 <x-input-label for="facility-type">Facility category:</x-input-label>
                                 <x-select-input name="category" id="facility-type"
                                     placeholder="Select a facility..."
@@ -122,45 +122,45 @@
                                     'hall' => 'Hall',
                                     'pool' => 'Pool',
                                 ]" />
-                            </div>
+                            </div> --}}
                             <div>
-                                <x-input-label for="description">Description:</x-input-label>
+                                <x-input-label for="description">Description </x-input-label>
                                 <x-textarea-input type="textarea" id="description" name="description" class="mt-1 w-full h-25 resize-none" placeholder="Enter a description...">{{ old('description') }}</x-textarea-input>
                             </div>
-                            <div>
+                            {{-- <div>
                                 <x-input-label for="reservation-type">Reservation Type:</x-input-label>
                                 <x-select-input name="reservation_type" id="reservation-type" placeholder="Please select..."
                                     :options="[
                                         'hourly' => 'Hourly',
                                         'block' => 'Block'
                                     ]"/>
-                            </div>
+                            </div> --}}
                             <div>
-                                <x-input-label for="base-fee">Base fee (per hour/block):</x-input-label>
+                                <x-input-label for="base-fee">Base fee (per hour) <span class="text-red-500">*</span></x-input-label>
                                 <x-text-input type="number" inputmode="decimal" pattern="^\d+(\.\d{1,2})?$" placeholder="0.00"  id="base-fee" name="base_fee" min="1" value="{{ old('base_fee') }}" class="mt-1 w-full" />
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
-                                    <x-input-label for="start-time">Starting Hours:</x-input-label>
+                                    <x-input-label for="start-time">Starting Hours <span class="text-red-500">*</span></x-input-label>
                                     <x-text-input type="time" id="start-time" name="starting_hours" class="mt-1 w-full" value="{{ old('starting_hours') }}" />
                                 </div>
                                 <div>
-                                    <x-input-label for="closing-time">Closing Hours:</x-input-label>
+                                    <x-input-label for="closing-time">Closing Hours <span class="text-red-500">*</span></x-input-label>
                                     <x-text-input type="time" id="closing-time" name="closing_hours" class="mt-1 w-full" value="{{ old('closing_hours') }}" />
                                 </div>
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
-                                    <x-input-label for="max_capacity">Maximum Capacity:</x-input-label>
+                                    <x-input-label for="max_capacity">Maximum Capacity <span class="text-red-500">*</span></x-input-label>
                                     <x-text-input type="text" id="max_capacity" name="max_capacity" min="1" class="mt-1 w-full" value="{{ old('max_capacity') }}"/>
                                 </div>
                                 <div>
-                                    <x-input-label for="duration">Max. Reservation Duration:</x-input-label>
+                                    <x-input-label for="duration">Max. Reservation Duration <span class="text-red-500">*</span></x-input-label>
                                     <x-text-input type="number" id="duration" name="max_reservation_duration" min=1 class="mt-1 w-full"/>
                                 </div>
                             </div>
                             <div>
-                                <x-input-label for="facility-status">Status:</x-input-label>
+                                <x-input-label for="facility-status">Status <span class="text-red-500">*</span></x-input-label>
                                 <x-select-input name="facility_status" id="facility-status" placeholder="Select status..."
                                     :options="[
                                         'Open' => 'Open',

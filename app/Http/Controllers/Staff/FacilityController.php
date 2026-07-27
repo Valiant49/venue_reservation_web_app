@@ -35,9 +35,7 @@ class FacilityController extends Controller
     {
         $validated = $request->validate([
             'name'                          => 'required|string|max:255',
-            'category'                      => 'required|string|in:hall,pool,court,clubhouse',
             'description'                   => 'required|string',
-            'reservation_type'              => 'required|string|in:hourly,block',
             'facility_status'               => 'required|string|in:Open,Closed,Under Maintenance',
             'base_fee'                      => 'required|numeric|min:0',
             'starting_hours'                => 'required|date_format:H:i',

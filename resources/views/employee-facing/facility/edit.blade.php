@@ -44,11 +44,11 @@
                     <div class="flex">
                         <div class="flex-1">
                             <div>
-                                <x-input-label for="facility-name">Facility Name:</x-input-label>
+                                <x-input-label for="facility-name">Facility Name <span class="text-red-500">*</span></x-input-label>
                                 <x-text-input type="text" id="facility-name" name="name"
                                     value="{{ old('name', $facility->name ?? '') }}"></x-text-input>
                             </div>
-                            <div>
+                            {{-- <div>
                                 <x-input-label for="edit-fac-type">Facility Category:</x-input-label>
                                 <x-select-input name="category" id="edit-fac-type" placeholder="Please select..."
                                     :selected="old('category', $facility->category)" :options="[
@@ -57,33 +57,33 @@
                                         'court' => 'Court',
                                         'clubhouse' => 'Clubhouse',
                                     ]" />
-                            </div>
+                            </div> --}}
                             <div>
-                                <x-input-label for="description">Facility Description</x-input-label>
+                                <x-input-label for="description">Facility Description </x-input-label>
                                 <x-textarea-input name="description" id="description"
                                     class="h-20 resize-none">{{ old('description', $facility->description) }}</x-textarea-input>
                             </div>
-                            <div>
+                            {{-- <div>
                                 <x-input-label for="reservation-type">Reservation Type:</x-input-label>
                                 <x-select-input name="reservation_type" id="reservation-type" placeholder="Please select..."
                                     :selected="old('reservation_type', $facility->reservation_type)" :options="[
                                         'hourly' => 'Hourly',
                                         'block' => 'Block',
                                     ]" />
-                            </div>
+                            </div> --}}
                             <div>
-                                <x-input-label for="base-fee">Base Fee</x-input-label>
+                                <x-input-label for="base-fee">Base Fee (per hour) <span class="text-red-500">*</span></x-input-label>
                                 <x-text-input type="number" id="base-fee" name="base_fee" placeholder="0.00"
                                     value="{{ old('base_fee', $facility->base_fee) }}"></x-text-input>
                             </div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
-                                    <x-input-label for="start-time">Starting Hours:</x-input-label>
+                                    <x-input-label for="start-time">Starting Hours <span class="text-red-500">*</span></x-input-label>
                                     <x-text-input type="time" id="start-time" name="starting_hours" class="mt-1 w-full"
                                         value="{{ old('starting_hours', \Carbon\Carbon::parse($facility->starting_hours)->format('H:i')) }}" />
                                 </div>
                                 <div>
-                                    <x-input-label for="closing-time">Closing Hours:</x-input-label>
+                                    <x-input-label for="closing-time">Closing Hours <span class="text-red-500">*</span></x-input-label>
                                     <x-text-input type="time" id="closing-time" name="closing_hours" class="mt-1 w-full"
                                         value="{{ old('closing_hours', \Carbon\Carbon::parse($facility->closing_hours)->format('H:i')) }}" />
                                 </div>
@@ -91,20 +91,20 @@
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <x-input-label for="capacity"
-                                        class="mb-1 block text-sm font-medium text-gray-700">Maximum Capacity:
+                                        class="mb-1 block text-sm font-medium text-gray-700">Maximum Capacity <span class="text-red-500">*</span>
                                     </x-input-label>
                                     <x-text-input type="text" id="capacity" name="max_capacity"
                                         value="{{ old('max_capacity', $facility->max_capacity) }}" />
                                 </div>
                                 <div>
-                                    <x-input-label for="duration">Maximum Reservation Duration:</x-input-label>
+                                    <x-input-label for="duration">Maximum Reservation Duration <span class="text-red-500">*</span></x-input-label>
                                     <x-text-input type="number" id="duration" name="max_reservation_duration" min=1
                                         class="mt-1 w-full"
                                         value="{{ old('max_reservation_duration', $facility->max_reservation_duration) }}" />
                                 </div>
                             </div>
                             <div>
-                                <x-input-label for="facility-status">Status:</x-input-label>
+                                <x-input-label for="facility-status">Status <span class="text-red-500">*</span></x-input-label>
                                 <x-select-input name="facility_status" id="facility-status" placeholder="Select status..."
                                     :selected="old('facility_status', $facility->facility_status)" :options="[
                                         'Open' => 'Open',
