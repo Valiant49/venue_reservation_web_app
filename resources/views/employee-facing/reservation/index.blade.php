@@ -37,6 +37,8 @@
                         <option value="Confirmed">Confirmed</option>
                         <option value="Cancelled">Cancelled</option>
                     </select>
+                    <input type="text" x-model="filters.code" @input.debounce.150ms="syncUrl()"
+                        placeholder="Filter by code..." class="bg-surface px-3 py-2 mr-2 rounded-md border-gray-300 text-sm">
                     <input type="text" x-model="filters.facility" @input.debounce.150ms="syncUrl()"
                         placeholder="Filter facility..." class="bg-surface px-3 py-2 mr-2 rounded-md border-gray-300 text-sm">
                     <input type="text" x-model="filters.resident" @input.debounce.150ms="syncUrl()"
@@ -72,11 +74,12 @@
                     <tbody>
                         <template x-for="row in filteredSorted" :key="row.id">
                             <tr class="bg-background border-default border-b hover:bg-gray-300">
+                                <td class="px-3 py-4" x-text="row.code"></td>
                                 <td class="px-3 py-4" x-text="row.facility"></td>
                                 <td class="truncate px-3 py-4" x-text="row.resident"></td>
                                 <td class="px-3 py-4" x-text="row.date_display"></td>
                                 <td class="px-3 py-4" x-text="row.time_display"></td>
-                                <td class="px-3 py-4" x-text="row.fee"></td>
+                                <td class="px-3 py-4" x-text="new Intl.NumberFormat('en-PH', {style: 'currency', currency: 'PHP'}).format(row.fee)"></td>
                                 <td class="px-3 py-4" x-text="row.status"></td>
                                 <td class="px-3 py-4" x-text="row.event_type"></td>
                                 <td class="max-w-3xs truncate px-3 py-4" x-text="row.notes"></td>
@@ -319,6 +322,7 @@
         function reservationTable() {
             return {
                 columns: [
+                    { key: 'code', label: 'Reservation Name' },
                     { key: 'facility', label: 'Facility Name' },
                     { key: 'resident', label: 'Resident Name' },
                     { key: 'date', label: 'Date' },
@@ -331,11 +335,12 @@
 
                 rows: @json($tableData ?? []),
 
-                filters: { status: '', facility: '', resident: '' },
+                filters: { code: '', status: '', facility: '', resident: '' },
                 sort: { key: 'date', dir: 'asc' },
 
                 init() {
                     const p = new URLSearchParams(window.location.search);
+                    this.filters.code = p.get('code') || '';
                     this.filters.status = p.get('status') || '';
                     this.filters.facility = p.get('facility') || '';
                     this.filters.resident = p.get('resident') || '';
@@ -345,6 +350,7 @@
 
                 syncUrl() {
                     const p = new URLSearchParams();
+                    if (this.filters.code) p.set('code', this.filters.code);
                     if (this.filters.status) p.set('status', this.filters.status);
                     if (this.filters.facility) p.set('facility', this.filters.facility);
                     if (this.filters.resident) p.set('resident', this.filters.resident);
@@ -354,7 +360,7 @@
                 },
 
                 resetFilters() {
-                    this.filters = { status: '', facility: '', resident: '' };
+                    this.filters = { code: '', status: '', facility: '', resident: '' };
                     this.syncUrl();
                 },
 
@@ -370,6 +376,7 @@
 
                 get filteredSorted() {
                     let data = this.rows.filter(r =>
+                        (!this.filters.code || r.code.toLowerCase().includes(this.filters.code.toLowerCase())) &&
                         (!this.filters.status || r.status === this.filters.status) &&
                         (!this.filters.facility || r.facility.toLowerCase().includes(this.filters.facility.toLowerCase())) &&
                         (!this.filters.resident || r.resident.toLowerCase().includes(this.filters.resident.toLowerCase()))

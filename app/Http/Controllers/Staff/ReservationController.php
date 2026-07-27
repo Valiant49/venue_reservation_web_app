@@ -68,6 +68,7 @@ class ReservationController extends Controller
         $tableData = $reservations->map(function ($r) {
             return [
                 'id' => $r->id,
+                'code' => $r->code ?? 'N/A',
                 'facility' => $r->facility->name ?? 'N/A',
                 'resident' => $r->resident->last_name . ', ' . $r->resident->first_name . ' ' . Str::limit($r->resident->middle_name, 1, '.'),
                 'date' => $r->date->format('Y-m-d'),
