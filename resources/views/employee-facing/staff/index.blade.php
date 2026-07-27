@@ -126,7 +126,7 @@
                 <div>
                     <x-input-label for="email">Email Address <span class="text-red-500">*</span></x-input-label>
                     <x-text-input type="email" name="email" id="email" value="{{ old('email') }}" required
-                        class="mt-1 w-full" /><span class="text-red-500">*</span>
+                        class="mt-1 w-full"/>
                     @error('email')
                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                     @enderror
