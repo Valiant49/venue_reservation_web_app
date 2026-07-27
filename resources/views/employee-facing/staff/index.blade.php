@@ -99,7 +99,7 @@
                 @csrf
                 <div class="grid grid-cols-3 gap-4">
                     <div>
-                        <x-input-label for="first-name">First Name</x-input-label>
+                        <x-input-label for="first-name">First Name <span class="text-red-500">*</span></x-input-label>
                         <x-text-input type="text" name="first_name" id="first-name" value="{{ old('first_name') }}" required
                             class="mt-1 w-full" />
                         @error('name')
@@ -107,7 +107,7 @@
                         @enderror
                     </div>
                     <div>
-                        <x-input-label for="middle-name">Middle Name</x-input-label>
+                        <x-input-label for="middle-name">Middle Name </x-input-label>
                         <x-text-input type="text" name="middle_name" id="middle-name" value="{{ old('middle_name') }}"
                             class="mt-1 w-full" />
                         @error('name')
@@ -115,7 +115,7 @@
                         @enderror
                     </div>
                     <div>
-                        <x-input-label for="last-name">Last Name</x-input-label>
+                        <x-input-label for="last-name">Last Name <span class="text-red-500">*</span></x-input-label>
                         <x-text-input type="text" name="last_name" id="last-name" value="{{ old('last_name') }}" required
                             class="mt-1 w-full" />
                         @error('name')
@@ -124,16 +124,16 @@
                     </div>
                 </div>
                 <div>
-                    <x-input-label for="email">Email Address</x-input-label>
+                    <x-input-label for="email">Email Address <span class="text-red-500">*</span></x-input-label>
                     <x-text-input type="email" name="email" id="email" value="{{ old('email') }}" required
-                        class="mt-1 w-full" />
+                        class="mt-1 w-full" /><span class="text-red-500">*</span>
                     @error('email')
                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div>
-                    <x-input-label for="password">Password</x-input-label>
+                    <x-input-label for="password">Password <span class="text-red-500">*</span></x-input-label>
                     <x-text-input type="password" name="password" id="password" autocomplete="new-password" required
                         class="mt-1 w-full" />
                     @error('password')
@@ -142,7 +142,7 @@
                 </div>
 
                 <div>
-                    <x-input-label>Role</x-input-label>
+                    <x-input-label>Role <span class="text-red-500">*</span></x-input-label>
                     <div class="mt-2 flex gap-3">
                         @foreach (['admin', 'staff'] as $role)
                             <label

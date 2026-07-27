@@ -44,7 +44,7 @@
                     {{-- Name + Email --}}
                     <div class="grid grid-cols-3 gap-4">
                         <div>
-                            <x-input-label for="first-name">First Name</x-input-label>
+                            <x-input-label for="first-name">First Name <span class="text-red-500">*</span></x-input-label>
                             <x-text-input type="text" name="first_name" id="first-name"
                                 value="{{ old('first_name', $employee->first_name) }}" required class="mt-1 w-full" />
                             @error('name')
@@ -60,7 +60,7 @@
                             @enderror
                         </div>
                         <div>
-                            <x-input-label for="last-name">Last Name</x-input-label>
+                            <x-input-label for="last-name">Last Name <span class="text-red-500">*</span></x-input-label>
                             <x-text-input type="text" name="last_name" id="last-name"
                                 value="{{ old('last_name', $employee->last_name) }}"
                                 required class="mt-1 w-full" />
@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <div>
-                        <label for="email" class="mb-1 block text-sm font-medium text-gray-700">Email Address</label>
+                        <label for="email" class="mb-1 block text-sm font-medium text-gray-700">Email Address <span class="text-red-500">*</span></label>
                         <input type="email" name="email" id="email" value="{{ old('email', $employee->email) }}"
                             class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                         @error('email')
@@ -91,7 +91,7 @@
                     </div>
                     {{-- Role --}}
                     <div>
-                        <label class="mb-2 block text-sm font-medium text-gray-700">Role</label>
+                        <label class="mb-2 block text-sm font-medium text-gray-700">Role <span class="text-red-500">*</span></label>
                         <div class="flex gap-3">
                             @foreach (['admin', 'staff'] as $role)
                                 <label
