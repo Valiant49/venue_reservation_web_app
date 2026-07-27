@@ -44,7 +44,7 @@
                         {{-- Row 1: Facility + Resident --}}
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label for="facility" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Facility</label>
+                                <label for="facility" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Facility <span class="text-red-500">*</span></label>
                                 <select name="facility_id" id="facility"
                                     class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary bg-white">
                                     <option value="" disabled>Please select...</option>
@@ -62,7 +62,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label for="client" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Resident Name</label>
+                                <label for="client" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Resident Name <span class="text-red-500">*</span></label>
                                 <select name="reserved_by" id="client"
                                     class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary bg-white">
                                     <option value="" disabled>Select a resident...</option>
@@ -80,7 +80,7 @@
                         {{-- Row 2: Date + Guest Count --}}
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label for="guest-count" class="block text-sm font-medium text-gray-700 mb-1">Guest Count</label>
+                                <label for="guest-count" class="block text-sm font-medium text-gray-700 mb-1">Guest Count <span class="text-red-500">*</span></label>
                                 <input type="number" name="guest_count" id="guest-count" min="1" value="{{ old('guest_count', $reservation->guest_count) }}"
                                     class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
                                 <p id="guest-warning" class="mt-1 text-xs font-medium text-red-600">
@@ -90,7 +90,7 @@
                                 </p>
                             </div>
                             <div>
-                                <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Reservation Date</label>
+                                <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Reservation Date <span class="text-red-500">*</span></label>
                                 <input type="date" name="date" id="date" value="{{ old('reservation_date', $reservation->date->format('Y-m-d')) }}"
                                     class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
                                 <p id="date-warning" class="mt-1 text-xs font-medium text-red-600">
@@ -103,7 +103,7 @@
                         {{-- Row 3: Start Time + End Time --}}
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label for="start-time" class="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
+                                <label for="start-time" class="block text-sm font-medium text-gray-700 mb-1">Start Time <span class="text-red-500">*</span></label>
                                 <input type="time" name="start_time" id="start-time" value="{{ old('start_time', $reservation->start_time->format('H:i')) }}"
                                     class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
                                 @error('start_time')
@@ -111,7 +111,7 @@
                                 @enderror
                             </div>
                             <div>
-                                <label for="end-time" class="block text-sm font-medium text-gray-700 mb-1">End Time</label>
+                                <label for="end-time" class="block text-sm font-medium text-gray-700 mb-1">End Time <span class="text-red-500">*</span></label>
                                 <input type="time" name="end_time" id="end-time" value="{{ old('end_time', $reservation->end_time->format('H:i')) }}"
                                     class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
                                 @error('end_time')
@@ -123,7 +123,7 @@
                         {{-- Row 4: Status + Facilitated By --}}
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label for="status" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Status</label>
+                                <label for="status" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Status <span class="text-red-500">*</span></label>
                                 <select name="status" id="status"
                                     class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary bg-white">
                                     <option value="Pending"   {{ old('status', $reservation->status) == 'Pending'   ? 'selected' : '' }}>Pending</option>
@@ -136,7 +136,7 @@
                             </div>
                             <div>
                                 <label for="facilitated-by" class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Facilitated By</label>
-                                <select name="facilitated_by" id="facilitated-by"
+                                <select name="facilitated_by" id="facilitated-by" disabled
                                     class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary bg-white">
                                     @foreach($staffs as $staff)
                                         <option value="{{ $staff->id }}" {{ old('facilitated_by', $reservation->facilitated_by) == $staff->id ? 'selected' : '' }}>
@@ -159,34 +159,34 @@
                                     <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                 @enderror
                             </div> --}}
-                            <input type="hidden" name="total_fee" id="total-fee">
                             <div>
                                 <label for="duration" class="mb-1 block text-sm font-medium text-gray-700">Duration</label>
                                 <input type="text" id="duration" placeholder="e.g. 1 hr" disabled
-                                    class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
                                 <p id="duration-warning" class="mt-1 text-xs font-medium text-red-600">
                                     @error('duration')
-                                        {{ $message }}
+                                    {{ $message }}
                                     @enderror
                                 </p>
                             </div>
                             <div>
                                 <label for="fee" class="mb-1 block text-sm font-medium text-gray-700">Total Fee</label>
                                 <input type="text" id="estimated-fee" value="{{ old('total_fee', $reservation->total_fee) }}"
-                                    placeholder="₱0.00" disabled
-                                    class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
+                                placeholder="₱0.00" disabled
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
                                 @error('total_fee')
-                                    <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
+                                <p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div>
-                                <label for="event-type" class="block text-sm font-medium text-gray-700 mb-1">Event Type</label>
+                                <label for="event-type" class="block text-sm font-medium text-gray-700 mb-1">Event Type <span class="text-red-500">*</span></label>
                                 <input type="text" name="event_type" id="event-type" value="{{ old('event_type', $reservation->event_type) }}"
-                                    class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
                                 @error('event_type')
-                                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
+                            <input type="hidden" name="total_fee" id="total-fee">
                         </div>
                         {{-- Notes (full width) --}}
                         <div>

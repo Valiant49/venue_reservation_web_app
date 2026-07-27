@@ -124,7 +124,7 @@
                                 <!-- Facility Field -->
                                 <div>
                                     <label for="facility"
-                                        class="mb-1 block text-sm font-medium text-gray-700">Facility</label>
+                                        class="mb-1 block text-sm font-medium text-gray-700">Facility <span class="text-red-500">*</span></label>
                                     <select name="facility_id" id="facility"
                                         class="focus:border-secondary w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-1">
                                         <option value="" disabled
@@ -147,8 +147,7 @@
                                 <!-- Resident Name Field -->
                                 <div>
                                     <label for="resident"
-                                        class="mb-1 block text-sm font-medium text-gray-700">Resident
-                                        Name</label>
+                                        class="mb-1 block text-sm font-medium text-gray-700">Resident Name <span class="text-red-500">*</span></label>
                                     <select name="reserved_by" id="resident"
                                         class="focus:border-secondary w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-1">
                                         <option value="" disabled {{ old('reserved_by') ? '' : 'selected' }}>
@@ -169,8 +168,7 @@
                                 <!-- Guest Count Field -->
                                 <div>
                                     <label for="guest-count"
-                                        class="mb-1 block text-sm font-medium text-gray-700">Guest
-                                        Count</label>
+                                        class="mb-1 block text-sm font-medium text-gray-700">Guest Count <span class="text-red-500">*</span></label>
                                     <input type="number" name="guest_count" id="guest-count" min="1"
                                         value="{{ old('guest_count') }}"
                                         class="focus:border-secondary w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-1">
@@ -183,8 +181,7 @@
                                 <!-- Reservation Date Field -->
                                 <div>
                                     <label for="date"
-                                        class="mb-1 block text-sm font-medium text-gray-700">Reservation
-                                        Date</label>
+                                        class="mb-1 block text-sm font-medium text-gray-700">Reservation Date <span class="text-red-500">*</span></label>
                                     <input type="date" name="date" id="date" value="{{ old('date') }}"
                                         class="focus:border-secondary w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-1">
                                     <p id="date-warning" class="mt-1 text-xs font-medium text-red-600">
@@ -195,8 +192,7 @@
                                 </div>
                                 <!-- Start Time Field -->
                                 <div>
-                                    <label for="start-time" class="mb-1 block text-sm font-medium text-gray-700">Start
-                                        Time</label>
+                                    <label for="start-time" class="mb-1 block text-sm font-medium text-gray-700">Start Time <span class="text-red-500">*</span></label>
                                     <input type="time" name="start_time" id="start-time"
                                         value="{{ old('start_time') }}"
                                         class="focus:border-secondary w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-1">
@@ -208,8 +204,7 @@
                                 </div>
                                 <!-- End Time Field -->
                                 <div>
-                                    <label for="end-time" class="mb-1 block text-sm font-medium text-gray-700">End
-                                        Time</label>
+                                    <label for="end-time" class="mb-1 block text-sm font-medium text-gray-700">End Time <span class="text-red-500">*</span></label>
                                     <input type="time" name="end_time" id="end-time"
                                         value="{{ old('end_time') }}"
                                         class="focus:border-secondary w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-1">
@@ -220,7 +215,7 @@
                                 <!-- Status Field -->
                                 <div>
                                     <label for="status"
-                                        class="mb-1 block text-sm font-medium text-gray-700">Status</label>
+                                        class="mb-1 block text-sm font-medium text-gray-700">Status <span class="text-red-500">*</span></label>
                                     <select name="status" id="status"
                                         class="focus:border-secondary w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-1">
                                         <option value="Pending"
@@ -239,8 +234,7 @@
                                 </div>
                                 <!-- Event Type Field -->
                                 <div>
-                                    <label for="event-type" class="mb-1 block text-sm font-medium text-gray-700">Event
-                                        Type</label>
+                                    <label for="event-type" class="mb-1 block text-sm font-medium text-gray-700">Event Type <span class="text-red-500">*</span></label>
                                     <input type="text" name="event_type" id="event-type"
                                         value="{{ old('event_type') }}" placeholder="e.g. Seminar"
                                         class="focus:border-secondary w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus:ring-1">
