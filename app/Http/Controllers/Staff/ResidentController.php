@@ -40,7 +40,7 @@ class ResidentController extends Controller
             'middle_name'   => 'nullable|string',
             'last_name'     => 'required|string',
             'password'      => 'required|string|min:8',
-            'contact_num'   => 'required|string',
+            'contact_num'   => 'string',
             'email'         => 'required|email:filter'
         ]);
 
