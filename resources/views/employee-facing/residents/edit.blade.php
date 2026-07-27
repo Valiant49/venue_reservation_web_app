@@ -45,17 +45,17 @@
                         <!-- Section 1: Address Info (3-Column Layout Row) -->
                         <div class="grid grid-cols-3 gap-4">
                             <div>
-                                <x-input-label for="block-no" >Block No.</x-input-label>
+                                <x-input-label for="block-no" >Block No. <span class="text-red-500">*</span></x-input-label>
                                 <x-text-input type="number" name="block_num" id="block-no" min="1" max="39"
                                     value="{{ old('block_num', $resident->block_num) }}"/>
                             </div>
                             <div>
-                                <x-input-label for="lot-no">Lot No.</x-input-label>
+                                <x-input-label for="lot-no">Lot No. <span class="text-red-500">*</span></x-input-label>
                                 <x-text-input type="number" name="lot_num" id="lot-no" min="1" max="300"
                                     value="{{ old('lot_num', $resident->lot_num) }}"/>
                             </div>
                             <div>
-                                <x-input-label for="street-no">Street No.</x-input-label>
+                                <x-input-label for="street-no">Street No. <span class="text-red-500">*</span></x-input-label>
                                 <x-text-input type="number" name="street_num" id="street-no" min="1" max="100"
                                     value="{{ old('street_num', $resident->street_num) }}"/>
                             </div>
@@ -63,24 +63,24 @@
                         <!-- Section 2: Name Information (2-Column Grid Layout) -->
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                             <div>
-                                <x-input-label for="first-name">First Name</x-input-label>
+                                <x-input-label for="first-name">First Name <span class="text-red-500">*</span></x-input-label>
                                 <x-text-input type="text" name="first_name" id="first-name"
                                     value="{{ old('first_name', $resident->first_name) }}"/>
                             </div>
                             <div>
-                                <x-input-label for="middle-name">Middle Name</x-input-label>
+                                <x-input-label for="middle-name">Middle Name <span class="text-red-500">*</span></x-input-label>
                                 <x-text-input type="text" name="middle_name" id="middle-name"
                                     value="{{ old('middle_name', $resident->middle_name) }}"/>
                             </div>
                             <div>
-                                <x-input-label for="last-name">Last Name</x-input-label>
+                                <x-input-label for="last-name">Last Name <span class="text-red-500">*</span></x-input-label>
                                 <x-text-input type="text" name="last_name" id="last-name"
                                     value="{{ old('last_name', $resident->last_name) }}"/>
                             </div>
                         </div>
                         <!-- Password (Full width) -->
                          <div>
-                                <x-input-label for="password">Password</x-input-label>
+                                <x-input-label for="password">Password </x-input-label>
                                 <x-text-input type="password" name="password" id="password"
                                     value="{{ old('password') }}"/>
                             </div>
@@ -92,7 +92,7 @@
                                     value="{{ old('contact_num', $resident->contact_num) }}"/>
                             </div>
                             <div>
-                                <x-input-label for="email">Email Address</x-input-label>
+                                <x-input-label for="email">Email Address <span class="text-red-500">*</span></x-input-label>
                                 <x-text-input type="email" name="email" id="email" value="{{ old('email', $resident->email) }}"/>
                             </div>
                         </div>

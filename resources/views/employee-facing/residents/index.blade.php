@@ -100,55 +100,55 @@
 
                 <div class="grid grid-cols-3 gap-4">
                     <div>
-                        <x-input-label for="block-no">Block No.: </x-input-label>
+                        <x-input-label for="block-no">Block No. <span class="text-red-500">*</span> </x-input-label>
                         <x-text-input type="number" name="block_num" id="block-no" min="1" max="39"
                             value="{{ old('block_num') }}" required class="mt-1 w-full" />
                     </div>
                     <div>
-                        <x-input-label for="lot-no">Lot No.: </x-input-label>
+                        <x-input-label for="lot-no">Lot No. <span class="text-red-500">*</span> </x-input-label>
                         <x-text-input type="number" name="lot_num" id="lot-no" min="1" max="300"
                             value="{{ old('lot_num') }}" required class="mt-1 w-full" />
                     </div>
                     <div>
-                        <x-input-label for="street-no">Street No.: </x-input-label>
+                        <x-input-label for="street-no">Street No. <span class="text-red-500">*</span> </x-input-label>
                         <x-text-input type="number" name="street_num" id="street-no" min="1" max="100"
                             value="{{ old('street_num') }}" required class="mt-1 w-full" />
                     </div>
                 </div>
 
                 <div>
-                    <x-input-label for="first-name">First Name: </x-input-label>
+                    <x-input-label for="first-name">First Name <span class="text-red-500">*</span> </x-input-label>
                     <x-text-input type="text" name="first_name" id="first-name" value="{{ old('first_name') }}"
                         required class="mt-1 w-full" />
                 </div>
 
                 <div>
-                    <x-input-label for="middle-name">Middle Name: </x-input-label>
+                    <x-input-label for="middle-name">Middle Name </x-input-label>
                     <x-text-input type="text" name="middle_name" id="middle-name" value="{{ old('middle_name') }}"
                         class="mt-1 w-full" />
                 </div>
 
                 <div>
-                    <x-input-label for="last-name">Last Name: </x-input-label>
+                    <x-input-label for="last-name">Last Name <span class="text-red-500">*</span> </x-input-label>
                     <x-text-input type="text" name="last_name" id="last-name" value="{{ old('last_name') }}"
                         required class="mt-1 w-full" />
                 </div>
 
                 <div>
-                    <x-input-label for="password">Password: </x-input-label>
+                    <x-input-label for="password">Password <span class="text-red-500">*</span> </x-input-label>
                     <x-text-input type="password" name="password" id="password"
                     value="{{ old('password') }}" required class="mt-1 w-full" />
                 </div>
 
                 {{-- Contact Information --}}
                 <div>
-                    <x-input-label for="contact-no">Contact No.: </x-input-label>
+                    <x-input-label for="contact-no">Contact No. <span class="text-red-500">*</span> </x-input-label>
                     <x-text-input type="tel" name="contact_num" id="contact-no"
-                        value="{{ old('contact_num') }}" required class="mt-1 w-full" />
+                        value="{{ old('contact_num') }}" class="mt-1 w-full" />
                 </div>
 
                 <div>
-                    <x-input-label for="email">Email: </x-input-label>
+                    <x-input-label for="email">Email <span class="text-red-500">*</span> </x-input-label>
                     <x-text-input type="email" name="email" id="email" value="{{ old('email') }}"
                         class="mt-1 w-full" />
                 </div>
