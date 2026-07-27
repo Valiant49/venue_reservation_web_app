@@ -289,7 +289,7 @@
                                         <label
                                             class="addon-option bg-background m-2 flex hidden items-center gap-2 rounded px-4 py-3"
                                             data-facility-id="{{ $fac->id }}">
-                                            <input type="checkbox" name="add_ons[]" value="{{ $addOn->id }}">
+                                            <input type="checkbox" name="add_ons[]" value="{{ $addOn->id }}" data-price="{{ $addOn->price }}">
                                             <div class="flex flex-1 items-center justify-between">
                                                 <span class="font-medium text-black/80">{{ $addOn->name }}</span>
                                                 <span

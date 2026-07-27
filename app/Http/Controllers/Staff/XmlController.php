@@ -7,6 +7,7 @@ use App\Models\Facility;
 use App\Models\Log;
 use App\Models\Reservation;
 use App\Models\User;
+use App\Models\Staff;
 use Database\Seeders\DatabaseSeeder;
 use DOMDocument;
 use Illuminate\Http\Request;
@@ -30,50 +31,57 @@ class XmlController extends Controller
                 'middle_name',
                 'last_name',
                 'contact_num',
-                'email'],
+                'email'
+            ],
         ],
         'facilities' => [
             'model' => Facility::class,
             'singular' => 'facility',
             'fields' => [
                 'id',
-                'facility_code',
-                'facility_name',
-                'facility_type',
+                'name',
+                'category',
+                'description',
+                'reservation_type',
+                'facility_status',
                 'base_fee',
-                'capacity',
-                'description'],
+                'starting_hours',
+                'closing_hours',
+                'max_capacity',
+                'max_reservation_duration',
+            ],
         ],
         'reservations' => [
             'model' => Reservation::class,
             'singular' => 'reservation',
             'fields' => [
                 'id',
-                'reservation_code',
-                'reservation_date',
+                'code',
+                'date',
                 'start_time',
                 'end_time',
                 'total_fee',
-                'created_at',
-                'updated_at',
                 'guest_count',
-                'status',
                 'event_type',
+                'status',
                 'notes',
                 'facility_id',
                 'reserved_by',
                 'facilitated_by',
+                'created_at',
+                'updated_at',
             ],
         ],
         'staffs' => [
-
-            'model' => User::class,
+            'model' => Staff::class,
             'singular' => 'staff',
             'fields' => [
                 'id',
-                'name',
-                'email',
+                'first_name',
+                'middle_name',
+                'last_name',
                 'role',
+                'email',
                 'created_at',
             ],
         ],
@@ -108,7 +116,12 @@ class XmlController extends Controller
                 $node = $dom->createElement($config['singular']);
 
                 foreach ($config['fields'] as $field) {
-                    $value = htmlspecialchars((string) ($record->$field ?? ''), ENT_XML1, 'UTF-8');
+                    // $value = htmlspecialchars((string) ($record->$field ?? ''), ENT_XML1, 'UTF-8');
+                    $value = htmlspecialchars(
+                        (string) $this->transformExportData($entity, $record, $field),
+                        ENT_XML1,
+                        'UTF-8'
+                    );
                     $node->appendChild($dom->createElement($field, $value));
                 }
 
@@ -169,6 +182,8 @@ class XmlController extends Controller
                 $data[$field] = trim($node->getElementsByTagName($field)->item(0)?->textContent ?? '');
             }
 
+            $data = $this->transformImportData($entity, $data);
+
             try {
                 unset($data['id'], $data['created_at'], $data['updated_at']);
 
@@ -215,7 +230,6 @@ class XmlController extends Controller
 
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Reservation::truncate();
-        Resident::truncate();
         Facility::truncate();
         User::truncate();
         Log::truncate();
@@ -229,9 +243,9 @@ class XmlController extends Controller
     private function getUniqueKey(string $entity, array $data): ?array
     {
         $uniqueFields = [
-            'residents'      => 'email',
-            'facilities'   => 'facility_code',
-            'reservations' => 'reservation_code',
+            'residents'    => 'email',
+            'facilities'   => 'name',
+            'reservations' => 'code',
             'staffs'       => 'email',
         ];
 
@@ -243,5 +257,55 @@ class XmlController extends Controller
         $rest   = array_diff_key($data, $unique);
 
         return [$unique, $rest];
+    }
+
+    private function transformExportData(
+        string $entity,
+        $record,
+        string $field
+    )
+    {
+        if ($entity === 'reservations') {
+
+            return match ($field) {
+
+                'facility_id' =>
+                    optional($record->facility)->name,
+
+                'reserved_by' =>
+                    optional($record->resident)->email,
+
+                'facilitated_by' =>
+                    optional($record->staff)->email,
+
+                default =>
+                    $record->$field,
+            };
+        }
+
+        return $record->$field;
+    }
+
+    private function transformImportData(
+        string $entity,
+        array $data
+    ): array
+    {
+        if ($entity === 'reservations') {
+
+            $data['facility_id'] =
+                Facility::where('name', $data['facility_id'])->value('id');
+
+            $data['reserved_by'] =
+                Resident::where('email', $data['reserved_by'])->value('id');
+
+            if (!empty($data['facilitated_by'])) {
+
+                $data['facilitated_by'] =
+                    Staff::where('email', $data['facilitated_by'])->value('id');
+            }
+        }
+
+        return $data;
     }
 }

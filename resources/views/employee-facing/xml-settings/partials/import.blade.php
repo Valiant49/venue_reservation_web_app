@@ -31,14 +31,14 @@
         </div>
     @endif
     <div class="flex flex-wrap items-start justify-start gap-4">
-        <div class="sm:mb-4">
-            <form action="{{ route('xml.import', 'clients') }}" method="post" enctype="multipart/form-data">
+        {{-- <div class="sm:mb-4">
+            <form action="{{ route('xml.import', 'residents') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <x-input-label>Residents</x-input-label>
                 <x-file-input name="xml_file" id="" />
                 <x-primary-button>Import Residents</x-primary-button>
             </form>
-        </div>
+        </div> --}}
         <div class="sm:mb-4">
             <form action="{{ route('xml.import', 'facilities') }}" method="post" enctype="multipart/form-data">
                 @csrf
@@ -47,13 +47,13 @@
                 <x-primary-button>Import Facilities</x-primary-button>
             </form>
         </div>
-        <div class="sm:mb-4">
+        {{-- <div class="sm:mb-4">
             <form action="{{ route('xml.import', 'reservations') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <x-input-label>Reservations</x-input-label>
                 <x-file-input name="xml_file" id="" />
                 <x-primary-button>Import Reservations</x-primary-button>
             </form>
-        </div>
+        </div> --}}
     </div>
 </div>

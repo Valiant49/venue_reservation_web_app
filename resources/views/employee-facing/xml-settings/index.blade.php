@@ -13,11 +13,11 @@
                 </div>
             </div>
 
-            <div class="p-4 sm:p-8 bg-white  shadow sm:rounded-lg">
+            {{-- <div class="p-4 sm:p-8 bg-white  shadow sm:rounded-lg"> --}}
                 {{-- <div class="min-w-xl"> --}}
-                    @include('employee-facing.xml-settings.partials.import')
+                    {{-- @include('employee-facing.xml-settings.partials.import') --}}
                 {{-- </div> --}}
-            </div>
+            {{-- </div> --}}
 
             <div class="p-4 sm:p-8 bg-white  shadow sm:rounded-lg">
                 {{-- <div class="min-w-xl"> --}}

@@ -114,6 +114,39 @@ document.addEventListener('DOMContentLoaded', () => {
     facility.addEventListener('change', toggleAddOns);
     toggleAddOns(); // run once on load
 
+    const addonsContainer = addModal.querySelector('#addons-container');
+
+    addonsContainer.addEventListener('change', () => {
+        const start = addModal.querySelector('#start-time');
+        const end = addModal.querySelector('#end-time');
+
+        if (!facility.value || !start.value || !end.value) return;
+
+        const option = facility.options[facility.selectedIndex];
+        const hourlyRate = Number(option.dataset.fee);
+
+        const hours =
+            (new Date('1970-01-01 ' + end.value) -
+            new Date('1970-01-01 ' + start.value))
+            / 3600000;
+
+        let total = hourlyRate * hours;
+
+        addonsContainer
+            .querySelectorAll('input[type=checkbox]:checked')
+            .forEach(cb => {
+                total += Number(cb.dataset.price);
+            });
+
+        addModal.querySelector('#estimated-fee').value =
+            new Intl.NumberFormat('en-PH',{
+                style:'currency',
+                currency:'PHP'
+            }).format(total);
+
+        addModal.querySelector('#total-fee').value = total;
+    });
+
     initFormValidation({
         form: addModal,
         submitBtn: addModal.querySelector('#form-submit'),
@@ -315,6 +348,43 @@ document.addEventListener('DOMContentLoaded', () => {
     facility.addEventListener('change', toggleAddOns);
     toggleAddOns(); // run once on load
 
+
+    const addonsContainer = editModal.querySelector('#addons-container');
+    addonsContainer.dispatchEvent(new Event('change'));
+
+    addonsContainer.addEventListener('change', () => {
+        const start = editModal.querySelector('#start-time');
+        const end = editModal.querySelector('#end-time');
+
+        if (!facility.value || !start.value || !end.value) return;
+
+        const option = facility.options[facility.selectedIndex];
+        const hourlyRate = Number(option.dataset.fee);
+
+        const hours =
+            (new Date('1970-01-01 ' + end.value) -
+            new Date('1970-01-01 ' + start.value))
+            / 3600000;
+
+        let total = hourlyRate * hours;
+
+        addonsContainer
+            .querySelectorAll('input[type=checkbox]:checked')
+            .forEach(cb => {
+                total += Number(cb.dataset.price);
+            });
+
+        editModal.querySelector('#estimated-fee').value =
+            new Intl.NumberFormat('en-PH',{
+                style:'currency',
+                currency:'PHP'
+            }).format(total);
+
+        editModal.querySelector('#total-fee').value = total;
+
+        console.log($total);
+    });
+
     initFormValidation({
         form: editModal,
         submitBtn: editModal.querySelector('#form-submit'),
@@ -355,11 +425,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (mins > 0) durationText += (durationText ? ' ' : '') + `${mins} min${mins > 1 ? 's' : ''}`;
                     durationDisplay.value = durationText || '0 mins';
 
-                    const total = hourlyRate * hours;
+                    let total = hourlyRate * hours;
+
+                    editModal
+                        .querySelectorAll('#addons-container input[type=checkbox]:checked')
+                        .forEach(cb => {
+                            total += Number(cb.dataset.price);
+                        });
+
+                    // totalDisplay.value = new Intl.NumberFormat('en-PH', {
+                    //     style: 'currency',
+                    //     currency: 'PHP',
+                    // }).format(total);
+                    // totalHidden.value = total;
+
                     totalDisplay.value = new Intl.NumberFormat('en-PH', {
                         style: 'currency',
                         currency: 'PHP',
                     }).format(total);
+
                     totalHidden.value = total;
 
                     return { valid: true };

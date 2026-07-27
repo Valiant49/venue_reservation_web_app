@@ -60,6 +60,11 @@ class Reservation extends Model
         return $this->belongsTo(Resident::class, 'reserved_by');
     }
 
+    public function staff()
+    {
+        return $this->belongsTo(Staff::class, 'facilitated_by');
+    }
+
     public function addOns()
     {
         return $this->belongsToMany(AddOn::class, 'reservation_add_ons')

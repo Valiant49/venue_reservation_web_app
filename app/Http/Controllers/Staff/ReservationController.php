@@ -110,6 +110,14 @@ class ReservationController extends Controller
 
         $totalFee = $facility->base_fee * $durationHours;
 
+        if ($request->filled('add_ons')) {
+
+            $addOnTotal = AddOn::whereIn('id', $request->add_ons)
+                ->sum('price');
+
+            $totalFee += $addOnTotal;
+        }
+
         $request->merge([
             'total_fee' => $totalFee
         ]);
@@ -171,7 +179,7 @@ class ReservationController extends Controller
 
         // dd($request);
 
-        Reservation::create($validated);
+        $reservation = Reservation::create($validated);
 
         if ($request->add_ons) {
             $addOns = AddOn::whereIn('id', $request->add_ons)->get();
@@ -181,7 +189,7 @@ class ReservationController extends Controller
                     'unit_price' => $addOn->price,
                     'subtotal'   => $addOn->price,
                 ],
-            ]);
+            ])->toArray();
             $reservation->addOns()->sync($syncData);
         }
 
@@ -252,9 +260,9 @@ class ReservationController extends Controller
                     $requestedStart = $request->start_time;
                     $requestedEnd = $value;
 
-                    $conflictExists = Reservation::where('id', $request->id)
+                    $conflictExists = Reservation::where('id', '!=', $request->id)
                         ->where('date', $request->date)
-                        ->where('facility_id', '!=', $reservation->id)
+                        ->where('facility_id', '!=', $request->facility_id)
                         ->where(function($query) use ($requestedStart, $requestedEnd){
                             $query->where(function($q) use ($requestedStart, $requestedEnd){
                                 //case 1

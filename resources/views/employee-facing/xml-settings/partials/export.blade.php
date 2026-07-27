@@ -31,7 +31,7 @@
     @endif
     <div class="flex flex-wrap items-center justify-start gap-2 overflow-x-auto">
         <div>
-            <form action="{{ route('xml.export', 'clients') }}" method="POST">
+            <form action="{{ route('xml.export', 'residents') }}" method="POST">
                 @csrf <x-option-button> Download Resident Records </x-option-button>
             </form>
         </div>

@@ -205,7 +205,7 @@
                                 @foreach ($fac->addOns as $addOn)
                                     <label class="addon-option flex items-center gap-2 px-4 py-3 m-2 bg-background rounded hidden"
                                         data-facility-id="{{ $fac->id }}">
-                                        <input type="checkbox" name="add_ons[]" value="{{ $addOn->id }}"
+                                        <input type="checkbox" name="add_ons[]" value="{{ $addOn->id }}" data-price="{{ $addOn->price }}"
                                             @checked($reservation->addOns->contains($addOn->id))>
                                         <div class="flex flex-1 justify-between items-center">
                                             <span class="text-black/80 font-medium">{{ $addOn->name }}</span>
