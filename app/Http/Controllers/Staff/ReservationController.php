@@ -63,6 +63,8 @@ class ReservationController extends Controller
         $reservations = Reservation::with('facility', 'resident')->where('status', '!=', 'Archived')->latest()->get();
         $facilities = Facility::with('addOns')->get();
 
+        // dump($reservations->pluck('status'));
+
         $tableData = $reservations->map(function ($r) {
             return [
                 'id' => $r->id,
@@ -77,6 +79,8 @@ class ReservationController extends Controller
                 'notes' => $r->notes,
             ];
         })->values();
+
+        // dump($tableData);
 
         return view('employee-facing.reservation.index', compact('reservations', 'facilities', 'residents', 'staffs', 'addOns', 'tableData'));
     }
@@ -130,7 +134,7 @@ class ReservationController extends Controller
             'start_time'   => 'required|date_format:H:i',
             'end_time'     => 'required|date_format:H:i|after:start_time',
             'guest_count'  => 'required|integer|min:1',
-            'status'       => ['required', Rule::in(['Pending','Confirmed','Cancelled'])],
+            'status'       => ['required', Rule::in(['Pending','Under Review','Confirmed','Cancelled'])],
             'event_type'   => 'required|string',
             'notes'        => 'nullable|string',
             'total_fee'    => 'required|numeric|min:0',
@@ -301,7 +305,7 @@ class ReservationController extends Controller
                     }
                 }
             ],
-            'status'        => ['required', Rule::in(['Pending','Confirmed','Cancelled'])],
+            'status'        => ['required', Rule::in(['Pending','Rejected','Under Review','Confirmed','Completed','Cancelled'])],
             'event_type'    => 'required|string',
             'notes'         => 'nullable|string',
             'add_ons'   => 'nullable|array',
@@ -319,6 +323,8 @@ class ReservationController extends Controller
             ],
         ]);
         $reservation->addOns()->sync($syncData);
+
+        // dd($request->status);
 
         return redirect(route('reservation.index'))->with('success', 'Reservation updated successfully!');
 

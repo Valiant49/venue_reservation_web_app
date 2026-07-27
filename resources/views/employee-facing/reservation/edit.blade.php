@@ -127,6 +127,8 @@
                                 <select name="status" id="status"
                                     class="w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary bg-white">
                                     <option value="Pending"   {{ old('status', $reservation->status) == 'Pending'   ? 'selected' : '' }}>Pending</option>
+                                    <option value="Under Review"   {{ old('status', $reservation->status) == 'Under Review'   ? 'selected' : '' }}>Under Review</option>
+                                    <option value="Rejected"   {{ old('status', $reservation->status) == 'Rejected'   ? 'selected' : '' }}>Rejected</option>
                                     <option value="Confirmed" {{ old('status', $reservation->status) == 'Confirmed' ? 'selected' : '' }}>Confirmed</option>
                                     <option value="Cancelled" {{ old('status', $reservation->status) == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
                                 </select>

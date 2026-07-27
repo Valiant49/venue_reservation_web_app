@@ -33,6 +33,7 @@
                     <select x-model="filters.status" @change="syncUrl()" class="bg-surface rounded-md border-gray-300 text-sm px-3 py-2 mr-2">
                         <option value="">All Statuses</option>
                         <option value="Pending">Pending</option>
+                        <option value="Under Review">Under Review</option>
                         <option value="Confirmed">Confirmed</option>
                         <option value="Cancelled">Cancelled</option>
                     </select>
