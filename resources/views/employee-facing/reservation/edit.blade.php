@@ -106,11 +106,9 @@
                                 <label for="start-time" class="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
                                 <input type="time" name="start_time" id="start-time" value="{{ old('start_time', $reservation->start_time->format('H:i')) }}"
                                     class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
-                                <p id="time-warning" class="mt-1 text-xs font-medium text-red-600">
-                                    @error('start_time')
-                                        {{ $message }}
-                                    @enderror
-                                </p>
+                                @error('start_time')
+                                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div>
                                 <label for="end-time" class="block text-sm font-medium text-gray-700 mb-1">End Time</label>
@@ -119,6 +117,7 @@
                                 @error('end_time')
                                     <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                 @enderror
+                                <p id="time-warning" class="mt-1 text-xs font-medium text-red-600"></p>
                             </div>
                         </div>
                         {{-- Row 4: Status + Facilitated By --}}
@@ -165,6 +164,11 @@
                                 <label for="duration" class="mb-1 block text-sm font-medium text-gray-700">Duration</label>
                                 <input type="text" id="duration" placeholder="e.g. 1 hr" disabled
                                     class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-secondary focus:outline-none focus:ring-1 ">
+                                <p id="duration-warning" class="mt-1 text-xs font-medium text-red-600">
+                                    @error('duration')
+                                        {{ $message }}
+                                    @enderror
+                                </p>
                             </div>
                             <div>
                                 <label for="fee" class="mb-1 block text-sm font-medium text-gray-700">Total Fee</label>

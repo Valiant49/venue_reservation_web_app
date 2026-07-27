@@ -10,6 +10,7 @@
  *     checks: [ ... ]  // array of check configs, see below
  *   });
  */
+
 function initFormValidation({ form, submitBtn, checks }) {
     if (!form || !submitBtn) return;
 
@@ -150,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         totalDisplay.value = 'Invalid time';
                         durationDisplay.value = '-';
                         return { valid: false, message: 'End time must be after start time.' };
+                        console.log('End time must be after start time.');
                     }
 
                     const totalMinutes = Math.round(hours * 60);
@@ -196,6 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     guestCount.classList.remove('border-gray-300', 'focus:border-secondary');
                     guestCount.classList.add('border-red-500', 'focus:border-red-500');
                     if (warning) warning.textContent = result.message;
+                    console.log('Guest count unvalid');
                 },
             },
             {
@@ -231,35 +234,48 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!facility.value || !start.value || !end.value) return { valid: true };
 
                     const option = facility.options[facility.selectedIndex];
-                    const openTime = option.dataset.startingHours;
-                    const closeTime = option.dataset.closingHours;
+
+                    // Sanitize times to 5 chars (HH:MM) to strip trailing seconds (:00) if present
+                    const openTime = option.dataset.startingHours.slice(0, 5);
+                    const closeTime = option.dataset.closingHours.slice(0, 5);
                     const maxDuration = Number(option.dataset.maxDuration);
 
-                    if (start.value < openTime || end.value > closeTime) {
+                    // Convert all values to total minutes for accurate numeric comparison
+                    const startMins = toMinutes(start.value);
+                    const endMins = toMinutes(end.value);
+                    const openMins = toMinutes(openTime);
+                    const closeMins = toMinutes(closeTime);
+
+                    // 1. Check Operating Hours Bounds
+                    if (startMins < openMins || endMins > closeMins) {
                         return {
                             valid: false,
-                            message: `This facility is only available from ${to12Hour(openTime.slice(0,5))} to ${to12Hour(closeTime.slice(0,5))}.`,
+                            message: `This facility is only available from ${to12Hour(openTime)} to ${to12Hour(closeTime)}.`,
                         };
                     }
 
-                    const durationHours = (toMinutes(end.value) - toMinutes(start.value)) / 60;
+                    // 2. Check Max Duration
+                    const durationHours = (endMins - startMins) / 60;
                     if (durationHours > maxDuration) {
-                        return { valid: false, message: `Max reservation duration is ${maxDuration} hour(s).` };
+                        return {
+                            valid: false,
+                            message: `Max reservation duration is ${maxDuration} hour(s).`,
+                        };
                     }
 
                     return { valid: true };
                 },
                 onValid: ({ end }) => {
-                    const warning = addModal.querySelector('#time-warning'); // use editModal for edit-modal
+                    const warning = addModal.querySelector('#time-warning');
                     end.classList.remove('border-red-500');
                     if (warning) warning.textContent = '';
                 },
                 onInvalid: ({ end }, result) => {
-                    const warning = addModal.querySelector('#time-warning'); // use editModal for edit-modal
+                    const warning = addModal.querySelector('#time-warning');
                     end.classList.add('border-red-500');
                     if (warning) warning.textContent = result.message;
                 },
-            },
+            }
         ],
     });
 });
@@ -328,6 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         totalDisplay.value = 'Invalid time';
                         durationDisplay.value = '-';
                         return { valid: false, message: 'End time must be after start time.' };
+                        console.log('End time must be after start time.');
                     }
 
                     const totalMinutes = Math.round(hours * 60);
@@ -372,6 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     guestCount.classList.remove('border-gray-300', 'focus:border-secondary');
                     guestCount.classList.add('border-red-500', 'focus:border-red-500');
                     if (warning) warning.textContent = result.message;
+                    console.log('Guest count unvalid');
                 },
             },
             {
@@ -406,35 +424,48 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!facility.value || !start.value || !end.value) return { valid: true };
 
                     const option = facility.options[facility.selectedIndex];
-                    const openTime = option.dataset.startingHours;
-                    const closeTime = option.dataset.closingHours;
+
+                    // Sanitize times to 5 chars (HH:MM) to strip trailing seconds (:00) if present
+                    const openTime = option.dataset.startingHours.slice(0, 5);
+                    const closeTime = option.dataset.closingHours.slice(0, 5);
                     const maxDuration = Number(option.dataset.maxDuration);
 
-                    if (start.value < openTime || end.value > closeTime) {
+                    // Convert all values to total minutes for accurate numeric comparison
+                    const startMins = toMinutes(start.value);
+                    const endMins = toMinutes(end.value);
+                    const openMins = toMinutes(openTime);
+                    const closeMins = toMinutes(closeTime);
+
+                    // 1. Check Operating Hours Bounds
+                    if (startMins < openMins || endMins > closeMins) {
                         return {
                             valid: false,
-                            message: `This facility is only available from ${to12Hour(openTime.slice(0,5))} to ${to12Hour(closeTime.slice(0,5))}.`,
+                            message: `This facility is only available from ${to12Hour(openTime)} to ${to12Hour(closeTime)}.`,
                         };
                     }
 
-                    const durationHours = (toMinutes(end.value) - toMinutes(start.value)) / 60;
+                    // 2. Check Max Duration
+                    const durationHours = (endMins - startMins) / 60;
                     if (durationHours > maxDuration) {
-                        return { valid: false, message: `Max reservation duration is ${maxDuration} hour(s).` };
+                        return {
+                            valid: false,
+                            message: `Max reservation duration is ${maxDuration} hour(s).`,
+                        };
                     }
 
                     return { valid: true };
                 },
                 onValid: ({ end }) => {
-                    const warning = editModal.querySelector('#time-warning'); // use editModal for edit-modal
+                    const warning = editModal.querySelector('#time-warning');
                     end.classList.remove('border-red-500');
                     if (warning) warning.textContent = '';
                 },
                 onInvalid: ({ end }, result) => {
-                    const warning = editModal.querySelector('#time-warning'); // use editModal for edit-modal
+                    const warning = editModal.querySelector('#time-warning');
                     end.classList.add('border-red-500');
                     if (warning) warning.textContent = result.message;
                 },
-            },
+            }
         ],
     });
 });
@@ -548,6 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const warning = billingForm.querySelector('#guest-warning');
                     guestCount.classList.add('border-red-500');
                     if (warning) warning.textContent = result.message;
+                    // console.log('Guest count unvalid');
                 },
             },
             {
